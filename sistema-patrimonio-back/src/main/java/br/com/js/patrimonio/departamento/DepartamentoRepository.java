@@ -1,9 +1,9 @@
-package br.com.js.patrimonio.empresa;
+package br.com.js.patrimonio.departamento;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
+public interface DepartamentoRepository extends JpaRepository<Departamento, Long>{
     
 }

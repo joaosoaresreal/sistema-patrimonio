@@ -26,3 +26,10 @@ INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_empresa_fk) 
 INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_empresa_fk) VALUES ('Rosana Caldeiras', '032.165.549-87', '(67) 98522-9175', '', 'rosana@jssoftware.com.br', '12345678', 5)
 INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_empresa_fk) VALUES ('João Soares', '147.852.000-00', '(67) 99809-6541', '', 'joao@jssoftware.com.br', '12345678', 2)
 
+/*INSERINDO DADOS NA TABELA DEPARTAMENTO*/
+INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Administrativo', '(67) 3409-5542', 'administrativo@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
+INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Gerencia', '(67) 3409-5512', 'gerencia@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
+INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Suporte', '(67) 3409-5501', 'suporte@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
+INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Recepcao', '(67) 3409-5500', 'recepcao@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
+
+
