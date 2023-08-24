@@ -32,4 +32,7 @@ INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Gerencia'
 INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Suporte', '(67) 3409-5501', 'suporte@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
 INSERT INTO TB_departamento (nome, telefone, email, endereco) VALUES ('Recepcao', '(67) 3409-5500', 'recepcao@jssoftware.com.br', 'Avenida Amélia Fukuda, 374 - Centro');
 
-
+/*INSERINDO DADOS NA TABELA PATRIMONIO*/
+INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA000', 'Impressora HP', 'BOM', 'Sala 01 - adm', '2023-06-22T21:44:00', 'Impressora esta na manutenção', 1);
+INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA111', 'Maquina de Tatilografar', 'BOM', 'Sala Gerencia - 2º Piso', '2000-06-22T21:44:00', '', 2);
+INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA222', 'Computador Dell - Core i3 5ª Geração', 'EXCELENTE', 'Recepcao - Balcao', '2021-06-22T21:44:00', 'Mouse foi substituido por um HP', 4);
