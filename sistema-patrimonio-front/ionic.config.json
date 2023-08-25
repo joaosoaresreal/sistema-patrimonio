@@ -1,0 +1,7 @@
+{
+  "name": "sistema-patrimonio-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
