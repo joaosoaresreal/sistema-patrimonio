@@ -1,0 +1,110 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="end">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
+    <ion-title>aaa</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-title class="titulo" size="large">Cadastrar Patrimônio</ion-title>
+  
+
+  <ion-list class="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Plaqueta</ion-label>
+            <ion-input placeholder="AA000"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Data Entrada</ion-label>
+            <ion-input placeholder="01/01/2000"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Descrição</ion-label>
+            <ion-input placeholder="Notebook 8 GB Ram, 500 GB HD, Marca..."></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Localização</ion-label>
+            <ion-input placeholder="Sala 01"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Departamento</ion-label>
+            <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+
+              <ion-select-option>Administrativo</ion-select-option>
+              <ion-select-option>Gerencia</ion-select-option>
+              <ion-select-option>Recepção</ion-select-option>
+
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Estado de Conservação</ion-label>
+            <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+
+              <ion-select-option>EXCELENTE</ion-select-option>
+
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Observações</ion-label>
+            <ion-input placeholder="Equipamento veio sem cabo"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      
+    </ion-grid>
+  </ion-list>
+
+  <div  class="botoes">
+    <ion-button expand="block">SALVAR CADASTRO</ion-button>
+    <ion-button expand="block">NOVO CADASTRO</ion-button>
+  </div>
+
+  
+
+</ion-content>
+
+<ion-footer class="rodape">
+  <ion-toolbar color="">
+    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  </ion-toolbar>
+</ion-footer>
