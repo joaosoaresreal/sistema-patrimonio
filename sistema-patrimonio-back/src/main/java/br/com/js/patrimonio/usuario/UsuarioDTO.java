@@ -1,6 +1,6 @@
 package br.com.js.patrimonio.usuario;
 
-import br.com.js.patrimonio.empresa.Empresa;
+import br.com.js.patrimonio.departamento.Departamento;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class UsuarioDTO implements Serializable {
     private String foto;
     private String email;
     private String senha;
-    private Empresa empresa;
+    private Departamento departamento;
 
     
     public UsuarioDTO(Usuario entity) {
@@ -36,7 +36,7 @@ public class UsuarioDTO implements Serializable {
         this.foto = entity.getFoto();
         this.email = entity.getEmail();
         this.senha = entity.getSenha();
-        this.empresa = entity.getEmpresa();
+        this.departamento = entity.getDepartamento();
     }
 
 }

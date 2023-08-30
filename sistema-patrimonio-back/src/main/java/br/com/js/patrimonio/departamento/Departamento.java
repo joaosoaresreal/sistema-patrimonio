@@ -1,9 +1,12 @@
 package br.com.js.patrimonio.departamento;
 
+import br.com.js.patrimonio.empresa.Empresa;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
@@ -31,4 +34,8 @@ public class Departamento implements Serializable {
     public String telefone;
     public String email;
     public String endereco;
+    
+    @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
+    @JoinColumn(name = "id_empresa_fk")
+    private Empresa empresa;
 }

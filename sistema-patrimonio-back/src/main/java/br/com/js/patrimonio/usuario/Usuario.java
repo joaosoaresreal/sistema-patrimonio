@@ -1,6 +1,6 @@
 package br.com.js.patrimonio.usuario;
 
-import br.com.js.patrimonio.empresa.Empresa;
+import br.com.js.patrimonio.departamento.Departamento;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +39,7 @@ public class Usuario implements Serializable {
     private String senha;
     
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
-    @JoinColumn(name = "id_empresa_fk")
-    private Empresa empresa;
+    @JoinColumn(name = "id_departamento_fk")
+    private Departamento departamento;
 
 }

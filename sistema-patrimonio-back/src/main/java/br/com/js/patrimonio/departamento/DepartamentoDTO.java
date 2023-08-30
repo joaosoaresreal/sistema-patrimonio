@@ -1,5 +1,6 @@
 package br.com.js.patrimonio.departamento;
 
+import br.com.js.patrimonio.empresa.Empresa;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class DepartamentoDTO implements Serializable {
     public String telefone;
     public String email;
     public String endereco;
+    public Empresa empresa;
     
     public DepartamentoDTO(Departamento entity){
         this.id = entity.getId();
@@ -28,5 +30,6 @@ public class DepartamentoDTO implements Serializable {
         this.telefone = entity.getTelefone();
         this.email = entity.getEmail();
         this.endereco = entity.getEndereco();
+        this.empresa = entity.getEmpresa();
     }
 }
