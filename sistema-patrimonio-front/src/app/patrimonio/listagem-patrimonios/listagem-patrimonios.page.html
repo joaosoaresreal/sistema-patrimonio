@@ -1,0 +1,57 @@
+<ion-header [translucent]="true" class="header">
+  <ion-toolbar color="primary">
+
+    <ion-button slot="end">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
+
+    <ion-title>Usuário</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-title class="titulo" size="large">Listagem de Patrimônios</ion-title>
+
+  <ion-accordion-group #accordionGroup>
+    <ion-accordion value="first" toggleIcon="caret-down-circle">
+
+      <ion-item slot="header" color="light">
+        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-label>
+          <h3>PLAQUETA</h3>
+          <p>Descrição</p>
+        </ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+        <ion-label>
+          <h3>Depto: </h3>
+          <h3>Localização: </h3>
+          <h3>Estado: </h3>
+          <h4>Data: </h4>
+          <h4>Obs.: </h4>
+        </ion-label>
+      </div>
+
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <div class="botoes">
+    <ion-button expand="block">EDITAR SELECIONADO</ion-button>
+    <ion-button expand="block">TRANSFERIR SELECIONADO</ion-button>
+    <ion-button expand="block">BAIXAR SELECIONADO</ion-button>
+    <ion-button expand="block">GERAR RELATÓRIO</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer class="rodape">
+  <ion-toolbar color="">
+    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  </ion-toolbar>
+</ion-footer>
