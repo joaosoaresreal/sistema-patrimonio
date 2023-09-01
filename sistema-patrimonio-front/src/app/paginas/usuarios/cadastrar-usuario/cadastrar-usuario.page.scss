@@ -1,0 +1,32 @@
+
+
+.titulo{
+    text-align: center;
+    padding: 2%;
+    font-weight: 600;
+}
+
+.formulario{
+    padding: 1%;
+}
+
+.foto-perfil{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botoes ion-button{
+    border-radius: 80;
+    padding: 1%;
+}
+
+
+.rodape ion-title{
+    text-align: center;
+    font-size: 80%;
+}
+
+.rodape span{
+    font-weight: 800;
+}
