@@ -1,0 +1,109 @@
+<ion-header [translucent]="true" class="header">
+  <ion-toolbar color="primary">
+
+    <ion-button slot="end">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
+
+    <ion-title>Usuário</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-title class="titulo" size="large">Editar Usuário</ion-title>
+
+  <ion-list class="formulario">
+    <ion-grid>
+
+      <ion-row>
+        <ion-col class="foto-usuario">
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto do Usuário">
+        </ion-col>
+
+        <ion-col>
+          <ion-button expand="block">SELECIONAR FOTO</ion-button>
+          <ion-button expand="block">EXCLUIR FOTO</ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input placeholder="Samara Sudano"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input placeholder="000.111.222-33"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Telefone</ion-label>
+            <ion-input placeholder="(67) 98765-4321"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input placeholder="samara.sudano@JSsoftware.com.br"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Senha</ion-label>
+            <ion-input placeholder="EXEMPLO@de-senha$#123"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Departamento</ion-label>
+            <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+
+              <ion-select-option>Administrativo</ion-select-option>
+              <ion-select-option>Gerencia</ion-select-option>
+              <ion-select-option>Recepção</ion-select-option>
+
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      
+
+    </ion-grid>
+  </ion-list>
+
+  <div class="botoes">
+    <ion-button expand="block">SALVAR ALTERAÇÕES</ion-button>
+    <ion-button expand="block" (click)="presentAlert()">DESCARTAR ALTERAÇÕES</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer class="rodape">
+  <ion-toolbar color="">
+    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  </ion-toolbar>
+</ion-footer>
