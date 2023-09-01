@@ -1,0 +1,77 @@
+<ion-header [translucent]="true" class="header">
+  <ion-toolbar color="primary">
+
+    <ion-button slot="end">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
+    
+    <ion-title>Usuário</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-title class="titulo" size="large">Editar Departamento</ion-title>
+
+  <ion-list class="formulario">
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input placeholder="Ex.: Administrativo"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Telefone</ion-label>
+            <ion-input placeholder="Ex.: (67) 3461-0000" type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input placeholder="Ex.: administrativo@JSsoftware.com.br" type="email" ngModel email></ion-input>
+
+            <ion-note slot="error">Digite um E-Mail valido</ion-note>
+
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Endereco</ion-label>
+            <ion-input placeholder="Ex.: Avenida Principal, 100 - Centro, Sala 02"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </ion-list>
+
+  <div class="botoes">
+    <ion-button expand="block">SALVAR ALTERAÇÕES</ion-button>
+    <ion-button expand="block" (click)="presentAlert()">DESCARTAR ALTERAÇÕES</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer class="rodape">
+  <ion-toolbar color="">
+    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  </ion-toolbar>
+</ion-footer>
