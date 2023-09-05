@@ -1,0 +1,63 @@
+<ion-header [translucent]="true" class="header">
+  <ion-toolbar color="primary">
+    <ion-button slot="end">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
+
+    <ion-title>Usuário</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-title class="titulo" size="large">Transferir Patrimônio</ion-title>
+
+  <ion-list class="formulario">
+    <ion-grid>
+      <p>Dados do Patrimônio a ser Baixado </p>
+
+      <ion-row>
+        <ion-col>
+          <ion-item disabled="true">
+            <ion-label position="stacked">Plaqueta</ion-label>
+            <ion-input>AA000</ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item disabled="true">
+            <ion-label position="stacked">Descrição</ion-label>
+            <ion-input>Descrição aqui</ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Observações</ion-label>
+            <ion-input>Equipamento sem condições de uso</ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <div class="botoes">
+    <ion-button expand="block" (click)="efetivarBaixa()">SALVAR E GERAR TERMO</ion-button>
+    <ion-button expand="block" (click)="cancelarBaixa()">CANCELAR E VOLTAR A LISTA</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer class="rodape">
+  <ion-toolbar color="">
+    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  </ion-toolbar>
+</ion-footer>
