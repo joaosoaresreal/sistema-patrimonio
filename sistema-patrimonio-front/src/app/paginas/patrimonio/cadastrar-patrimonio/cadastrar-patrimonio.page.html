@@ -1,10 +1,17 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-button slot="end">
-      <ion-icon name="person-circle"></ion-icon>
-    </ion-button>
-    <ion-title>aaa</ion-title>
+  <ion-toolbar class="toolbar">
 
+    <ion-item>
+      <ion-button slot="end" fill="clear" >
+        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-button>
+
+      <ion-col>
+        <p><span>Nome Usuário</span></p>
+        <p>empresa</p>
+      </ion-col>
+    </ion-item>
+    
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
