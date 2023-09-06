@@ -1,19 +1,23 @@
-<ion-header [translucent]="true" class="header">
-  <ion-toolbar color="primary">
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar" color="primary">
 
-    <ion-button slot="end">
-      <ion-icon name="person-circle"></ion-icon>
-    </ion-button>
+    <ion-item color="primary">   
+      <ion-button slot="end" fill="clear" >
+        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-button>
 
-    <ion-title>Usuário</ion-title>
-
+      <ion-col>
+        <p><span>Nome Usuário</span></p>
+        <p>empresa</p>
+      </ion-col>
+    </ion-item>
+    
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Editar Usuário</ion-title>
@@ -103,7 +107,7 @@
 </ion-content>
 
 <ion-footer class="rodape">
-  <ion-toolbar color="">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Desenvolvido por © <span>JSsoftware</span></ion-title>
   </ion-toolbar>
 </ion-footer>

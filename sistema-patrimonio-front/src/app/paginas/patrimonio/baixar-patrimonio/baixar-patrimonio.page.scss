@@ -1,0 +1,43 @@
+.toolbar ion-button{
+    width: 50px;
+    align-self: center;
+    margin: auto;
+    display: flex;
+}
+
+.toolbar ion-col{
+    display: inline-block;
+    text-align: right;
+}
+
+.toolbar h3, p{
+    margin: -2px;
+}
+
+.titulo{
+    text-align: center;
+    padding: 2%;
+    font-weight: 600;
+}
+
+ion-list{
+    margin: 6px;
+}
+
+.formulario{
+    padding: 1%;
+}
+
+.botoes ion-button{
+    border-radius: 80;
+    padding: 1%;
+}
+
+.rodape ion-title{
+    text-align: center;
+    font-size: 80%;
+}
+
+.rodape span{
+    font-weight: 800;
+}

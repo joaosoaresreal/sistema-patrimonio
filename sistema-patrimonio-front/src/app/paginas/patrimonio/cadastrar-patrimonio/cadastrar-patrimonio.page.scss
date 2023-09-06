@@ -1,5 +1,5 @@
-.toolbar ion-button, img{
-    width: 40%;
+.toolbar ion-button{
+    width: 50px;
     align-self: center;
     margin: auto;
     display: flex;
@@ -11,13 +11,17 @@
 }
 
 .toolbar h3, p{
-    margin: -2%;
+    margin: -2px;
 }
 
 .titulo{
     text-align: center;
     padding: 2%;
     font-weight: 600;
+}
+
+ion-list{
+    margin: 6px;
 }
 
 .formulario{

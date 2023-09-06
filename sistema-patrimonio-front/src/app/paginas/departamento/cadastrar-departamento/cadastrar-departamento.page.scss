@@ -1,5 +1,17 @@
-.header ion-button{
-    padding-right: 1%;
+.toolbar ion-button{
+    width: 50px;
+    align-self: center;
+    margin: auto;
+    display: flex;
+}
+
+.toolbar ion-col{
+    display: inline-block;
+    text-align: right;
+}
+
+.toolbar h3, p{
+    margin: -2px;
 }
 
 .titulo{
