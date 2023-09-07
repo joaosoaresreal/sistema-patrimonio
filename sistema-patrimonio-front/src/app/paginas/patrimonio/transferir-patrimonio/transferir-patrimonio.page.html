@@ -1,11 +1,17 @@
-<ion-header [translucent]="true" class="header">
-  <ion-toolbar color="primary">
-    <ion-button slot="end">
-      <ion-icon name="person-circle"></ion-icon>
-    </ion-button>
-    
-    <ion-title>Usuário</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar" color="primary">
 
+    <ion-item color="primary">   
+      <ion-button slot="end" fill="clear" >
+        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-button>
+
+      <ion-col>
+        <p><span>Nome Usuário</span></p>
+        <p>empresa</p>
+      </ion-col>
+    </ion-item>
+    
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -103,7 +109,7 @@
 
   <div class="botoes">
     <ion-button expand="block">SALVAR E GERAR TERMO</ion-button>
-    <ion-button expand="block">CANCELAR E VOLTAR A LISTA</ion-button>
+    <ion-button expand="block" (click)="cancelar()">CANCELAR E VOLTAR A LISTA</ion-button>
   </div>
 
 </ion-content>
