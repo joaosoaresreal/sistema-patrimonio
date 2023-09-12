@@ -45,6 +45,7 @@ public class PatrimonioService {
         entity.setLocalizacao(dto.getLocalizacao());
         entity.setDataEntrada(dto.getDataEntrada());
         entity.setObservacao(dto.getLocalizacao());
+        entity.setDepartamento(dto.getDepartamento());
 
         entity = repository.save(entity);
 
@@ -64,6 +65,7 @@ public class PatrimonioService {
             entity.setLocalizacao(dto.getLocalizacao());
             entity.setDataEntrada(dto.getDataEntrada());
             entity.setObservacao(dto.getLocalizacao());
+            entity.setDepartamento(dto.getDepartamento());
 
             entity = repository.save(entity);
 

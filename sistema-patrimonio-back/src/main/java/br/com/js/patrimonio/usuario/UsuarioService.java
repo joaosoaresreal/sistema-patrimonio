@@ -41,6 +41,7 @@ public class UsuarioService {
         entity.setFoto(dto.getFoto());
         entity.setEmail(dto.getEmail());
         entity.setSenha(dto.getSenha());
+        entity.setDepartamento(dto.getDepartamento());
         
         entity = repository.save(entity);
         
@@ -58,6 +59,7 @@ public class UsuarioService {
             entity.setFoto(dto.getFoto());
             entity.setEmail(dto.getEmail());
             entity.setSenha(dto.getSenha());
+            entity.setDepartamento(dto.getDepartamento());
             
             entity = repository.save(entity);
             

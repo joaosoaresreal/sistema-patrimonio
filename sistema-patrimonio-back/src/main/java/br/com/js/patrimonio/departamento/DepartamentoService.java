@@ -43,6 +43,7 @@ public class DepartamentoService {
         entity.setTelefone(dto.getTelefone());
         entity.setEmail(dto.getEmail());
         entity.setEndereco(entity.getEndereco());
+        entity.setEmpresa(entity.getEmpresa());
 
         entity = repository.save(entity);
 
@@ -59,6 +60,7 @@ public class DepartamentoService {
             entity.setTelefone(dto.getTelefone());
             entity.setEmail(dto.getEmail());
             entity.setEndereco(entity.getEndereco());
+            entity.setEmpresa(entity.getEmpresa());
 
             entity = repository.save(entity);
 
