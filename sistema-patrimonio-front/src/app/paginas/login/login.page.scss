@@ -1,8 +1,8 @@
-ion-content{
+ion-content {
     --padding-top: 6%;
 }
 
-ion-img{
+ion-img {
     margin-top: 5%;
     width: 70%;
     align-self: center;
@@ -11,23 +11,24 @@ ion-img{
     padding: 2%;
 }
 
-.titulo{
+.titulo {
     text-align: center;
     justify-content: center;
+    vertical-align: baseline;
     font-size: 150%;
     font-weight: 700;
 }
 
-ion-avatar{
+ion-avatar {
     margin: auto;
 }
 
-.licenciamento{
+.licenciamento {
     margin: auto;
     padding: 5%;
 }
 
-.licenciamento p{
+.licenciamento p {
     font-size: 80%;
     align-items: center;
     text-align: center;
@@ -35,7 +36,7 @@ ion-avatar{
     color: #c9c0c0;
 }
 
-.licenciamento ion-img{
+.licenciamento ion-img {
     margin-top: 5%;
     width: 40%;
     align-self: center;
@@ -44,11 +45,55 @@ ion-avatar{
     padding: 2%;
 }
 
-.rodape ion-title{
+.rodape ion-title {
     text-align: center;
     font-size: 80%;
 }
 
-.rodape span{
+.rodape span {
     font-weight: 800;
+}
+
+/*TELAS MAIORES*/
+
+@media (min-width: 700px) {
+    ion-content {
+        --padding-top: 2%;
+    }    
+
+    ion-img {
+        margin-top: 5%;
+        width: 55%;
+        align-self: center;
+        margin: auto;
+        display: flex;
+        padding: 2%;
+    }
+
+    .titulo {
+        text-align: center;
+        justify-content: center;
+        vertical-align: baseline;
+        font-size: 250%;
+        font-weight: 700;
+    }
+
+    ion-list{
+        padding-left: 30%;
+        padding-right: 30%;
+    }
+
+    .licenciamento {
+        margin: auto;
+        padding: 0;
+    }
+
+    .licenciamento ion-img {
+        margin-top: 5%;
+        width: 15%;
+        align-self: center;
+        margin: auto;
+        display: flex;
+        padding: 1%;
+    }
 }
