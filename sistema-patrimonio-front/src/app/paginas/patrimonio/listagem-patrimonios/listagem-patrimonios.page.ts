@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
+import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
 @Component({
   selector: 'app-listagem-patrimonios',
@@ -9,7 +11,21 @@ import { AlertController, NavController } from '@ionic/angular';
 
 export class ListagemPatrimoniosPage implements OnInit {
 
-  constructor(public nav: NavController, private alertController: AlertController) { }
+  patrimonios!: PatrimonioDTO[]
+
+  constructor(public nav: NavController, public patrimonioService: PatrimonioService, private alertController: AlertController) { }
+
+  /********************************************************\
+                    LISTAGEM DOS PATRIMONIOS 
+  \********************************************************/
+  ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
+    // Listagem dos patrimonio //
+    this.patrimonioService.findAll().subscribe(response => {
+      this.patrimonios = response
+    }, error => {
+      console.log(error)
+    })
+  }
 
   /********************************************************\
                           EDITAR 

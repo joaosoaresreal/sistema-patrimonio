@@ -22,24 +22,24 @@
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Listagem de Patrimônios</ion-title>
 
-  <ion-accordion-group #accordionGroup>
-    <ion-accordion value="first" toggleIcon="caret-down-circle">
+  <ion-accordion-group #accordionGroup *ngFor="let patrimonio of patrimonios">
+    <ion-accordion value={{patrimonio.id}} toggleIcon="caret-down-circle">
 
-      <ion-item slot="header" color="light">
+      <ion-item slot="header" color="light" >
         <ion-checkbox slot="start"></ion-checkbox>
         <ion-label>
-          <h3>PLAQUETA</h3>
-          <p>Descrição</p>
+          <h3>{{patrimonio.plaqueta}}</h3>
+          <p>{{patrimonio.descricao}}</p>
         </ion-label>
       </ion-item>
 
       <div class="ion-padding" slot="content">
         <ion-label>
-          <h3>Depto: </h3>
-          <h3>Localização: </h3>
-          <h3>Estado: </h3>
-          <h4>Data: </h4>
-          <h4>Obs.: </h4>
+          <h3>Depto: {{patrimonio.departamento.nome}}</h3>
+          <h3>Localização: {{patrimonio.localizacao}}</h3>
+          <h3>Estado: {{patrimonio.estado}}</h3>
+          <h4>Data: {{patrimonio.dataEntrada}}</h4>
+          <h4>Obs.: {{patrimonio.observacao}}</h4>
         </ion-label>
       </div>
 

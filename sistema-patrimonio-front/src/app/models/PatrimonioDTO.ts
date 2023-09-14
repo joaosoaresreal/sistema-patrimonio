@@ -6,5 +6,5 @@ export interface PatrimonioDTO{
     localizacao: string;
     dataEntrada: Date;
     observacao: string;
-    departamento: string;
+    departamento: {nome: String};
 }
