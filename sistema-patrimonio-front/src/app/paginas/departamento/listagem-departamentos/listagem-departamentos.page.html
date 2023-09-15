@@ -22,17 +22,15 @@
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Listagem de Departamentos</ion-title>
   
-  <ion-list class="listagem">
+  <ion-list class="listagem" *ngFor="let departamento of departamentos">
 
     <ion-item>
       <ion-checkbox slot="start"></ion-checkbox>
       <ion-label>
-        <h3>NOME DEPTO</h3>
-        <p>Email e Telefone</p>
+        <h3>{{departamento.nome}}</h3>
+        <p>{{departamento.telefone}}</p>
+        <p>{{departamento.email}}</p>
       </ion-label>
-      <ion-button fill="clear">
-        <ion-icon name="information-circle" size="large" slot="end"></ion-icon>
-      </ion-button>
     </ion-item>
 
   </ion-list>
