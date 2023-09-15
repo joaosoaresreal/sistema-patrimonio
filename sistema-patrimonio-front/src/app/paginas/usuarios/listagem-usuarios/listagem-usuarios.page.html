@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">   
-      <ion-button slot="end" fill="clear" >
+    <ion-item color="primary">
+      <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
 
@@ -11,7 +11,7 @@
         <p>empresa</p>
       </ion-col>
     </ion-item>
-    
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -21,21 +21,27 @@
 
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Listagem de Usuários</ion-title>
-  
-  <ion-list class="listagem">
 
-    <ion-item>
-      <ion-checkbox slot="start"></ion-checkbox>
-      <ion-label>
-        <h3>NOME USUÁRIO</h3>
-        <p>Departamento</p>
-      </ion-label>
-      <ion-button fill="clear">
-        <ion-icon name="information-circle" size="large" slot="end"></ion-icon>
-      </ion-button>
-    </ion-item>
+  <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
+    <ion-accordion value={{usuario.id}} toggleIcon="caret-down-circle">
+      <ion-item slot="header" color="light">
+        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-label>
+          <h3>{{usuario.nome}}</h3>
+          <p>{{usuario.departamento.nome}}</p>
+        </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-label>
+          <h3>Telefone: {{usuario.telefone}}</h3>
+          <h3>Email: {{usuario.email}}</h3>
+          <h3>Empresa: {{usuario.departamento.empresa.nomeFantasia}}</h3>
+        </ion-label>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
 
-  </ion-list>
+
 
 
   <div class="botoes">

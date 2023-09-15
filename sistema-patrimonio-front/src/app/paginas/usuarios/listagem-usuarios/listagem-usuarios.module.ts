@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListagemUsuariosPageRoutingModule } from './listagem-usuarios-routing.module';
 
 import { ListagemUsuariosPage } from './listagem-usuarios.page';
+import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ListagemUsuariosPage } from './listagem-usuarios.page';
     IonicModule,
     ListagemUsuariosPageRoutingModule
   ],
+  providers: [UsuarioService],
   declarations: [ListagemUsuariosPage]
 })
 export class ListagemUsuariosPageModule {}
