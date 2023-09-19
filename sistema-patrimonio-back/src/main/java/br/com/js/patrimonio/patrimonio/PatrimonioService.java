@@ -1,5 +1,6 @@
 package br.com.js.patrimonio.patrimonio;
 
+import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.services.exceptions.ResourcesNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -84,4 +85,20 @@ public class PatrimonioService {
             throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
         }
     }
+    
+    // ======================== Query Methods ==================================
+    // BUSCAR POR Nº PLAQUETA
+    @Transactional(readOnly = true)
+    public PatrimonioDTO findByPlaqueta(String plaqueta){
+        Patrimonio obj = repository.findByPlaqueta(plaqueta);
+        return new PatrimonioDTO(obj);
+    }
+    
+    // LISTAR POR DEPTO
+    @Transactional(readOnly = true)
+    public List<PatrimonioDTO> findByDepartamento(Departamento departamento){
+        List<Patrimonio> lista = repository.findByDepartamento(departamento);
+        return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
+    }
+    
 }

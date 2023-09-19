@@ -1,5 +1,6 @@
 package br.com.js.patrimonio.patrimonio;
 
+import br.com.js.patrimonio.departamento.Departamento;
 import java.net.URI;
 import java.util.List;
 
@@ -56,5 +57,20 @@ public class PatrimonioResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    // ======================== Query Methods ==================================
+    // BUSCAR POR Nº PLAQUETA
+    @GetMapping(value = "/plaqueta/{plaqueta}")
+    public ResponseEntity<PatrimonioDTO> findByPlaqueta(@PathVariable String plaqueta){
+        PatrimonioDTO dto = service.findByPlaqueta(plaqueta);
+        return ResponseEntity.ok().body(dto);
+    }
+    
+    // LISTAR POR DEPTO
+    @GetMapping(value = "/departamento/{departamento}")
+    public ResponseEntity<List<PatrimonioDTO>> findByDepartamento(@PathVariable Departamento departamento){
+        List<PatrimonioDTO> lista = service.findByDepartamento(departamento);
+        return ResponseEntity.ok().body(lista);
     }
 }
