@@ -1,6 +1,7 @@
 package br.com.js.patrimonio.usuario;
 
 import br.com.js.patrimonio.departamento.Departamento;
+import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +32,9 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TEXT")
     private String nome;
+    @Column(unique=true)
     private String cpf;
     private String telefone;
     private String foto;
