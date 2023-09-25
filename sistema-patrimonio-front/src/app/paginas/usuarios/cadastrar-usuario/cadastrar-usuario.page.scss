@@ -24,6 +24,17 @@
     padding: 1%;
 }
 
+// ***** VALIDAÇÕES DO FORM *********
+small.error-message{
+    color: var(--ion-color-primary);
+}
+
+.invalid{
+    border-bottom: 2px solid red;
+}
+
+// ************************************
+
 .foto-perfil{
     display: flex;
     align-items: center;
