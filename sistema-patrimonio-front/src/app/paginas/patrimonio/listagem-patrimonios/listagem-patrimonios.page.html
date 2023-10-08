@@ -38,7 +38,7 @@
           <h3>Depto: {{patrimonio.departamento.nome}}</h3>
           <h3>Localização: {{patrimonio.localizacao}}</h3>
           <h3>Estado: {{patrimonio.estado}}</h3>
-          <h4>Data: {{patrimonio.dataEntrada}}</h4>
+          <h4>Data de Entrada: {{patrimonio.dataEntrada | date: 'dd/MM/yyyy'}}</h4>
           <h4>Obs.: {{patrimonio.observacao}}</h4>
         </ion-label>
       </div>

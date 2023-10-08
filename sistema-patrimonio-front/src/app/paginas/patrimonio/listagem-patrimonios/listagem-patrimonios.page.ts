@@ -19,10 +19,9 @@ export class ListagemPatrimoniosPage implements OnInit {
                     LISTAGEM DOS PATRIMONIOS 
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    // Listagem dos patrimonio //
-    this.patrimonioService.findAll().subscribe(response => {
-      this.patrimonios = response
-    }, error => {
+    this.patrimonioService.findAll().subscribe({next: (response) =>
+      this.patrimonios = response, 
+      error: (error) => 
       console.log(error)
     })
   }
