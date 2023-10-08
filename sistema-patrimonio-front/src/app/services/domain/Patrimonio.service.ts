@@ -20,4 +20,16 @@ export class PatrimonioService{
             observe: 'response', responseType: 'text'
         })
     }
+
+    // EDITAR PATRIMONIO
+    update(patrimonio: PatrimonioDTO){
+        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/${patrimonio.id}`, patrimonio, {
+            observe: 'response', responseType: 'text'
+        })
+    }
+
+    // EXLUIR PATRIMONIO
+    delete(id: number){
+        return this.http.delete(`${API_CONFIG.baseUrl}/api_patrimonio/${id}`)
+    }
 }
