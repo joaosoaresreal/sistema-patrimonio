@@ -15,7 +15,7 @@ export class PatrimonioService{
     }
 
     // CADASTRO DE PATRIMONIO
-    insert(patrimonio: PatrimonioDTO){
+    insert(patrimonio: any){
         return this.http.post(`${API_CONFIG.baseUrl}/api_patrimonio`, patrimonio, {
             observe: 'response', responseType: 'text'
         })

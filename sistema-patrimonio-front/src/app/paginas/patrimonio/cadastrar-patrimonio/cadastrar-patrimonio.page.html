@@ -39,7 +39,7 @@
           <ion-col>
             <ion-item>
               <ion-label position="floating">Data Entrada</ion-label>
-              <ion-input formControlName="dataEntrada" type="" placeholder="01/01/2000"></ion-input>
+              <ion-input formControlName="dataEntrada" type="date" placeholder="01/01/2000"></ion-input>
               <small class="error-message" *ngIf="patrimonioForm.get('dataEntrada')?.errors && form.submitted">
                 Informe a data de entrada
               </small>
@@ -74,7 +74,7 @@
           <ion-col>
             <ion-item>
               <ion-label position="floating">Departamento</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" (ionChange)="handleChange($event)" formControlName="departamento">
+              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="departamento">
 
                 <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
 
