@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +43,7 @@ public class Patrimonio implements Serializable {
     @Enumerated(EnumType.STRING)
     private EstadoConservacao estado;
     private String localizacao;
-    private LocalDateTime dataEntrada;
+    private LocalDate dataEntrada;
     @Column(columnDefinition = "TEXT")
     private String observacao;
     

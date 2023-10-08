@@ -2,9 +2,10 @@ package br.com.js.patrimonio.patrimonio;
 
 import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.enums.EstadoConservacao;
+
 import java.io.Serializable;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class PatrimonioDTO implements Serializable {
     private String descricao;
     private EstadoConservacao estado;
     private String localizacao;
-    private LocalDateTime dataEntrada;
+    private LocalDate dataEntrada;
     private String observacao;
     private Departamento departamento;
     
