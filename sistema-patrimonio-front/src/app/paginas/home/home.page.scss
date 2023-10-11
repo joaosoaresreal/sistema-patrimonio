@@ -1,0 +1,78 @@
+.toolbar ion-button{
+    width: 50px;
+    align-self: center;
+    margin: auto;
+    display: flex;
+}
+
+.toolbar ion-col{
+    display: inline-block;
+    text-align: right;
+}
+
+.toolbar h3, p{
+    margin: -2px;
+}
+
+/********************************************************\
+                  MENSAGEM DE SAUDAÇÃO
+\********************************************************/
+
+.boas-vindas{
+    display: grid;
+    text-align: center;
+    margin: 0;
+}
+
+.data{
+    text-transform: capitalize;
+}
+
+/********************************************************\
+                  BOTÕES DE OPÇOES
+\********************************************************/
+
+.opcoes ion-card-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.opcoes ion-icon{
+    font-size: 380%;
+}
+
+/********************************************************\
+                LOGO EMPRESA LICENCIADA
+\********************************************************/
+
+.licenciamento p {
+    font-size: 80%;
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+    color: #c9c0c0;
+    padding-top: 3%;
+}
+
+.licenciamento ion-img {
+    margin-top: 5%;
+    width: 30%;
+    align-self: center;
+    margin: auto;
+    display: flex;
+    padding: 2%;
+}
+
+/********************************************************\
+                        RODAPÉ
+\********************************************************/
+.rodape ion-title{
+    text-align: center;
+    font-size: 80%;
+}
+
+.rodape span{
+    font-weight: 800;
+}
