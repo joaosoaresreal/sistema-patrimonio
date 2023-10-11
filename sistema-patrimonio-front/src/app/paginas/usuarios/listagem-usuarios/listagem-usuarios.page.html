@@ -25,7 +25,7 @@
   <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
     <ion-accordion value={{usuario.id}} toggleIcon="caret-down-circle">
       <ion-item slot="header" color="light">
-        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-checkbox slot="start" disabled={{disabled}} value={{usuario.id}} (ionChange)="usuarioSelecionado($event)"></ion-checkbox>
         <ion-label>
           <h3>{{usuario.nome}}</h3>
           <p>{{usuario.departamento.nome}}</p>
@@ -42,11 +42,9 @@
   </ion-accordion-group>
 
 
-
-
   <div class="botoes">
     <ion-button expand="block">EDITAR SELECIONADO</ion-button>
-    <ion-button expand="block">EXCLUIR SELECIONADO</ion-button>
+    <ion-button expand="block" (click)="excluirSelecionado()">EXCLUIR SELECIONADO</ion-button>
     <ion-button expand="block">CADASTRAR NOVO USUÁRIO</ion-button>
   </div>
 </ion-content>
