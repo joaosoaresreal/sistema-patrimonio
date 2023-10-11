@@ -75,7 +75,7 @@
           <ion-col>
             <ion-item>
               <ion-label position="floating">Senha</ion-label>
-              <ion-input  formControlName="senha" type="password" placeholder="EXEMPLO@de-senha$#123"></ion-input>
+              <ion-input formControlName="senha" type="password" placeholder="EXEMPLO@de-senha$#123"></ion-input>
               <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
                 Insira uma senha com no mínimo 8 caracteres
               </small>
@@ -87,11 +87,9 @@
           <ion-col>
             <ion-item>
               <ion-label position="floating">Departamento</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="departamento">
 
-                <ion-select-option>Administrativo</ion-select-option>
-                <ion-select-option>Gerencia</ion-select-option>
-                <ion-select-option>Recepção</ion-select-option>
+                <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
 
               </ion-select>
             </ion-item>

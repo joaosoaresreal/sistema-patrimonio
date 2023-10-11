@@ -14,7 +14,7 @@ export class UsuarioService{
     }
 
     // CADASTRO DOS USUARIOS
-    insert(usuario: UsuarioDTO){
+    insert(usuario: any){
         return this.http.post(`${API_CONFIG.baseUrl}/api_usuarios`, usuario, {
             observe: 'response', responseType: 'text'
         })

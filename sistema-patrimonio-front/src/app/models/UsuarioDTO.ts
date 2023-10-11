@@ -1,15 +1,16 @@
 export interface UsuarioDTO{
     id: number;
-    nome: String;
-    cpf: String;
-    telefone: String;
-    foto: String;
-    email: String;
-    senha: String;
+    nome: string;
+    cpf: string;
+    telefone: string;
+    foto: string;
+    email: string;
+    senha: string;
     departamento: {
-        nome: String;
+        id: number,
+        nome: string,
         empresa:{
-            nomeFantasia: String;
+            nomeFantasia: string;
         }
     }
 }

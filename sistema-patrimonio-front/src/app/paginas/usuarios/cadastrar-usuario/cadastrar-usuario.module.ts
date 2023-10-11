@@ -8,6 +8,7 @@ import { CadastrarUsuarioPageRoutingModule } from './cadastrar-usuario-routing.m
 
 import { CadastrarUsuarioPage } from './cadastrar-usuario.page';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
+import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { UsuarioService } from 'src/app/services/domain/Usuario.service';
     CadastrarUsuarioPageRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [UsuarioService],
+  providers: [UsuarioService, DepartamentoService],
   declarations: [CadastrarUsuarioPage]
 })
 export class CadastrarUsuarioPageModule {}
