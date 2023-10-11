@@ -28,6 +28,11 @@ export class PatrimonioService{
         })
     }
 
+    // BUSCAR POR ID
+    findById(id: number):Observable<PatrimonioDTO>{
+        return this.http.get<PatrimonioDTO>(`${API_CONFIG.baseUrl}/api_patrimonio/${id}`)
+    }
+
     // EXLUIR PATRIMONIO
     delete(id: number){
         return this.http.delete(`${API_CONFIG.baseUrl}/api_patrimonio/${id}`)

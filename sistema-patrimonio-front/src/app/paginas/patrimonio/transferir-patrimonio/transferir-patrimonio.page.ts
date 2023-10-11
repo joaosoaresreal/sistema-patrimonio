@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
+import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
+import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
+// PDF Make
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
@@ -12,7 +18,23 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 })
 export class TransferirPatrimonioPage implements OnInit {
 
-  constructor(public nav: NavController, private alertController: AlertController) { }
+  transferenciaForm!: FormGroup
+  departamentos!: DepartamentoDTO[]
+
+  constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
+    private alertController: AlertController, 
+    private patrimonioService: PatrimonioService,
+    private departamentoService: DepartamentoService) { }
+
+  /********************************************************\
+                    LISTAGEM DOS DEPARTAMENTOS
+  \********************************************************/
+  ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
+    this.departamentoService.findAll().subscribe({next: (response)=>
+      this.departamentos = response, 
+      error: (error) => console.log(error)
+  })
+  }
 
   /********************************************************\
                     CANCELAR E VOLTAR 
@@ -43,7 +65,7 @@ export class TransferirPatrimonioPage implements OnInit {
   }
 
 /********************************************************\
-                    TRANSFERIR 
+                TERMO DE TRANSFERENCIA 
 \********************************************************/
   transferir() {
     let docDefinition = {  
@@ -94,6 +116,22 @@ export class TransferirPatrimonioPage implements OnInit {
   }  
   
 
-  ngOnInit() { }
+  ngOnInit() { 
+
+    const id: number = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.patrimonioService.findById(id).subscribe(response=>{
+      this.transferenciaForm = this.formBuilder.group({
+        id: [response.id],
+        plaqueta: [response.plaqueta],
+        descricao: [response.descricao],
+        estado: [response.estado, Validators.required],
+        localizacao: [response.localizacao, Validators.required],
+        //dataEntrada: [''],  como vai ficar a data apos transferencia?
+        observacao: [response.observacao],
+        departamento: [response.departamento.nome, Validators.required]
+      })
+    })
+  }
 
 }

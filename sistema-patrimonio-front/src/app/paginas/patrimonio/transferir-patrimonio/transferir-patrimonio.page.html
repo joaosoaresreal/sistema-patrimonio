@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">   
-      <ion-button slot="end" fill="clear" >
+    <ion-item color="primary">
+      <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
 
@@ -11,7 +11,7 @@
         <p>empresa</p>
       </ion-col>
     </ion-item>
-    
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -22,95 +22,97 @@
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Transferir Patrimônio</ion-title>
 
-  <ion-list class="formulario">
-    <ion-grid>
-      <ion-item-group>
+  <form [formGroup]="transferenciaForm" *ngIf="transferenciaForm" (ngSubmit)="transferir()">
+    <ion-list class="formulario">
+      <ion-grid>
+        <ion-item-group>
 
-        <ion-item-divider  class="titulo-secao-form">
-          <p>Dados do Patrimônio a ser Transferido </p>
-        </ion-item-divider>
+          <ion-item-divider class="titulo-secao-form">
+            <p>Dados do Patrimônio a ser Transferido </p>
+          </ion-item-divider>
 
-        <ion-row>
+          <ion-row>
 
-          <ion-col>
-            <ion-item disabled="true">
-              <ion-label position="stacked">Plaqueta</ion-label>
-              <ion-input>AA000</ion-input>
-            </ion-item>
-          </ion-col>
+            <ion-col>
+              <ion-item disabled="true">
+                <ion-label position="stacked">Plaqueta</ion-label>
+                <ion-input formControlName="plaqueta" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
 
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Estado de Conservação</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Estado de Conservação</ion-label>
+                <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="estado">
 
-                <ion-select-option>EXCELENTE</ion-select-option>
+                  <ion-select-option >EXCELENTE</ion-select-option>
+                  <ion-select-option >BOM</ion-select-option>
+                  <ion-select-option >DANIFICADO</ion-select-option>
+  
+                </ion-select>
+              </ion-item>
+            </ion-col>
 
-              </ion-select>
-            </ion-item>
-          </ion-col>
+          </ion-row>
 
-        </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item disabled="true">
+                <ion-label position="stacked">Descrição</ion-label>
+                <ion-input formControlName="descricao" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-item disabled="true">
-              <ion-label position="stacked">Descrição</ion-label>
-              <ion-input>Descrição aqui</ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Observações</ion-label>
+                <ion-input formControlName="observacao" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked">Observações</ion-label>
-              <ion-input>Equipamento enviado a pedido de administrativo</ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+        </ion-item-group>
 
-      </ion-item-group>
+        <ion-item-group>
 
-      <ion-item-group>
+          <ion-item-divider class="titulo-secao-form">
+            <p> Selecione o Departamento recebedor </p>
+          </ion-item-divider>
 
-        <ion-item-divider class="titulo-secao-form">
-          <p> Selecione o Departamento recebedor </p>
-        </ion-item-divider>
+          <ion-row>
 
-        <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Departamento</ion-label>
+                <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="departamento">
 
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Departamento</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+                  <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+  
+                </ion-select>
+              </ion-item>
+            </ion-col>
 
-                <ion-select-option>Administrativo</ion-select-option>
-                <ion-select-option>Gerencia</ion-select-option>
-                <ion-select-option>Recepção</ion-select-option>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Localização</ion-label>
+                <ion-input placeholder="Sala 01" formControlName="localizacao" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
 
-              </ion-select>
-            </ion-item>
-          </ion-col>
+          </ion-row>
 
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Localização</ion-label>
-              <ion-input placeholder="Sala 01"></ion-input>
-            </ion-item>
-          </ion-col>
+        </ion-item-group>
 
-        </ion-row>
+      </ion-grid>
+    </ion-list>
 
-      </ion-item-group>
-
-    </ion-grid>
-  </ion-list>
-
-  <div class="botoes">
-    <ion-button expand="block" (click)="transferir()">SALVAR E GERAR TERMO</ion-button>
-    <ion-button expand="block" (click)="cancelar()">CANCELAR E VOLTAR A LISTA</ion-button>
-  </div>
+    <div class="botoes">
+      <ion-button expand="block" type="submit">SALVAR E GERAR TERMO</ion-button>
+      <ion-button expand="block" (click)="cancelar()">CANCELAR E VOLTAR A LISTA</ion-button>
+    </div>
+  </form>
 
 </ion-content>
 
