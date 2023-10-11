@@ -13,6 +13,9 @@ export class ListagemPatrimoniosPage implements OnInit {
 
   patrimonios!: PatrimonioDTO[]
 
+  public patrimonioId: any
+  public disabled = false
+
   constructor(public nav: NavController, public patrimonioService: PatrimonioService, private alertController: AlertController) { }
 
   /********************************************************\
@@ -24,6 +27,36 @@ export class ListagemPatrimoniosPage implements OnInit {
       error: (error) => 
       console.log(error)
     })
+  }
+
+  /********************************************************\
+                  SELEÇÃO DO CHECKBOX 
+  \********************************************************/
+  patrimonioSelecionado(event: any) {
+    if(event.detail.checked) {
+      console.log(`Clicou no checkbox`, event);
+      this.patrimonioId = event.detail.value
+
+      if(this.patrimonioId !== event.detail.value){
+        this.disabled = false
+      } 
+      if(this.patrimonioId === event.detail.value) {
+        this.disabled = true
+      }
+
+
+      console.log(this.patrimonioId)
+
+      
+      // if(event.detail.checked === 1){
+      //   console.log('marcou um')
+      // } else if(event.detail.checked > 1){
+      //   console.log('teste maior que um')
+      // }
+
+    } else if (!event.detail.checked) {
+      console.log(`desclicou`, event);
+    }
   }
 
   /********************************************************\
@@ -57,18 +90,20 @@ export class ListagemPatrimoniosPage implements OnInit {
   }
 
 
+
   /********************************************************\
                         TRANSFERIR 
   \********************************************************/
   async transferirSelecionado() {
     const alert = await this.alertController.create({
-      header: 'Deseja realmente transferir o Patrimônio?',
+      header: 'Deseja realmente transferir o Patrimônio selecionado?',
       buttons: [
         {
           text: 'TRANSFERIR',
           role: 'transferir',
           handler: () => {
-            this.nav.navigateForward('transferir-patrimonio')
+            this.nav.navigateForward(`transferir-patrimonio/${this.patrimonioId}`)
+            
           },
         },
         {
@@ -85,7 +120,15 @@ export class ListagemPatrimoniosPage implements OnInit {
 
     const { role } = await alert.onDidDismiss();
     //this.roleMessage = `Dismissed with role: ${role}`;
+
+    console.log(this.disabled)
+
+
   }
+
+  // teste(){
+  //   console.log("teste")
+  // }
 
   /********************************************************\
                         BAIXAR 

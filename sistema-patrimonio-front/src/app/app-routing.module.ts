@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./paginas/patrimonio/cadastrar-patrimonio/cadastrar-patrimonio.module').then( m => m.CadastrarPatrimonioPageModule)
   },
   {
-    path: 'transferir-patrimonio',
+    path: 'transferir-patrimonio/:id',
     loadChildren: () => import('./paginas/patrimonio/transferir-patrimonio/transferir-patrimonio.module').then( m => m.TransferirPatrimonioPageModule)
   },
   {

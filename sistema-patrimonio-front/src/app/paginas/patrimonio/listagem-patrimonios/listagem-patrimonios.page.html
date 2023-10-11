@@ -26,7 +26,7 @@
     <ion-accordion value={{patrimonio.id}} toggleIcon="caret-down-circle">
 
       <ion-item slot="header" color="light" >
-        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-checkbox slot="start" disabled={{disabled}} value={{patrimonio.id}} (ionChange)="patrimonioSelecionado($event)"></ion-checkbox>
         <ion-label>
           <h3>{{patrimonio.plaqueta}}</h3>
           <p>{{patrimonio.descricao}}</p>
