@@ -37,8 +37,8 @@ export class LoginPage implements OnInit {
   
   logar(){
 
-    if(this.login.usuario==='usuario.teste' && this.login.senha==='12345678'){
-      this.nav.navigateForward('listagem-patrimonios')
+    if(this.login.usuario==='usuario@teste.com' && this.login.senha==='12345678'){
+      this.nav.navigateForward('home')
     }else{
       this.presentToast()
     }
