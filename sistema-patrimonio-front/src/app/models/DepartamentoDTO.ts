@@ -1,10 +1,11 @@
 export interface DepartamentoDTO{
     id: number;
-    nome: String;
-    telefone: String;
-    email: String;
-    endereco: String;
+    nome: string;
+    telefone: string;
+    email: string;
+    endereco: string;
     empresa:{
-        nome: String;
+        id: number,
+        nome: string;
     }
 }

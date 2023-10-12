@@ -72,7 +72,7 @@ const routes: Routes = [
     loadChildren: () => import('./paginas/departamento/cadastrar-departamento/cadastrar-departamento.module').then( m => m.CadastrarDepartamentoPageModule)
   },
   {
-    path: 'editar-departamento',
+    path: 'editar-departamento/:id',
     loadChildren: () => import('./paginas/departamento/editar-departamento/editar-departamento.module').then( m => m.EditarDepartamentoPageModule)
   },
 ];

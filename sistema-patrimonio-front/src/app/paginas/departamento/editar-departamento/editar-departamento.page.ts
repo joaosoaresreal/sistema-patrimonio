@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
+import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 
 @Component({
   selector: 'app-editar-departamento',
@@ -8,25 +11,45 @@ import { ActionSheetController, AlertController } from '@ionic/angular';
 })
 export class EditarDepartamentoPage implements OnInit {
 
-  constructor(private alertController: AlertController) { }
+  editarDepartamentoForm!: FormGroup
 
-  /* (https://ionicframework.com/docs/v6/api/alert) Buttons */
+  constructor(public nav: NavController, private formBuilder: FormBuilder, private alertController: AlertController, private route: ActivatedRoute,
+    private departamentoService: DepartamentoService) { }
+
+  /********************************************************\
+                  SALVAR EDIÇÃO
+  \********************************************************/
+  submit() {
+    if (this.editarDepartamentoForm.invalid || this.editarDepartamentoForm.pending) {
+      return // CANCELA A SUBMISSAO E RETORNA OS ERROS PARA O USUÁRIO
+    }
+
+    this.departamentoService.update(this.editarDepartamentoForm.value).subscribe({
+      next: (response) =>
+        this.alerta('Usuário alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-departamentos') }),
+      error: (error) => console.log(error)
+    })
+  }
+
+  /********************************************************\
+                  CANCELAR EDIÇÃO 
+  \********************************************************/
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Deseja realmente descartar as alterações?',
       buttons: [
         {
-          text: 'CANCELAR',
-          role: 'DESCARTAR',
+          text: 'SIM',
+          role: 'sim',
           handler: () => {
-            //this.handlerMessage = 'Alert canceled';
+            this.nav.navigateForward('listagem-departamentos')
           },
         },
         {
-          text: 'DESCARTAR',
-          role: 'DESCARTAR',
+          text: 'NÃO',
+          role: 'nao',
           handler: () => {
-            //this.handlerMessage = 'Alert confirmed';
+
           },
         },
       ],
@@ -39,6 +62,36 @@ export class EditarDepartamentoPage implements OnInit {
   }
 
   ngOnInit() {
+    const id: number = Number(this.route.snapshot.paramMap.get('id'));
+    this.departamentoService.findById(id).subscribe(response => {
+      this.editarDepartamentoForm = this.formBuilder.group({
+        id: [response.id],
+        nome: [response.nome, Validators.required],
+        telefone: [response.telefone, Validators.required],
+        email: [response.email, Validators.compose([Validators.required, Validators.email])],
+        endereco: [response.endereco, Validators.required],
+        empresa: [response.empresa, Validators.required]
+      })
+    })
+  }
+
+  /********************************************************\
+                    MENSAGEM PADRÃO 
+  \********************************************************/
+  async alerta(header: string, text: string, handler: any) {
+    const alert = await this.alertController.create({
+      header,
+      buttons: [
+        {
+          text,
+          handler,
+        }
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
   }
 
 }
