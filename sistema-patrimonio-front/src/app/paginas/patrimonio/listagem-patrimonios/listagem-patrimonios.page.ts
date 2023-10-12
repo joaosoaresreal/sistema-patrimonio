@@ -28,7 +28,6 @@ export class ListagemPatrimoniosPage implements OnInit {
       console.log(error)
     })
   }
-  
 
   /********************************************************\
                   SELEÇÃO DO CHECKBOX 
