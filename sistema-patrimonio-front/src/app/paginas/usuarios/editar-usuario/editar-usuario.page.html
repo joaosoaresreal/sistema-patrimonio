@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">   
-      <ion-button slot="end" fill="clear" >
+    <ion-item color="primary">
+      <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
 
@@ -11,7 +11,7 @@
         <p>empresa</p>
       </ion-col>
     </ion-item>
-    
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -22,87 +22,91 @@
 <ion-content [fullscreen]="true">
   <ion-title class="titulo" size="large">Editar Usuário</ion-title>
 
-  <ion-list class="formulario">
-    <ion-grid>
+  <form #form="ngForm" [formGroup]="editarUsuarioForm" *ngIf="editarUsuarioForm" (ngSubmit)="submit()">
+    <ion-list class="formulario">
+      <ion-grid>
 
-      <ion-row>
-        <ion-col class="foto-usuario">
-          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto do Usuário">
-        </ion-col>
+        <ion-row>
+          <ion-col class="foto-usuario">
+            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto do Usuário">
+          </ion-col>
 
-        <ion-col>
-          <ion-button expand="block">SELECIONAR FOTO</ion-button>
-          <ion-button expand="block">EXCLUIR FOTO</ion-button>
-        </ion-col>
-      </ion-row>
+          <ion-col>
+            <ion-button expand="block">SELECIONAR FOTO</ion-button>
+            <ion-button expand="block">EXCLUIR FOTO</ion-button>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Nome</ion-label>
-            <ion-input placeholder="Samara Sudano"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Nome</ion-label>
+              <ion-input formControlName="nome" type="text"></ion-input>
+              <small class="error-message" *ngIf="editarUsuarioForm.get('nome')?.errors && form.submitted">
+                Informe o nome corretamente
+              </small>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">CPF</ion-label>
-            <ion-input placeholder="000.111.222-33"></ion-input>
-          </ion-item>
-        </ion-col>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">CPF</ion-label>
+              <ion-input formControlName="cpf"></ion-input>
+              <small class="error-message" *ngIf="editarUsuarioForm.get('cpf')?.errors && form.submitted">
+                Informe o CPF corretamente
+              </small>
+            </ion-item>
+          </ion-col>
 
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Telefone</ion-label>
-            <ion-input placeholder="(67) 98765-4321"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Telefone</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input placeholder="samara.sudano@JSsoftware.com.br"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input formControlName="email"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Senha</ion-label>
-            <ion-input placeholder="EXEMPLO@de-senha$#123"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Senha</ion-label>
+              <ion-input formControlName="senha"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Departamento</ion-label>
-            <ion-select cancelText="CANCELAR" okText="CONFIRMAR">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Departamento</ion-label>
+              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="departamento">
 
-              <ion-select-option>Administrativo</ion-select-option>
-              <ion-select-option>Gerencia</ion-select-option>
-              <ion-select-option>Recepção</ion-select-option>
+                <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
 
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      
+      </ion-grid>
+    </ion-list>
 
-    </ion-grid>
-  </ion-list>
-
-  <div class="botoes">
-    <ion-button expand="block">SALVAR ALTERAÇÕES</ion-button>
-    <ion-button expand="block" (click)="presentAlert()">DESCARTAR ALTERAÇÕES</ion-button>
-  </div>
+    <div class="botoes">
+      <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
+      <ion-button expand="block" (click)="presentAlert()">DESCARTAR ALTERAÇÕES</ion-button>
+    </div>
+  </form>
 
 </ion-content>
 

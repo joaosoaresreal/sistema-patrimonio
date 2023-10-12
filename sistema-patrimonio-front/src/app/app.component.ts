@@ -8,6 +8,8 @@ import { AlertController, NavController } from '@ionic/angular';
 
 export class AppComponent {
   public appPages = [
+    { title: 'Home', url: '/home', icon: 'home' },
+
     { title: 'Listar Patrimônios', url: '/listagem-patrimonios', icon: 'albums' },
     { title: 'Cadastrar Patrimônio', url: '/cadastrar-patrimonio', icon: 'add' },
 

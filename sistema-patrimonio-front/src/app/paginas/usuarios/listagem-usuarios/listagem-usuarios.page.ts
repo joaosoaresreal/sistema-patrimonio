@@ -32,14 +32,14 @@ export class ListagemUsuariosPage implements OnInit {
                   SELEÇÃO DO CHECKBOX 
   \********************************************************/
   usuarioSelecionado(event: any) {
-    if(event.detail.checked) {
+    if (event.detail.checked) {
       console.log(`Clicou no checkbox`, event);
       this.usuarioId = event.detail.value
 
-      if(this.usuarioId !== event.detail.value){
+      if (this.usuarioId !== event.detail.value) {
         this.disabled = false
-      } 
-      if(this.usuarioId === event.detail.value) {
+      }
+      if (this.usuarioId === event.detail.value) {
         this.disabled = true
       }
 
@@ -49,6 +49,36 @@ export class ListagemUsuariosPage implements OnInit {
     } else if (!event.detail.checked) {
       console.log(`desclicou`, event);
     }
+  }
+
+  /********************************************************\
+                    EDITAR USUARIO 
+  \********************************************************/
+  async editarSelecionado() {
+    const alert = await this.alertController.create({
+      header: 'Deseja realmente editar o usuário selecionado?',
+      buttons: [
+        {
+          text: 'SIM',
+          role: 'sim',
+          handler: () => {
+            this.nav.navigateForward(`editar-usuario/${this.usuarioId}`)
+          },
+        },
+        {
+          text: 'NÃO',
+          role: 'nao',
+          handler: () => {
+            this.nav.navigateForward('listagem-usuarios')
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
   /********************************************************\
@@ -62,8 +92,9 @@ export class ListagemUsuariosPage implements OnInit {
           text: 'SIM',
           role: 'sim',
           handler: () => {
-            this.usuarioService.delete(this.usuarioId).subscribe({ next: (response)=> window.location.reload(),
-              error: (error)=> console.log(error)
+            this.usuarioService.delete(this.usuarioId).subscribe({
+              next: (response) => window.location.reload(),
+              error: (error) => console.log(error)
             })
           },
         },
@@ -81,6 +112,13 @@ export class ListagemUsuariosPage implements OnInit {
 
     const { role } = await alert.onDidDismiss();
     //this.roleMessage = `Dismissed with role: ${role}`;
+  }
+
+  /********************************************************\
+                    CADASTRAR USUARIO 
+  \********************************************************/
+  cadastrarUsuario(){
+    this.nav.navigateForward('cadastrar-usuario')
   }
 
   ngOnInit() {

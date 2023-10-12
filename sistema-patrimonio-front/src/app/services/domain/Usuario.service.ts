@@ -21,7 +21,7 @@ export class UsuarioService{
     }
 
     // EDITAR USUÁRIO
-    update(usuario: UsuarioDTO){
+    update(usuario: any){
         return this.http.put(`${API_CONFIG.baseUrl}/api_usuarios/${usuario.id}`, usuario, {
             observe: 'response', responseType: 'text'
         })
