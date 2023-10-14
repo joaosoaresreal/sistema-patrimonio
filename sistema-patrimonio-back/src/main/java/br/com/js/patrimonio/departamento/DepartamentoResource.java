@@ -59,4 +59,11 @@ public class DepartamentoResource {
         return ResponseEntity.noContent().build();
     }
     
+ // =================== @Query - Consultas Customizadas =================================
+    @GetMapping(value = "/nomeSQL/{id}")
+    public ResponseEntity<List<DepartamentoNomeDTO>> findByNomeSQL(@PathVariable Long id, String nome){
+    	List<DepartamentoNomeDTO> lista = service.findByNomeSQL(id, nome);
+    	return ResponseEntity.ok().body(lista);
+    }
+    
 }

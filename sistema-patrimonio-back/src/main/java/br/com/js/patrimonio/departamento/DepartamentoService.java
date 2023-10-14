@@ -78,4 +78,10 @@ public class DepartamentoService {
             throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
         }
     }
+    
+    // =================== @Query - Consultas Customizadas =================================
+    @Transactional(readOnly = true)
+    public List<DepartamentoNomeDTO> findByNomeSQL(Long id, String nome){
+    	return repository.findByNomeSQL(id, nome);
+    }
 }
