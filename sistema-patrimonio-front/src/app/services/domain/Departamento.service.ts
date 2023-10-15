@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { API_CONFIG } from "src/app/config/api.config";
 import { DepartamentoDTO } from "src/app/models/DepartamentoDTO";
+import { DepartamentoNomeDTO } from "src/app/models/DepartamentoNomeDTO";
 
 @Injectable()
 export class DepartamentoService {
@@ -35,5 +36,10 @@ export class DepartamentoService {
     // EXLUIR DEPARTAMENTO
     delete(id: number) {
         return this.http.delete(`${API_CONFIG.baseUrl}/api_departamentos/${id}`)
+    }
+
+    // LISTAR DPTO COM NOME E ID
+    findByNomeSQL(): Observable<DepartamentoNomeDTO[]>{
+        return this.http.get<DepartamentoNomeDTO[]>(`${API_CONFIG.baseUrl}/api_departamentos/departamentos`)
     }
 }
