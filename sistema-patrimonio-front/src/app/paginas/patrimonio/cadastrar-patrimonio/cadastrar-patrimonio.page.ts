@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
-import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
+import { AlertController, NavController } from '@ionic/angular';
+import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
@@ -13,10 +13,10 @@ import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 export class CadastrarPatrimonioPage implements OnInit {
 
   patrimonioForm!: FormGroup
-  departamentos!: DepartamentoDTO[]
+  departamentos!: DepartamentoNomeDTO[]
 
   constructor(private formBuilder: FormBuilder, private patrimonioService: PatrimonioService,
-    private departamentoService: DepartamentoService, private alertController: AlertController) { }
+    private departamentoService: DepartamentoService, private alertController: AlertController, public nav: NavController) { }
 
   /********************************************************\
                   SALVA O FORMULÁRIO
@@ -38,12 +38,9 @@ export class CadastrarPatrimonioPage implements OnInit {
       }
     }
 
-    console.log(this.patrimonioForm.value)
-    console.log(patrimonio)
-
-    this.patrimonioService.insert(patrimonio).subscribe(response=>{
-       this.presentAlert('Sucesso', 
-      'O Patrimonio foi cadastrado com sucesso', ['OK']);
+    this.patrimonioService.insert(patrimonio).subscribe({next: (response)=>
+       this.alerta(),
+       error: (error)=> console.log(error)
     })
   }
 
@@ -51,7 +48,7 @@ export class CadastrarPatrimonioPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findAll().subscribe({next: (response)=>
+    this.departamentoService.findByNomeSQL().subscribe({next: (response)=>
       this.departamentos = response, 
       error: (error) => console.log(error)
   })
@@ -70,14 +67,28 @@ export class CadastrarPatrimonioPage implements OnInit {
   }
 
   /********************************************************\
-                  MENSAGEM DE ALERTA PADRÃO
+                  MENSAGEM DE ALERTA 
   \********************************************************/
-  async presentAlert(header: string,
-    message: string, buttons: string[],) {
+  async alerta() {
     const alert = await this.alertController.create({
-      header,
-      message,
-      buttons,
+      header: 'Patrimônio cadastrado com sucesso',
+      message: 'Deseja cadastrar outro patrimonio?',
+      buttons: [
+        {
+          text: 'SIM',
+          role: 'sim',
+          handler:()=>{
+            window.location.reload()
+          }
+        },
+        {
+          text: 'NÃO',
+          role: 'nao',
+          handler:()=>{
+            this.nav.navigateForward('listagem-patrimonios')
+          }
+        }
+      ]
     });
 
     await alert.present();

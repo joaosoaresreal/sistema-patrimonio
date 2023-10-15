@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
-import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
+import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 
@@ -13,7 +13,7 @@ import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 export class CadastrarUsuarioPage implements OnInit {
 
   usuarioForm!: FormGroup
-  departamentos!: DepartamentoDTO[]
+  departamentos!: DepartamentoNomeDTO[]
 
   constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService, 
     private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController) { }
@@ -38,22 +38,8 @@ export class CadastrarUsuarioPage implements OnInit {
       }
     }
 
-    console.log(this.usuarioForm.value)
-    console.log(usuario)
-
     this.usuarioService.insert(usuario).subscribe({next: (response) => 
-      this.alertController.create({
-        header: 'Usuário cadastrado com sucesso',
-        buttons: [
-          {
-            text: 'OK',
-            role: 'ok',
-            handler:()=>{
-              this.nav.navigateForward('listagem-usuarios')
-            }
-          }
-        ]
-      }), 
+      this.alerta(), 
       error: (error) => console.log(error)
     })
   
@@ -63,8 +49,8 @@ export class CadastrarUsuarioPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findAll().subscribe({next: (response)=>
-      this.departamentos = response, 
+    this.departamentoService.findByNomeSQL().subscribe({next: (response)=>
+      this.departamentos = response,
       error: (error) => console.log(error)
   })
   }
@@ -81,6 +67,34 @@ export class CadastrarUsuarioPage implements OnInit {
         id: ['', Validators.required]
       }
     })
+  }
+
+  /********************************************************\
+                  MENSAGEM DE ALERTA 
+  \********************************************************/
+  async alerta() {
+    const alert = await this.alertController.create({
+      header: 'Usuário cadastrado com sucesso',
+      message: 'Deseja cadastrar outro usuário?',
+      buttons: [
+        {
+          text: 'SIM',
+          role: 'sim',
+          handler:()=>{
+            window.location.reload()
+          }
+        },
+        {
+          text: 'NÃO',
+          role: 'nao',
+          handler:()=>{
+            this.nav.navigateForward('listagem-usuarios')
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }

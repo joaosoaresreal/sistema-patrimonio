@@ -12,7 +12,7 @@ export class CadastrarDepartamentoPage implements OnInit {
 
   cadastrarDepartamentoForm!: FormGroup
 
-  constructor(public nav: NavController, private alertController: AlertController, private formBuilder: FormBuilder, 
+  constructor(public nav: NavController, private alertController: AlertController, private formBuilder: FormBuilder,
     private departamentoService: DepartamentoService) { }
 
   /********************************************************\
@@ -32,7 +32,7 @@ export class CadastrarDepartamentoPage implements OnInit {
 
     this.departamentoService.insert(departamento).subscribe({
       next: (response) =>
-        this.alerta('Usuário cadastrado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-departamentos') }),
+        this.alerta(),
       error: (error) => console.log(error)
     })
   }
@@ -50,22 +50,31 @@ export class CadastrarDepartamentoPage implements OnInit {
   }
 
   /********************************************************\
-                    MENSAGEM PADRÃO 
+                  MENSAGEM DE ALERTA 
   \********************************************************/
-  async alerta(header: string, text: string, handler: any) {
+  async alerta() {
     const alert = await this.alertController.create({
-      header,
+      header: 'Departamento cadastrado com sucesso',
+      message: 'Deseja cadastrar outro departamento?',
       buttons: [
         {
-          text,
-          handler,
+          text: 'SIM',
+          role: 'sim',
+          handler: () => {
+            window.location.reload()
+          }
+        },
+        {
+          text: 'NÃO',
+          role: 'nao',
+          handler: () => {
+            this.nav.navigateForward('listagem-departamentos')
+          }
         }
-      ],
+      ]
     });
 
     await alert.present();
-
-    const { role } = await alert.onDidDismiss();
   }
 
 }

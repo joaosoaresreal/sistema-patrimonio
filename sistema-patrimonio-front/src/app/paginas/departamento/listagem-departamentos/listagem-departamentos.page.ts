@@ -14,6 +14,7 @@ export class ListagemDepartamentosPage implements OnInit {
 
   public departamentoId: any
   public disabled = false
+  public checked = false
 
   constructor(public nav: NavController, public departamentoService: DepartamentoService, private alertController: AlertController) { }
 
@@ -21,10 +22,11 @@ export class ListagemDepartamentosPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findAll().subscribe({next: response => 
-      this.departamentos = response,
-      error: (error) => 
-      console.log(error)
+    this.departamentoService.findAll().subscribe({
+      next: response =>
+        this.departamentos = response,
+      error: (error) =>
+        console.log(error)
     })
   }
 
@@ -32,43 +34,49 @@ export class ListagemDepartamentosPage implements OnInit {
                   SELEÇÃO DO CHECKBOX 
   \********************************************************/
   departamentoSelecionado(event: any) {
-    if(event.detail.checked) {
+    if (event.detail.checked) {
       console.log(`Clicou no checkbox`, event);
       this.departamentoId = event.detail.value
 
-      if(this.departamentoId !== event.detail.value){
-        this.disabled = false
-      } 
-      if(this.departamentoId === event.detail.value) {
-        this.disabled = true
-      }
-
+      // if(this.departamentoId !== event.detail.value){
+      //   this.disabled = false
+      // } 
 
       console.log(this.departamentoId)
 
-      
+
       // if(event.detail.checked === 1){
       //   console.log('marcou um')
       // } else if(event.detail.checked > 1){
       //   console.log('teste maior que um')
       // }
+      // else if (!event.detail.checked) {
+      //   console.log(`desclicou`, event);
+      // }
 
-    } else if (!event.detail.checked) {
-      console.log(`desclicou`, event);
+    } 
+    
+
+    if (!this.checked) {
+      this.disabled = true
+    }
+    if (this.checked === true && this.departamentoId === event.detail.value) {
+      this.disabled = false
+      console.log("false")
     }
   }
 
   /********************************************************\
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
-  cadastrarDepartamento(){
+  cadastrarDepartamento() {
     this.nav.navigateForward('cadastrar-departamento')
   }
 
   /********************************************************\
                     EDITAR DEPARTAMENTO
   \********************************************************/
-  async editarSelecionado(){
+  async editarSelecionado() {
     const alert = await this.alertController.create({
       header: 'Deseja realmente editar o Departamento selecionado?',
       buttons: [
@@ -98,9 +106,9 @@ export class ListagemDepartamentosPage implements OnInit {
   /********************************************************\
                     EXCLUIR DEPARTAMENTO
   \********************************************************/
-  async excluirSelecionado(){
+  async excluirSelecionado() {
     const alert = await this.alertController.create({
-      header: 'Deseja realmente editar o Departamento selecionado?',
+      header: 'Deseja realmente excluir o Departamento selecionado?',
       buttons: [
         {
           text: 'SIM',

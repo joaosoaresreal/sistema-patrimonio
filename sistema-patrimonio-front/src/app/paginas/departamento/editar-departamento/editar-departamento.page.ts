@@ -26,7 +26,7 @@ export class EditarDepartamentoPage implements OnInit {
 
     this.departamentoService.update(this.editarDepartamentoForm.value).subscribe({
       next: (response) =>
-        this.alerta('Usuário alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-departamentos') }),
+        this.alerta('Departamento alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-departamentos') }),
       error: (error) => console.log(error)
     })
   }

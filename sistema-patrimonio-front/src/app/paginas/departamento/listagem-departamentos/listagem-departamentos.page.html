@@ -25,7 +25,7 @@
   <ion-list class="listagem" *ngFor="let departamento of departamentos">
 
     <ion-item>
-      <ion-checkbox slot="start" disabled={{disabled}} value={{departamento.id}} (ionChange)="departamentoSelecionado($event)"></ion-checkbox>
+      <ion-checkbox slot="start" disabled={{disabled}} checked={{checked}} value={{departamento.id}} (ionChange)="departamentoSelecionado($event)"></ion-checkbox>
       <ion-label>
         <h3>{{departamento.nome}}</h3>
         <p>{{departamento.telefone}}</p>
