@@ -81,7 +81,7 @@ public class DepartamentoService {
     
     // =================== @Query - Consultas Customizadas =================================
     @Transactional(readOnly = true)
-    public List<DepartamentoNomeDTO> findByNomeSQL(Long id, String nome){
-    	return repository.findByNomeSQL(id, nome);
+    public List<DepartamentoNomeDTO> findByNomeSQL(){
+    	return repository.findByNomeSQL();
     }
 }

@@ -11,5 +11,5 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, Long
     
 	// SELECT nome FROM tb_departamento
 	@Query("SELECT new br.com.js.patrimonio.departamento.DepartamentoNomeDTO(obj.id, obj.nome) FROM Departamento obj")
-	List<DepartamentoNomeDTO> findByNomeSQL(Long id, String nome);
+	List<DepartamentoNomeDTO> findByNomeSQL();
 }
