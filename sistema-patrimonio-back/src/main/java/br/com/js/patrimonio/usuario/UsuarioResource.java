@@ -37,8 +37,8 @@ public class UsuarioResource {
     
     // INSERIR REGISTRO
     @PostMapping
-    public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioDTO dto){
-        dto = service.insert(dto);
+    public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioInsertDTO dto){
+        UsuarioDTO usuarioDTO = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(null);
     }

@@ -1,7 +1,12 @@
 package br.com.js.patrimonio.usuario;
 
 import br.com.js.patrimonio.departamento.Departamento;
+import br.com.js.patrimonio.role.RoleDTO;
+
 import java.io.Serializable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,19 +20,19 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Builder
 public class UsuarioDTO implements Serializable {
-    
+
     private static final Long serialVersionUID = 1L;
-    
+
     private Long id;
     private String nome;
     private String cpf;
     private String telefone;
     private String foto;
     private String email;
-    private String senha;
     private Departamento departamento;
-
     
+    private Set<RoleDTO> roles = new HashSet<>();
+
     public UsuarioDTO(Usuario entity) {
         this.id = entity.getId();
         this.nome = entity.getNome();
@@ -35,8 +40,11 @@ public class UsuarioDTO implements Serializable {
         this.telefone = entity.getTelefone();
         this.foto = entity.getFoto();
         this.email = entity.getEmail();
-        this.senha = entity.getSenha();
         this.departamento = entity.getDepartamento();
+        entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
     }
 
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
 }

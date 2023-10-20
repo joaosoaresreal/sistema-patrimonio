@@ -1,12 +1,19 @@
 package br.com.js.patrimonio.usuario;
 
+import br.com.js.patrimonio.role.RoleDTO;
+import br.com.js.patrimonio.role.RoleRepository;
+import br.com.js.patrimonio.role.Role;
 import br.com.js.patrimonio.services.exceptions.ResourcesNotFoundException;
+
 import jakarta.persistence.EntityNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +22,12 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // LISTAR
     @Transactional(readOnly = true)
@@ -33,18 +46,14 @@ public class UsuarioService {
 
     // INSERIR
     @Transactional
-    public UsuarioDTO insert(UsuarioDTO dto) {
+    public UsuarioDTO insert(UsuarioInsertDTO dto) {
         Usuario entity = new Usuario();
-        entity.setNome(dto.getNome());
-        entity.setCpf(dto.getCpf());
-        entity.setTelefone(dto.getTelefone());
-        entity.setFoto(dto.getFoto());
-        entity.setEmail(dto.getEmail());
-        entity.setSenha(dto.getSenha());
-        entity.setDepartamento(dto.getDepartamento());
+        copiarDTOparaEntidade(dto, entity);
         
+        entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+
         entity = repository.save(entity);
-        
+
         return new UsuarioDTO(entity);
     }
 
@@ -53,31 +62,38 @@ public class UsuarioService {
     public UsuarioDTO update(Long id, UsuarioDTO dto) {
         try {
             Usuario entity = repository.getReferenceById(id);
-            entity.setNome(dto.getNome());
-            entity.setCpf(dto.getCpf());
-            entity.setTelefone(dto.getTelefone());
-            entity.setFoto(dto.getFoto());
-            entity.setEmail(dto.getEmail());
-            entity.setSenha(dto.getSenha());
-            entity.setDepartamento(dto.getDepartamento());
-            
+            copiarDTOparaEntidade(dto, entity);
+
             entity = repository.save(entity);
-            
+
             return new UsuarioDTO(entity);
-            
+
         } catch (EntityNotFoundException e) {
             throw new ResourcesNotFoundException("O ID não foi encontrado");
         }
     }
-    
+
     // EXCLUIR
-    public void delete(Long id){
-    try {
+    public void delete(Long id) {
+        try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
         }
     }
-    
-    
+
+    private void copiarDTOparaEntidade(UsuarioDTO dto, Usuario entity) {
+        entity.setNome(dto.getNome());
+        entity.setCpf(dto.getCpf());
+        entity.setTelefone(dto.getTelefone());
+        entity.setFoto(dto.getFoto());
+        entity.setEmail(dto.getEmail());
+        entity.setDepartamento(dto.getDepartamento());
+
+        entity.getRoles().clear();
+        for (RoleDTO roleDTO : dto.getRoles()) {
+            Role role = roleRepository.getReferenceById(roleDTO.getId());
+        }
+    }
+
 }
