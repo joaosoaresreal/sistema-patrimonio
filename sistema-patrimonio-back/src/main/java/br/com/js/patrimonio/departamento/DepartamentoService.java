@@ -38,12 +38,7 @@ public class DepartamentoService {
     @Transactional
     public DepartamentoDTO insert(DepartamentoDTO dto) {
         Departamento entity = new Departamento();
-
-        entity.setNome(dto.getNome());
-        entity.setTelefone(dto.getTelefone());
-        entity.setEmail(dto.getEmail());
-        entity.setEndereco(entity.getEndereco());
-        entity.setEmpresa(entity.getEmpresa());
+        copiarDTOparaEntidade(dto, entity);
 
         entity = repository.save(entity);
 
@@ -55,12 +50,7 @@ public class DepartamentoService {
     public DepartamentoDTO update(Long id, DepartamentoDTO dto) {
         try {
             Departamento entity = repository.getReferenceById(id);
-
-            entity.setNome(dto.getNome());
-            entity.setTelefone(dto.getTelefone());
-            entity.setEmail(dto.getEmail());
-            entity.setEndereco(dto.getEndereco());
-            entity.setEmpresa(dto.getEmpresa());
+            copiarDTOparaEntidade(dto, entity);
 
             entity = repository.save(entity);
 
@@ -78,10 +68,18 @@ public class DepartamentoService {
             throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
         }
     }
-    
+
+    private void copiarDTOparaEntidade(DepartamentoDTO dto, Departamento entity) {
+        entity.setNome(dto.getNome());
+        entity.setTelefone(dto.getTelefone());
+        entity.setEmail(dto.getEmail());
+        entity.setEndereco(dto.getEndereco());
+        entity.setEmpresa(dto.getEmpresa());
+    }
+
     // =================== @Query - Consultas Customizadas =================================
     @Transactional(readOnly = true)
-    public List<DepartamentoNomeDTO> findByNomeSQL(){
-    	return repository.findByNomeSQL();
+    public List<DepartamentoNomeDTO> findByNomeSQL() {
+        return repository.findByNomeSQL();
     }
 }

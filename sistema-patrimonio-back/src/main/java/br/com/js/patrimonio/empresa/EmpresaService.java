@@ -1,6 +1,5 @@
 package br.com.js.patrimonio.empresa;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,11 +38,7 @@ public class EmpresaService {
     @Transactional
     public EmpresaDTO insert(EmpresaDTO dto) {
         Empresa entity = new Empresa();
-        entity.setCnpj(dto.getCnpj());
-        entity.setNomeFantasia(dto.getNomeFantasia());
-        entity.setTelefone(dto.getTelefone());
-        entity.setEmail(dto.getEmail());
-        entity.setEndereco(dto.getEndereco());
+        copiarDTOparaEntidade(dto, entity);
 
         entity = repository.save(entity);
 
@@ -55,12 +50,7 @@ public class EmpresaService {
     public EmpresaDTO update(Long id, EmpresaDTO dto) {
         try {
             Empresa entity = repository.getReferenceById(id);
-
-            entity.setCnpj(dto.getCnpj());
-            entity.setNomeFantasia(dto.getNomeFantasia());
-            entity.setTelefone(dto.getTelefone());
-            entity.setEmail(dto.getEmail());
-            entity.setEndereco(dto.getEndereco());
+            copiarDTOparaEntidade(dto, entity);
 
             entity = repository.save(entity);
 
@@ -79,4 +69,11 @@ public class EmpresaService {
         }
     }
 
+    private void copiarDTOparaEntidade(EmpresaDTO dto, Empresa entity) {
+        entity.setCnpj(dto.getCnpj());
+        entity.setNomeFantasia(dto.getNomeFantasia());
+        entity.setTelefone(dto.getTelefone());
+        entity.setEmail(dto.getEmail());
+        entity.setEndereco(dto.getEndereco());
+    }
 }

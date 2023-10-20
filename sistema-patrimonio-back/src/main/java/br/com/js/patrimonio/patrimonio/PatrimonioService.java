@@ -39,14 +39,7 @@ public class PatrimonioService {
     @Transactional
     public PatrimonioDTO insert(PatrimonioDTO dto) {
         Patrimonio entity = new Patrimonio();
-
-        entity.setPlaqueta(dto.getPlaqueta());
-        entity.setDescricao(dto.getDescricao());
-        entity.setEstado(dto.getEstado());
-        entity.setLocalizacao(dto.getLocalizacao());
-        entity.setDataEntrada(dto.getDataEntrada());
-        entity.setObservacao(dto.getLocalizacao());
-        entity.setDepartamento(dto.getDepartamento());
+        copiarDTOparaEntidade(dto, entity);
 
         entity = repository.save(entity);
 
@@ -58,15 +51,8 @@ public class PatrimonioService {
     @Transactional
     public PatrimonioDTO update(Long id, PatrimonioDTO dto) {
         try {
-            Patrimonio entity = new Patrimonio();
-
-            entity.setPlaqueta(dto.getPlaqueta());
-            entity.setDescricao(dto.getDescricao());
-            entity.setEstado(dto.getEstado());
-            entity.setLocalizacao(dto.getLocalizacao());
-            entity.setDataEntrada(dto.getDataEntrada());
-            entity.setObservacao(dto.getLocalizacao());
-            entity.setDepartamento(dto.getDepartamento());
+            Patrimonio entity = repository.getReferenceById(id);
+            copiarDTOparaEntidade(dto, entity);
 
             entity = repository.save(entity);
 
@@ -85,20 +71,30 @@ public class PatrimonioService {
             throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
         }
     }
-    
+
+    private void copiarDTOparaEntidade(PatrimonioDTO dto, Patrimonio entity) {
+        entity.setPlaqueta(dto.getPlaqueta());
+        entity.setDescricao(dto.getDescricao());
+        entity.setEstado(dto.getEstado());
+        entity.setLocalizacao(dto.getLocalizacao());
+        entity.setDataEntrada(dto.getDataEntrada());
+        entity.setObservacao(dto.getLocalizacao());
+        entity.setDepartamento(dto.getDepartamento());
+    }
+
     // ======================== Query Methods ==================================
     // BUSCAR POR Nº PLAQUETA
     @Transactional(readOnly = true)
-    public PatrimonioDTO findByPlaqueta(String plaqueta){
+    public PatrimonioDTO findByPlaqueta(String plaqueta) {
         Patrimonio obj = repository.findByPlaqueta(plaqueta);
         return new PatrimonioDTO(obj);
     }
-    
+
     // LISTAR POR DEPTO
     @Transactional(readOnly = true)
-    public List<PatrimonioDTO> findByDepartamento(Departamento departamento){
+    public List<PatrimonioDTO> findByDepartamento(Departamento departamento) {
         List<Patrimonio> lista = repository.findByDepartamento(departamento);
         return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
     }
-    
+
 }
