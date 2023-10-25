@@ -23,14 +23,30 @@
   <ion-title class="titulo" size="large">Listagem de Usuários</ion-title>
 
   <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
-    <ion-accordion value={{usuario.id}} toggleIcon="caret-down-circle">
+    <ion-accordion class="listagem" value={{usuario.id}} toggle-icon="disabled">
+      
       <ion-item slot="header" color="light">
-        <ion-checkbox slot="start" disabled={{disabled}} value={{usuario.id}} (ionChange)="usuarioSelecionado($event)"></ion-checkbox>
         <ion-label>
           <h3>{{usuario.nome}}</h3>
           <p>{{usuario.departamento.nome}}</p>
+
+          <ion-fab vertical="center" horizontal="end">
+            <ion-fab-button >
+              <ion-icon name="settings-outline"></ion-icon>
+            </ion-fab-button>
+
+            <ion-fab-list side="start" >
+              <ion-fab-button (click)="editarSelecionado(usuario.id)">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button (click)="excluirSelecionado(usuario.id)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
         </ion-label>
       </ion-item>
+      
       <div class="ion-padding" slot="content">
         <ion-label>
           <h3>Telefone: {{usuario.telefone}}</h3>
@@ -41,10 +57,7 @@
     </ion-accordion>
   </ion-accordion-group>
 
-
   <div class="botoes">
-    <ion-button expand="block" (click)="editarSelecionado()">EDITAR SELECIONADO</ion-button>
-    <ion-button expand="block" (click)="excluirSelecionado()">EXCLUIR SELECIONADO</ion-button>
     <ion-button expand="block" (click)="cadastrarUsuario()">CADASTRAR NOVO USUÁRIO</ion-button>
   </div>
 </ion-content>

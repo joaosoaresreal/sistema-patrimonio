@@ -12,9 +12,6 @@ export class ListagemUsuariosPage implements OnInit {
 
   usuarios!: UsuarioDTO[]
 
-  public usuarioId: any
-  public disabled = false
-
   constructor(public nav: NavController, public usuarioService: UsuarioService, private alertController: AlertController) { }
 
   /********************************************************\
@@ -29,32 +26,9 @@ export class ListagemUsuariosPage implements OnInit {
   }
 
   /********************************************************\
-                  SELEÇÃO DO CHECKBOX 
-  \********************************************************/
-  usuarioSelecionado(event: any) {
-    if (event.detail.checked) {
-      console.log(`Clicou no checkbox`, event);
-      this.usuarioId = event.detail.value
-
-      if (this.usuarioId !== event.detail.value) {
-        this.disabled = false
-      }
-      if (this.usuarioId === event.detail.value) {
-        this.disabled = true
-      }
-
-
-      console.log(this.usuarioId)
-
-    } else if (!event.detail.checked) {
-      console.log(`desclicou`, event);
-    }
-  }
-
-  /********************************************************\
                     EDITAR USUARIO 
   \********************************************************/
-  async editarSelecionado() {
+  async editarSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente editar o usuário selecionado?',
       buttons: [
@@ -62,7 +36,7 @@ export class ListagemUsuariosPage implements OnInit {
           text: 'SIM',
           role: 'sim',
           handler: () => {
-            this.nav.navigateForward(`editar-usuario/${this.usuarioId}`)
+            this.nav.navigateForward(`editar-usuario/${id}`)
           },
         },
         {
@@ -84,7 +58,7 @@ export class ListagemUsuariosPage implements OnInit {
   /********************************************************\
                     EXCLUIR USUARIO 
   \********************************************************/
-  async excluirSelecionado() {
+  async excluirSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente excluir o usuário selecionado?',
       buttons: [
@@ -92,7 +66,7 @@ export class ListagemUsuariosPage implements OnInit {
           text: 'SIM',
           role: 'sim',
           handler: () => {
-            this.usuarioService.delete(this.usuarioId).subscribe({
+            this.usuarioService.delete(id).subscribe({
               next: (response) => window.location.reload(),
               error: (error) => console.log(error)
             })
