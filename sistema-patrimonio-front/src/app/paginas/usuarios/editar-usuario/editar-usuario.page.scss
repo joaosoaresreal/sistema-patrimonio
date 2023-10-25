@@ -24,12 +24,24 @@
     padding: 1%;
 }
 
-.foto-perfil img{
+.foto-usuario img{
     display: flex;
     align-self: center;
     justify-content: center;
     margin: auto;
+    width: 130px;
 }
+
+// ***** VALIDAÇÕES DO FORM *********
+small.error-message{
+    color: var(--ion-color-primary);
+}
+
+.invalid{
+    border-bottom: 2px solid red;
+}
+
+// ************************************
 
 .botoes ion-button{
     border-radius: 80;

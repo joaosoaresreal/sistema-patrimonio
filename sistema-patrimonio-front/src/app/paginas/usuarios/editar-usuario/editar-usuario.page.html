@@ -64,6 +64,9 @@
             <ion-item>
               <ion-label position="floating">Telefone</ion-label>
               <ion-input formControlName="telefone"></ion-input>
+              <small class="error-message" *ngIf="editarUsuarioForm.get('telefone')?.errors && form.submitted">
+                Informe o telefone corretamente
+              </small>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -73,6 +76,9 @@
             <ion-item>
               <ion-label position="floating">Email</ion-label>
               <ion-input formControlName="email"></ion-input>
+              <small class="error-message" *ngIf="editarUsuarioForm.get('email')?.errors && form.submitted">
+                Informe o email corretamente
+              </small>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -104,7 +110,7 @@
 
     <div class="botoes">
       <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
-      <ion-button expand="block" (click)="presentAlert()">DESCARTAR ALTERAÇÕES</ion-button>
+      <ion-button expand="block" (click)="descartarAlteracao()">DESCARTAR ALTERAÇÕES</ion-button>
     </div>
   </form>
 

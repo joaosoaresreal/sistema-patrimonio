@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 
-import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
+import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 
@@ -15,7 +15,7 @@ import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 export class EditarUsuarioPage implements OnInit {
 
   editarUsuarioForm!: FormGroup
-  departamentos!: DepartamentoDTO[]
+  departamentos!: DepartamentoNomeDTO[]
 
   constructor(private formBuilder: FormBuilder, public nav: NavController, private alertController: AlertController, 
     private route: ActivatedRoute, private usuarioService: UsuarioService, private departamentoService: DepartamentoService) { }
@@ -24,7 +24,7 @@ export class EditarUsuarioPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findAll().subscribe({next: (response) =>
+    this.departamentoService.findByNomeSQL().subscribe({next: (response) =>
         this.departamentos = response,
         error: (error) => console.log(error)
     })
@@ -39,6 +39,7 @@ export class EditarUsuarioPage implements OnInit {
     }
 
     let usuarioEdicao = {
+      'id': this.editarUsuarioForm.value.id,
       'nome': this.editarUsuarioForm.value.nome,
       'cpf': this.editarUsuarioForm.value.cpf,
       'telefone': this.editarUsuarioForm.value.telefone,
@@ -49,19 +50,17 @@ export class EditarUsuarioPage implements OnInit {
         'id': this.editarUsuarioForm.value.departamento
       }
     }
-
     console.log(usuarioEdicao)
-    // this.usuarioService.update(usuarioEdicao).subscribe(response=>{
-    //   console.log("alterado")
-    // })
+    
+    this.usuarioService.update(usuarioEdicao).subscribe(response=>{
+      this.alerta('Usuário alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-usuarios') })
+    })
   }
-
 
   /********************************************************\
                   CANCELAR EDIÇÃO 
   \********************************************************/
-  /* (https://ionicframework.com/docs/v6/api/alert) Buttons */
-  async presentAlert() {
+  async descartarAlteracao() {
     const alert = await this.alertController.create({
       header: 'Deseja realmente descartar as alterações?',
       buttons: [
@@ -75,9 +74,7 @@ export class EditarUsuarioPage implements OnInit {
         {
           text: 'NÃO',
           role: 'nao',
-          handler: () => {
-
-          },
+          handler: () => {},
         },
       ],
     });
@@ -85,7 +82,6 @@ export class EditarUsuarioPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
   ngOnInit() {
@@ -99,9 +95,28 @@ export class EditarUsuarioPage implements OnInit {
         foto: [response.foto],
         email: [response.email, Validators.compose([Validators.required, Validators.email])],
         senha: [response.senha, Validators.compose([Validators.required, Validators.minLength(8)])],
-        departamento: [response.departamento.nome, Validators.required]
+        departamento: [response.departamento, Validators.required],
       })
     })
+  }
+
+  /********************************************************\
+                    MENSAGEM PADRÃO 
+  \********************************************************/
+  async alerta(header: string, text: string, handler: any) {
+    const alert = await this.alertController.create({
+      header,
+      buttons: [
+        {
+          text,
+          handler,
+        }
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
   }
 
 }
