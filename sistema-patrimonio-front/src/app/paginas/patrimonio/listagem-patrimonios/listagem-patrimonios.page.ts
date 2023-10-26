@@ -13,9 +13,6 @@ export class ListagemPatrimoniosPage implements OnInit {
 
   patrimonios!: PatrimonioDTO[]
 
-  public patrimonioId: any
-  public disabled = false
-
   constructor(public nav: NavController, public patrimonioService: PatrimonioService, private alertController: AlertController) { }
 
   /********************************************************\
@@ -30,39 +27,9 @@ export class ListagemPatrimoniosPage implements OnInit {
   }
 
   /********************************************************\
-                  SELEÇÃO DO CHECKBOX 
-  \********************************************************/
-  patrimonioSelecionado(event: any) {
-    if(event.detail.checked) {
-      console.log(`Clicou no checkbox`, event);
-      this.patrimonioId = event.detail.value
-
-      if(this.patrimonioId !== event.detail.value){
-        this.disabled = false
-      } 
-      if(this.patrimonioId === event.detail.value) {
-        this.disabled = true
-      }
-
-
-      console.log(this.patrimonioId)
-
-      
-      // if(event.detail.checked === 1){
-      //   console.log('marcou um')
-      // } else if(event.detail.checked > 1){
-      //   console.log('teste maior que um')
-      // }
-
-    } else if (!event.detail.checked) {
-      console.log(`desclicou`, event);
-    }
-  }
-
-  /********************************************************\
                           EDITAR 
   \********************************************************/
-  async editarSelecionado() {
+  async editarSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente editar o Patrimônio?',
       buttons: [
@@ -76,9 +43,7 @@ export class ListagemPatrimoniosPage implements OnInit {
         {
           text: 'CANCELAR',
           role: 'cancelar',
-          handler: () => {
-            //this.handlerMessage = 'Alert confirmed';
-          },
+          handler: () => {},
         },
       ],
     });
@@ -86,7 +51,6 @@ export class ListagemPatrimoniosPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
 
@@ -94,24 +58,22 @@ export class ListagemPatrimoniosPage implements OnInit {
   /********************************************************\
                         TRANSFERIR 
   \********************************************************/
-  async transferirSelecionado() {
+  async transferirSelecionado(id: number) {
     const alert = await this.alertController.create({
-      header: 'Deseja realmente transferir o Patrimônio selecionado?',
+      header: 'Deseja realmente transferir o Patrimônio?',
       buttons: [
         {
           text: 'TRANSFERIR',
           role: 'transferir',
           handler: () => {
-            this.nav.navigateForward(`transferir-patrimonio/${this.patrimonioId}`)
+            this.nav.navigateForward(`transferir-patrimonio/${id}`)
             
           },
         },
         {
           text: 'CANCELAR',
           role: 'cancelar',
-          handler: () => {
-            //this.handlerMessage = 'Alert confirmed';
-          },
+          handler: () => {},
         },
       ],
     });
@@ -119,21 +81,12 @@ export class ListagemPatrimoniosPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
-
-    console.log(this.disabled)
-
-
   }
-
-  // teste(){
-  //   console.log("teste")
-  // }
 
   /********************************************************\
                         BAIXAR 
   \********************************************************/
-  async baixarSelecionado() {
+  async baixarSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente baixar o Patrimônio?',
       buttons: [
@@ -147,9 +100,7 @@ export class ListagemPatrimoniosPage implements OnInit {
         {
           text: 'CANCELAR',
           role: 'cancelar',
-          handler: () => {
-            //this.handlerMessage = 'Alert confirmed';
-          },
+          handler: () => {},
         },
       ],
     });
@@ -157,7 +108,6 @@ export class ListagemPatrimoniosPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
   /********************************************************\
