@@ -22,10 +22,17 @@
     display: grid;
     text-align: center;
     margin: 0;
+    padding-top: 20px;
+}
+
+.boas-vindas{
+    font-size: 1.2rem;
 }
 
 .data{
     text-transform: capitalize;
+    font-size: 1rem;
+    padding: 7px;
 }
 
 /********************************************************\
@@ -40,7 +47,21 @@
 }
 
 .opcoes ion-icon{
-    font-size: 380%;
+    font-size: 280%;
+}
+
+.opcoes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.opcoes ion-card{
+    width: 121px;
+}
+
+.opcoes ion-card-title{
+    font-size: 1rem;
 }
 
 /********************************************************\
@@ -58,7 +79,7 @@
 
 .licenciamento ion-img {
     margin-top: 5%;
-    width: 30%;
+    width: 10rem;
     align-self: center;
     margin: auto;
     display: flex;
@@ -75,4 +96,61 @@
 
 .rodape span{
     font-weight: 800;
+}
+
+/*************************************************************\
+|***********************-TELAS MAIORES-***********************|
+\*************************************************************/
+
+@media (min-width: 700px) {
+    /********************************************************\
+                    MENSAGEM DE SAUDAÇÃO
+    \********************************************************/
+    .boas-vindas{
+        display: grid;
+        text-align: center;
+        margin: 0;
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }
+    
+    .boas-vindas{
+        font-size: 1.5rem;
+    }
+    
+    .data{
+        text-transform: capitalize;
+        font-size: 1.5rem;
+        padding: 7px;
+    }
+
+    /********************************************************\
+                    BOTÕES DE OPÇOES
+    \********************************************************/
+
+    .opcoes ion-icon{
+        font-size: 400%;
+    }
+
+    .opcoes ion-card{
+        width: 100%;
+    }
+
+    /********************************************************\
+                    LOGO EMPRESA LICENCIADA
+    \********************************************************/
+
+    .licenciamento {
+        margin: auto;
+        padding: 0;
+    }
+
+    .licenciamento ion-img {
+        margin-top: 5%;
+        width: 15%;
+        align-self: center;
+        margin: auto;
+        display: flex;
+        padding: 1%;
+    }
 }
