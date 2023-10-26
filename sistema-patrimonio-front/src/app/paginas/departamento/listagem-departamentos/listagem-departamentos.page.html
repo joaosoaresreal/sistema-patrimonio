@@ -25,20 +25,31 @@
   <ion-list class="listagem" *ngFor="let departamento of departamentos">
 
     <ion-item>
-      <ion-checkbox slot="start" disabled={{disabled}} checked={{checked}} value={{departamento.id}} (ionChange)="departamentoSelecionado($event)"></ion-checkbox>
       <ion-label>
         <h3>{{departamento.nome}}</h3>
         <p>{{departamento.telefone}}</p>
         <p>{{departamento.email}}</p>
+
+        <ion-fab vertical="center" horizontal="end">
+          <ion-fab-button >
+            <ion-icon name="settings-outline"></ion-icon>
+          </ion-fab-button>
+
+          <ion-fab-list side="start" >
+            <ion-fab-button (click)="editarSelecionado(departamento.id)">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="excluirSelecionado(departamento.id)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
       </ion-label>
     </ion-item>
 
   </ion-list>
 
-
   <div class="botoes">
-    <ion-button expand="block" (click)="editarSelecionado()">EDITAR SELECIONADO</ion-button>
-    <ion-button expand="block" (click)="excluirSelecionado()">EXCLUIR SELECIONADO</ion-button>
     <ion-button expand="block" (click)="cadastrarDepartamento()">CADASTRAR NOVO DEPTO</ion-button>
   </div>
 </ion-content>

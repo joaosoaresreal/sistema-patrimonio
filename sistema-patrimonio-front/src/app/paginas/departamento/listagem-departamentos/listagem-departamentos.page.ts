@@ -12,10 +12,6 @@ export class ListagemDepartamentosPage implements OnInit {
 
   departamentos!: DepartamentoDTO[]
 
-  public departamentoId: any
-  public disabled = false
-  public checked = false
-
   constructor(public nav: NavController, public departamentoService: DepartamentoService, private alertController: AlertController) { }
 
   /********************************************************\
@@ -31,43 +27,7 @@ export class ListagemDepartamentosPage implements OnInit {
   }
 
   /********************************************************\
-                  SELEÇÃO DO CHECKBOX 
-  \********************************************************/
-  departamentoSelecionado(event: any) {
-    if (event.detail.checked) {
-      console.log(`Clicou no checkbox`, event);
-      this.departamentoId = event.detail.value
-
-      // if(this.departamentoId !== event.detail.value){
-      //   this.disabled = false
-      // } 
-
-      console.log(this.departamentoId)
-
-
-      // if(event.detail.checked === 1){
-      //   console.log('marcou um')
-      // } else if(event.detail.checked > 1){
-      //   console.log('teste maior que um')
-      // }
-      // else if (!event.detail.checked) {
-      //   console.log(`desclicou`, event);
-      // }
-
-    } 
-    
-
-    if (!this.checked) {
-      this.disabled = true
-    }
-    if (this.checked === true && this.departamentoId === event.detail.value) {
-      this.disabled = false
-      console.log("false")
-    }
-  }
-
-  /********************************************************\
-                    LISTAGEM DOS DEPARTAMENTOS
+                    CADASTRAR DEPARTAMENTO
   \********************************************************/
   cadastrarDepartamento() {
     this.nav.navigateForward('cadastrar-departamento')
@@ -76,7 +36,7 @@ export class ListagemDepartamentosPage implements OnInit {
   /********************************************************\
                     EDITAR DEPARTAMENTO
   \********************************************************/
-  async editarSelecionado() {
+  async editarSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente editar o Departamento selecionado?',
       buttons: [
@@ -84,15 +44,13 @@ export class ListagemDepartamentosPage implements OnInit {
           text: 'SIM',
           role: 'sim',
           handler: () => {
-            this.nav.navigateForward(`editar-departamento/${this.departamentoId}`)
+            this.nav.navigateForward(`editar-departamento/${id}`)
           },
         },
         {
           text: 'NAO',
           role: 'nao',
-          handler: () => {
-
-          },
+          handler: () => {},
         },
       ],
     });
@@ -100,13 +58,12 @@ export class ListagemDepartamentosPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
   /********************************************************\
                     EXCLUIR DEPARTAMENTO
   \********************************************************/
-  async excluirSelecionado() {
+  async excluirSelecionado(id: number) {
     const alert = await this.alertController.create({
       header: 'Deseja realmente excluir o Departamento selecionado?',
       buttons: [
@@ -114,7 +71,7 @@ export class ListagemDepartamentosPage implements OnInit {
           text: 'SIM',
           role: 'sim',
           handler: () => {
-            this.departamentoService.delete(this.departamentoId).subscribe({
+            this.departamentoService.delete(id).subscribe({
               next: (response) => window.location.reload(),
               error: (error) => console.log(error)
             })
@@ -123,9 +80,7 @@ export class ListagemDepartamentosPage implements OnInit {
         {
           text: 'NAO',
           role: 'nao',
-          handler: () => {
-
-          },
+          handler: () => {},
         },
       ],
     });
@@ -133,7 +88,6 @@ export class ListagemDepartamentosPage implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
   ngOnInit() {
