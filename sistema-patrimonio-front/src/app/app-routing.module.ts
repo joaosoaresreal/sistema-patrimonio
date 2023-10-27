@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'baixar-patrimonio',
     loadChildren: () => import('./paginas/patrimonio/baixar-patrimonio/baixar-patrimonio.module').then( m => m.BaixarPatrimonioPageModule)
   },
+  {
+    path: 'editar-patrimonio/:id',
+    loadChildren: () => import('./paginas/patrimonio/editar-patrimonio/editar-patrimonio.module').then( m => m.EditarPatrimonioPageModule)
+  },
 
   /********************************************************\
                             USUARIO 

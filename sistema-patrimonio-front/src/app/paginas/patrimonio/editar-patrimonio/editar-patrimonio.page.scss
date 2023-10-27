@@ -1,0 +1,67 @@
+.toolbar ion-button{
+    width: 50px;
+    align-self: center;
+    margin: auto;
+    display: flex;
+}
+
+.toolbar ion-col{
+    display: inline-block;
+    text-align: right;
+}
+
+.toolbar h3, p{
+    margin: -2px;
+}
+
+.titulo{
+    text-align: center;
+    padding: 2%;
+    font-weight: 600;
+}
+
+ion-list{
+    margin: 6px;
+}
+
+.formulario{
+    padding: 1%;
+}
+
+// ***** VALIDAÇÕES DO FORM *********
+small.error-message{
+    color: var(--ion-color-primary);
+}
+
+.invalid{
+    border-bottom: 2px solid red;
+}
+
+// ************************************
+
+.botoes ion-button{
+    border-radius: 80;
+    padding: 1px;
+}
+
+.termo{
+    display: flex;
+    padding: 1%;
+    background-color: var(--ion-color-danger);
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+}
+
+.termo ion-checkbox{
+    padding: 3px;
+}
+
+.rodape ion-title{
+    text-align: center;
+    font-size: 80%;
+}
+
+.rodape span{
+    font-weight: 800;
+}

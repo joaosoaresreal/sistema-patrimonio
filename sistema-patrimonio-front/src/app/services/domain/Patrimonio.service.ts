@@ -22,7 +22,7 @@ export class PatrimonioService{
     }
 
     // EDITAR PATRIMONIO
-    update(patrimonio: PatrimonioDTO){
+    update(patrimonio: any){
         return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/${patrimonio.id}`, patrimonio, {
             observe: 'response', responseType: 'text'
         })

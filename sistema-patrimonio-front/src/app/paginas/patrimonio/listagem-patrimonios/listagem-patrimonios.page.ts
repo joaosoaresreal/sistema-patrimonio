@@ -37,7 +37,7 @@ export class ListagemPatrimoniosPage implements OnInit {
           text: 'EDITAR',
           role: 'editar',
           handler: () => {
-            this.nav.navigateForward('editar-patrimonio')
+            this.nav.navigateForward(`editar-patrimonio/${id}`)
           },
         },
         {
