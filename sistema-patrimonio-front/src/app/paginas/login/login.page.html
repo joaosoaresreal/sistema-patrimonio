@@ -1,57 +1,53 @@
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-img src="assets/logo-js-softwares.png" alt="Logo JS Software"></ion-img>
-        </ion-col>
-
-        <ion-col>
-          <p class="titulo">Controle Patrimonial</p>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-avatar>
-          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </ion-row>
-
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Usuário:</ion-label>
-            <ion-input placeholder="Ex.: samara.sudano" type="text" [(ngModel)]="login.usuario"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="floating">Senha:</ion-label>
-            <ion-input placeholder="Ex.: SA@957*Sudano@sua-senha" type="password" [(ngModel)]="login.senha"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
-
-  <div class="licenciamento">
-    <p>sistema licenciado para</p>
-    <ion-img src="assets/logo-js-softwares.png" alt="Logo JS Software"></ion-img>
+  <div class="header">
+    <div class="header_img">
+      <img src="assets/logo-js-softwares.png" alt="Logo JS Software">
+    </div>
+    <div class="header_texto">
+      <p>Controle</p>
+      <p>Patrimonial</p>
+    </div>
   </div>
 
-</ion-content>
+  <div class="login-form">
+    <div class="foto-usuario">
+      <img src="assets/user-icon.png" alt="Foto do Usuário" />
+    </div>
 
-<ion-footer class="rodape">
-  <ion-toolbar color="">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>
+    <ion-row>
+      <ion-col>
+        <ion-input class="custom" label="Usuário" labelPlacement="floating" fill="outline"
+          placeholder="Ex.: samara.sudano@JSsoftware.com.br" [(ngModel)]="login.usuario"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-input class="custom" label="Senha" labelPlacement="floating" fill="outline" placeholder="Sua-senha-Aqui" type="password"
+          [(ngModel)]="login.senha"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
+        <a href="">Esqueceu a senha?</a>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="licenciamento">
+    <div class="licenciamento_texto">
+      <p>sistema licenciado para</p>
+    </div>
+    <div class="licenciamento_img">
+      <img src="assets/logo-js-softwares.png" alt="Logo JS Software" />
+    </div>
+  </div>
+
+  <footer class="rodape">
+    <ion-toolbar color="primary">
+      <p>Desenvolvido por © <span>JSsoftware</span></p>
+    </ion-toolbar>
+  </footer>
+</ion-content>

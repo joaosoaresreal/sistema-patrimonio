@@ -1,99 +1,152 @@
 ion-content {
     --padding-top: 6%;
+    --background: linear-gradient(to top, #B63766, #fff)
 }
 
-ion-img {
-    margin-top: 5%;
-    width: 70%;
-    align-self: center;
-    margin: auto;
+.header {
     display: flex;
-    padding: 2%;
-}
-
-.titulo {
-    text-align: center;
     justify-content: center;
-    vertical-align: baseline;
-    font-size: 150%;
-    font-weight: 700;
+    align-items: center;
+    text-align: center;
+
+    .header_img {
+        margin-top: 5%;
+        max-width: 110px;
+        align-self: center;
+        padding: 2%;
+    }
+
+    .header_texto {
+        line-height: 1px;
+        font-size: 180%;
+        font-weight: 700;
+    }
 }
 
-ion-avatar {
-    margin: auto;
+.login-form {
+    padding-left: 15%;
+    padding-right: 15%;
+
+    .foto-usuario {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 15px;
+    }
+
+    .foto-usuario img {
+        text-align: center;
+        border-radius: 50%;
+        border: 3px solid var(--ion-color-primary);
+        min-width: 60px;
+        max-width: 80px;
+    }
+
+    a {
+        color: black;
+    }
+}
+
+// CONFIGURAÇÕES GERAIS
+ion-input {
+    --border-color: var(--ion-color-primary);
+}
+
+// PROPRIEDADE DO ION-INPUT
+.ion-valid.sc-ion-input-md-h {
+    --highlight-color: #000;
 }
 
 .licenciamento {
+    display: table;
     margin: auto;
-    padding: 5%;
+    padding: 1%;
+
+    .licenciamento_img {
+        max-width: 120px;
+    }
+
+    .licenciamento_texto {
+        font-size: 80%;
+        align-items: center;
+        text-align: center;
+        font-weight: 700;
+        color: #c9c0c0;
+    }
 }
 
-.licenciamento p {
-    font-size: 80%;
-    align-items: center;
-    text-align: center;
-    font-weight: 700;
-    color: #c9c0c0;
-}
+.rodape{
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #FFF;
 
-.licenciamento ion-img {
-    margin-top: 5%;
-    width: 40%;
-    align-self: center;
-    margin: auto;
-    display: flex;
-    padding: 2%;
-}
+    p{
+        text-align: center;
+        font-size: 80%;
+    }
 
-.rodape ion-title {
-    text-align: center;
-    font-size: 80%;
-}
-
-.rodape span {
-    font-weight: 800;
+    span{
+        font-weight: 800;
+    }
 }
 
 /*TELAS MAIORES*/
 
 @media (min-width: 700px) {
     ion-content {
-        --padding-top: 2%;
-    }    
+        --padding-top: 0;
+        --background: linear-gradient(to top, #B63766, #fff)
+    }
 
-    ion-img {
-        margin-top: 5%;
-        width: 55%;
-        align-self: center;
-        margin: auto;
+    .header {
         display: flex;
-        padding: 2%;
-    }
-
-    .titulo {
-        text-align: center;
         justify-content: center;
-        vertical-align: baseline;
-        font-size: 250%;
-        font-weight: 700;
+        align-items: center;
+        text-align: center;
+
+        .header_img {
+            margin-top: 5%;
+            max-width: 150px;
+            align-self: center;
+            padding: 2%;
+        }
+
+        .header_texto {
+            line-height: 1px;
+            font-size: 180%;
+            font-weight: 700;
+        }
     }
 
-    ion-list{
-        padding-left: 30%;
-        padding-right: 30%;
+    .login-form {
+        padding-left: 35%;
+        padding-right: 35%;
+
+        .foto-usuario {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+
+        .foto-usuario img {
+            text-align: center;
+            border-radius: 50%;
+            border: 3px solid var(--ion-color-primary);
+            min-width: 60px;
+            max-width: 80px;
+        }
+
+        a {
+            color: black;
+        }
     }
 
     .licenciamento {
-        margin: auto;
-        padding: 0;
-    }
-
-    .licenciamento ion-img {
-        margin-top: 5%;
-        width: 15%;
-        align-self: center;
-        margin: auto;
-        display: flex;
-        padding: 1%;
+        .licenciamento_img {
+            max-width: 150px;
+        }
     }
 }
