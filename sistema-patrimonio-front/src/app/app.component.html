@@ -2,19 +2,63 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-col class="botoes">
-            <ion-button fill="clear" expand="block" ><ion-icon name="person-outline"></ion-icon>Meu Usuário</ion-button>
-            <ion-button fill="clear" expand="block" (click)="sairSistema()"><ion-icon name="exit-outline"></ion-icon>Sair do Sistema</ion-button>
-          </ion-col>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+        <!--USUÁRIO (foto | nome/email)-->
+        <div class="menu-header-bg"></div>
+        <div class="header-content">
+          <img src="../assets/user-icon-logado.png" alt="Foto do Usuário" />
+          <ion-label>
+            <h2>Usuário Teste</h2>
+            <p>usuario.teste@JSsoftware.com</p>
+          </ion-label>
+        </div>
+
+        <!--Botão do PERFIL e SAIR-->
+        <div class="botoes">
+          <ion-button fill="clear" expand="block"><ion-icon name="person-outline"></ion-icon>Perfil</ion-button>
+          <ion-button fill="clear" expand="block" (click)="sairSistema()"><ion-icon
+              name="exit-outline"></ion-icon>Sair</ion-button>
+        </div>
+
+        <!--Páginas-->
+        <div class="menu-items" lines="none">
+          <ion-menu-toggle auto-hide="false">
+
+            <!--Home-->
+            <ion-item routerLinkActive="active" routerLink="/home">
+              <ion-icon name="home"></ion-icon>
+              <ion-label>Home</ion-label>
             </ion-item>
+            <!--Patrimônios-->
+            <ion-item routerLinkActive="active" routerLink="/listagem-patrimonios">
+              <ion-icon name="albums"></ion-icon>
+              <ion-label>Listar Patrimônios</ion-label>
+            </ion-item>
+            <ion-item routerLinkActive="active" routerLink="/cadastrar-patrimonio">
+              <ion-icon name="add"></ion-icon>
+              <ion-label>Cadastrar Patrimônio</ion-label>
+            </ion-item>
+            <!--Usuários-->
+            <ion-item routerLinkActive="active" routerLink="/listagem-usuarios">
+              <ion-icon name="people"></ion-icon>
+              <ion-label>Listar Usuários</ion-label>
+            </ion-item>
+            <ion-item routerLinkActive="active" routerLink="/cadastrar-usuario">
+              <ion-icon name="person-add"></ion-icon>
+              <ion-label>Cadastrar Usuário</ion-label>
+            </ion-item>
+            <!--Departamentos-->
+            <ion-item routerLinkActive="active" routerLink="/listagem-departamentos">
+              <ion-icon name="copy"></ion-icon>
+              <ion-label>Listar Departamentos</ion-label>
+            </ion-item>
+            <ion-item routerLinkActive="active" routerLink="/cadastrar-departamento">
+              <ion-icon name="create"></ion-icon>
+              <ion-label>Cadastrar Departamento</ion-label>
+            </ion-item>
+
           </ion-menu-toggle>
-        </ion-list>
+        </div>
 
       </ion-content>
     </ion-menu>

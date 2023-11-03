@@ -7,19 +7,6 @@ import { AlertController, NavController } from '@ionic/angular';
 })
 
 export class AppComponent {
-  public appPages = [
-    { title: 'Home', url: '/home', icon: 'home' },
-
-    { title: 'Listar Patrimônios', url: '/listagem-patrimonios', icon: 'albums' },
-    { title: 'Cadastrar Patrimônio', url: '/cadastrar-patrimonio', icon: 'add' },
-
-    { title: 'Listar Usuários', url: '/listagem-usuarios', icon: 'people' },
-    { title: 'Cadastrar Usuário', url: '/cadastrar-usuario', icon: 'person-add' },
-
-    { title: 'Listar Departamentos', url: '/listagem-departamentos', icon: 'copy' },
-    { title: 'Cadastrar Departamento', url: '/cadastrar-departamento', icon: 'create' },
-  ];
-
   constructor(private alertController: AlertController, public nav: NavController) {}
 
   /* (https://ionicframework.com/docs/v6/api/alert) Buttons */
