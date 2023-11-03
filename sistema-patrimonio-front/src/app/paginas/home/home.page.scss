@@ -18,22 +18,33 @@
                   MENSAGEM DE SAUDAÇÃO
 \********************************************************/
 
-.boas-vindas{
-    display: grid;
+.boas-vindas-header-bg{
+    display: flex;
+    height: 90px;
+    margin: 5px;
     text-align: center;
-    margin: 0;
-    padding-top: 20px;
+    justify-content: center;
+    background: var(--ion-color-primary);
+    background: linear-gradient(90deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 40%);
+    box-shadow: 0px 1px 10px var(--ion-color-primary);
+    margin-bottom: 10px;
+    border-radius: 90px 90px 90px 30px;
+    color: #FFF;
+
+    .boas-vindas{
+        display: grid;
+        margin: 0;
+        padding-top: 20px;
+        font-size: 1.2rem;
+    }
+
+    .data{
+        text-transform: capitalize;
+        font-size: 1rem;
+        padding: 7px;
+    }
 }
 
-.boas-vindas{
-    font-size: 1.2rem;
-}
-
-.data{
-    text-transform: capitalize;
-    font-size: 1rem;
-    padding: 7px;
-}
 
 /********************************************************\
                   BOTÕES DE OPÇOES
@@ -54,6 +65,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 10px 3px 16px rgba(216, 17, 17, 0.2);
 }
 
 .opcoes ion-card{
@@ -67,23 +79,23 @@
 /********************************************************\
                 LOGO EMPRESA LICENCIADA
 \********************************************************/
-
-.licenciamento p {
-    font-size: 80%;
-    align-items: center;
-    text-align: center;
-    font-weight: 700;
-    color: #c9c0c0;
-    padding-top: 3%;
-}
-
-.licenciamento ion-img {
-    margin-top: 5%;
-    width: 10rem;
-    align-self: center;
+.licenciamento {
+    display: table;
     margin: auto;
-    display: flex;
-    padding: 2%;
+    padding: 3%;
+
+    ion-img {
+        max-width: 120px;
+        padding: 2%;
+    }
+
+    p {
+        font-size: 80%;
+        align-items: center;
+        text-align: center;
+        font-weight: 700;
+        color: #c9c0c0;
+    }
 }
 
 /********************************************************\
@@ -133,24 +145,81 @@
     }
 
     .opcoes ion-card{
-        width: 100%;
+        width: 60%;
     }
 
     /********************************************************\
                     LOGO EMPRESA LICENCIADA
     \********************************************************/
-
     .licenciamento {
+        display: table;
         margin: auto;
-        padding: 0;
+        padding: 3%;
+    
+        ion-img {
+            max-width: 150px;
+            padding: 2%;
+        }
+    
+        p {
+            font-size: 80%;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+            color: #c9c0c0;
+        }
     }
+}
 
-    .licenciamento ion-img {
-        margin-top: 5%;
-        width: 15%;
-        align-self: center;
-        margin: auto;
-        display: flex;
-        padding: 1%;
+
+/*************************************************************\
+|******************-ANIMAÇÃO DE BOAS VINDAS-******************|
+\*************************************************************/
+
+.animated {
+    -webkit-animation-direction: 10s;
+    animation-duration: 10s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes bounceInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(2000px);
     }
+    60% {
+        opacity: 1;
+        -webkit-transform: translateY(-30px);
+    }
+    80% {
+
+        -webkit-transform: translateY(10px);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+    }
+}
+
+.bounceInUp{
+    -webkit-animation-name: bounceInUp;
+    animation-name: bounceInUp;
+}
+
+@keyframes bounceInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(20px);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: translateY(-30px);
+    }
+    // 80% {
+
+    //     -webkit-transform: translateY(10px);
+    // }
+    // 100% {
+    //     -webkit-transform: translateY(0);
+    // }
 }

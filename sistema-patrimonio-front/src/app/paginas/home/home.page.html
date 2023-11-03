@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">
+    <ion-item color="primary" lines="none">
       <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,71 +20,73 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="boas-vindas">
-    <p>-- Seja bem-vindo, usuário --</p>
-    <p class="data">{{today | date:"EEEE, dd 'de' MMMM 'de' yyyy"}}</p>
-    <p>- Tenha um excelente trabalho -</p>
+  <div class="boas-vindas-header-bg">
+    <div class="boas-vindas animated bounceInUp">
+      <p>-- Seja bem-vindo, usuário --</p>
+      <p class="data">{{today | date:"EEEE, dd 'de' MMMM 'de' yyyy"}}</p>
+      <p>- Tenha um excelente trabalho -</p>
+    </div>
   </div>
-
+  
   <ion-row>
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('listagem-patrimonios')" color="primary">
-          <ion-card-header>
-            <ion-icon name="albums"></ion-icon>
-            <ion-card-title>Listar Patrimônios</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('listagem-patrimonios')" color="primary">
+        <ion-card-header>
+          <ion-icon name="albums"></ion-icon>
+          <ion-card-title>Listar Patrimônios</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
 
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('cadastrar-patrimonio')" color="primary">
-          <ion-card-header>
-            <ion-icon name="add"></ion-icon>
-            <ion-card-title>Cadastrar Patrimônios</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('cadastrar-patrimonio')" color="primary">
+        <ion-card-header>
+          <ion-icon name="add"></ion-icon>
+          <ion-card-title>Cadastrar Patrimônios</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
   </ion-row>
 
 
   <ion-row>
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary">
-          <ion-card-header>
-            <ion-icon name="people"></ion-icon>
-            <ion-card-title>Listar Usuários</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary">
+        <ion-card-header>
+          <ion-icon name="people"></ion-icon>
+          <ion-card-title>Listar Usuários</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
 
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary">
-          <ion-card-header>
-            <ion-icon name="person-add"></ion-icon>
-            <ion-card-title>Cadastrar Usuário</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary">
+        <ion-card-header>
+          <ion-icon name="person-add"></ion-icon>
+          <ion-card-title>Cadastrar Usuário</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
   </ion-row>
 
 
   <ion-row>
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('listagem-departamentos')" color="primary">
-          <ion-card-header>
-            <ion-icon name="copy"></ion-icon>
-            <ion-card-title>Listar Departamentos</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('listagem-departamentos')" color="primary">
+        <ion-card-header>
+          <ion-icon name="copy"></ion-icon>
+          <ion-card-title>Listar Departamentos</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
 
     <ion-col class="opcoes">
-        <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary">
-          <ion-card-header>
-            <ion-icon name="create"></ion-icon>
-            <ion-card-title>Cadastrar Departamento</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+      <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary">
+        <ion-card-header>
+          <ion-icon name="create"></ion-icon>
+          <ion-card-title>Cadastrar Departamento</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </ion-col>
   </ion-row>
 
@@ -93,10 +95,9 @@
     <ion-img src="assets/logo-js-softwares.png" alt="Logo JS Software"></ion-img>
   </div>
 
+  <div class="rodape">
+    <ion-toolbar color="primary">
+      <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
+    </ion-toolbar>
+  </div>
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>
