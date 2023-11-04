@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.js.patrimonio.patrimonio.PatrimonioDTO;
+
 @RestController
 @RequestMapping(value = "/api_usuarios")
 public class UsuarioResource {
@@ -55,6 +57,14 @@ public class UsuarioResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ======================== Query Methods ==================================
+    // BUSCAR POR CPF
+    @GetMapping(value = "/cpf/{cpf}")
+    public ResponseEntity<UsuarioDTO> findByCpf(@PathVariable String cpf){
+        UsuarioDTO dto = service.findByCpf(cpf);
+        return ResponseEntity.ok().body(dto);
     }
     
     

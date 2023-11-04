@@ -14,6 +14,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -43,6 +45,7 @@ public class Usuario implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String nome;
     @Column(unique = true)
+	@NotBlank(message = "Campo obrigatório")
     private String cpf;
     private String telefone;
     private String foto;
