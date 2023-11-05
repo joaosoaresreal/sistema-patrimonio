@@ -1,9 +1,13 @@
-package br.com.js.patrimonio.patrimonio;
+package br.com.js.patrimonio.transferePatrimonio;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.hibernate.annotations.Any;
 
 import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.enums.EstadoConservacao;
-
-import jakarta.persistence.Column;
+import br.com.js.patrimonio.patrimonio.Patrimonio;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,10 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,26 +29,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // cria construtor sem parâmetros
 @Builder // padrão de projeto para construção de objetos
 @Entity
-@Table(name = "tb_patrimonio")
-public class Patrimonio implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
+@Table(name = "tb_transfere_patrimonio")
+public class TransferePatrimonio extends AuditListener<String>{
+	private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique=true)
+	private Long id;
     private String plaqueta;
-    @Column(columnDefinition = "TEXT")
-    private String descricao;
     @Enumerated(EnumType.STRING)
-    private EstadoConservacao estado;
-    private String localizacao;
-    private LocalDate dataEntrada;
-    @Column(columnDefinition = "TEXT")
-    private String observacao;
+    private EstadoConservacao estadoAnterior;
+    private String descricaoAnterior;
+    private String localAnterior;
+    private String obsAnterior;
 
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
     @JoinColumn(name = "id_departamento_fk")
-    private Departamento departamento;
+    private Departamento deptoAnterior;
 
 }
