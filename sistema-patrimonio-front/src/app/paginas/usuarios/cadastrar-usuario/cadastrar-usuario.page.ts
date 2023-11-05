@@ -16,8 +16,11 @@ export class CadastrarUsuarioPage implements OnInit {
 
   usuarioForm!: FormGroup
   departamentos!: DepartamentoNomeDTO[]
+  arquivo!: File // Guarda a referência da foto selecionado
 
   public cpfFormatado: any;
+  public telFormatado: any;
+  public arquivoPreview: any; // Guarda os bytes obtidos através da leitura
 
   constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService,
     private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController) { }
@@ -33,7 +36,7 @@ export class CadastrarUsuarioPage implements OnInit {
     let usuario = {
       'nome': this.usuarioForm.value.nome,
       'cpf': this.cpfFormatado, // Envia o CPF com formatação para o BackEnd salvar no Banco
-      'telefone': this.usuarioForm.value.telefone,
+      'telefone': this.telFormatado, // Envia o TELEFONE com formatação para o BackEnd salvar no Banco 
       'foto': this.usuarioForm.value.foto,
       'email': this.usuarioForm.value.email,
       'senha': this.usuarioForm.value.senha,
@@ -103,13 +106,56 @@ export class CadastrarUsuarioPage implements OnInit {
   }
 
   /********************************************************\
+                FORMATA NÚMERO DE TELEFONE
+  \********************************************************/
+  validaTelefone() {
+    let telefoneValida = this.usuarioForm.value.telefone
+
+    let r = telefoneValida.replace(/\D/g, ""); // Remove todos os caracteres não numéricos (exceto dígitos)
+    r = r.replace(/^0/, ""); // Remove um zero inicial, se houver
+
+    if (r.length >= 11) {
+      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (r.length > 10) {
+      r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (r.length > 2) {
+      r = r.replace(/^(\d\d)(\d{4})(\d{4}).*/, "($1) $2-$3");
+    } else if (telefoneValida.trim() !== "") {
+      r = r.replace(/^(\d*)/, "($1");
+    }
+
+    this.telFormatado = r // Armazena o telefone formatado
+  }
+
+  /********************************************************\
+                  FOTO DO USUÁRIO
+  \********************************************************/
+  // https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/
+  preview(event: Event) {
+    const target = event.target as HTMLInputElement;
+
+    if (target instanceof HTMLInputElement && target.files && target.files.length > 0) {
+      const arquivo = target.files[0]; // O navegador fornece acesso ao arquivo através da propriedade 'files' do elemento
+      console.log(arquivo);
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        this.arquivoPreview = reader.result;
+      };
+
+      reader.readAsDataURL(arquivo);
+    }
+  }
+
+  /********************************************************\
                   AÇÕES DE INICIALIZAÇÃO
   \********************************************************/
   ngOnInit() {
     this.usuarioForm = this.formBuilder.group({
       nome: ['', Validators.required],
       cpf: ['', Validators.compose([Validators.required, CpfValidator.ValidaCpf])],
-      telefone: ['', Validators.required],
+      telefone: ['', Validators.compose([Validators.required, Validators.minLength(13), Validators.maxLength(15)])],
       foto: [''],
       email: ['', Validators.compose([Validators.required, Validators.email])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
