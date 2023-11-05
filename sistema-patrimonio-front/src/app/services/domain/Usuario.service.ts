@@ -36,4 +36,9 @@ export class UsuarioService{
     delete(id: number){
       return this.http.delete(`${API_CONFIG.baseUrl}/api_usuarios/${id}`)
     }
+
+    // BUSCAR POR CPF
+    findByCpf(cpf: string):Observable<UsuarioDTO>{
+        return this.http.get<UsuarioDTO>(`${API_CONFIG.baseUrl}/api_usuarios/cpf/${cpf}`)
+    }
 }

@@ -4,6 +4,8 @@ import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
+import { CpfValidator } from 'src/app/services/validators/CpfValidator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cadastrar-usuario',
@@ -15,20 +17,22 @@ export class CadastrarUsuarioPage implements OnInit {
   usuarioForm!: FormGroup
   departamentos!: DepartamentoNomeDTO[]
 
-  constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService, 
+  public cpfFormatado: any;
+
+  constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService,
     private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController) { }
 
   /********************************************************\
                   SALVA O FORMULÁRIO
   \********************************************************/
   submit() {
-    if(this.usuarioForm.invalid || this.usuarioForm.pending){
+    if (this.usuarioForm.invalid || this.usuarioForm.pending) {
       return // CANCELA A SUBMISSAO E RETORNA OS ERROS PARA O USUÁRIO
     }
 
     let usuario = {
       'nome': this.usuarioForm.value.nome,
-      'cpf': this.usuarioForm.value.cpf,
+      'cpf': this.cpfFormatado, // Envia o CPF com formatação para o BackEnd salvar no Banco
       'telefone': this.usuarioForm.value.telefone,
       'foto': this.usuarioForm.value.foto,
       'email': this.usuarioForm.value.email,
@@ -38,27 +42,73 @@ export class CadastrarUsuarioPage implements OnInit {
       }
     }
 
-    this.usuarioService.insert(usuario).subscribe({next: (response) => 
-      this.alerta(), 
+    this.usuarioService.insert(usuario).subscribe({
+      next: (response) =>
+        this.alerta(),
       error: (error) => console.log(error)
     })
-  
+
   }
 
   /********************************************************\
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findByNomeSQL().subscribe({next: (response)=>
-      this.departamentos = response,
+    this.departamentoService.findByNomeSQL().subscribe({
+      next: (response) =>
+        this.departamentos = response,
       error: (error) => console.log(error)
-  })
+    })
   }
 
+  /********************************************************\
+            VALIDAR SE CPF JÁ ESTA CADASTRADO
+              E FORMATAR COM PONTO E TRAÇO
+  \********************************************************/
+  validaCPF() {
+    let formattedCpf = this.usuarioForm.value.cpf.replace(/^(\d{3})\D*(\d{3})\D*(\d{3})\D*(\d{2})$/g, '$1.$2.$3-$4');
+    this.cpfFormatado = formattedCpf
+
+    this.usuarioService.findByCpf(formattedCpf).subscribe((response) => {
+      if (response.id >= 1) {
+        this.alertaCpf(response.id) // Se o CPF já existe, exiba o alerta e envia o 'id' para poder fazer o método de edição
+      }
+    }
+    )
+  }
+
+  alertaCpf(id: number) {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'ATENÇÃO',
+      text: 'O CPF inserido já está cadastrado no sistema, deseja editar o cadastro do usuário?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'SIM',
+      cancelButtonText: 'NÃO',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then((result) => {
+      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
+        this.nav.navigateForward(`editar-usuario/${id}`)
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
+      ) {
+        this.nav.navigateForward('listagem-usuarios')
+      }
+    })
+  }
+
+  /********************************************************\
+                  AÇÕES DE INICIALIZAÇÃO
+  \********************************************************/
   ngOnInit() {
     this.usuarioForm = this.formBuilder.group({
       nome: ['', Validators.required],
-      cpf: ['', Validators.required],
+      cpf: ['', Validators.compose([Validators.required, CpfValidator.ValidaCpf])],
       telefone: ['', Validators.required],
       foto: [''],
       email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -70,7 +120,7 @@ export class CadastrarUsuarioPage implements OnInit {
   }
 
   /********************************************************\
-                  MENSAGEM DE ALERTA 
+                MENSAGEM DE ALERTA AO SALVAR
   \********************************************************/
   async alerta() {
     const alert = await this.alertController.create({
@@ -80,14 +130,14 @@ export class CadastrarUsuarioPage implements OnInit {
         {
           text: 'SIM',
           role: 'sim',
-          handler:()=>{
+          handler: () => {
             window.location.reload()
           }
         },
         {
           text: 'NÃO',
           role: 'nao',
-          handler:()=>{
+          handler: () => {
             this.nav.navigateForward('listagem-usuarios')
           }
         }
