@@ -6,6 +6,7 @@ import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-patrimonio',
@@ -54,7 +55,7 @@ export class EditarPatrimonioPage implements OnInit {
     console.log(patrimonioEdit)
 
     this.patrimonioService.update(patrimonioEdit).subscribe({
-      next: (response)=> this.alerta('Patrimônio alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-patrimonios') }),
+      next: (response)=> this.alerta(),
       error: (error) => console.log(error)
     })
   }
@@ -115,20 +116,23 @@ export class EditarPatrimonioPage implements OnInit {
   /********************************************************\
                     MENSAGEM PADRÃO 
   \********************************************************/
-  async alerta(header: string, text: string, handler: any) {
-    const alert = await this.alertController.create({
-      header,
-      buttons: [
-        {
-          text,
-          handler,
-        }
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'O cadastro do patrimônio foi alterado',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then(() => {
+      {
+        this.nav.navigateForward('listagem-patrimonios')
+      }
+    })
   }
 
 }

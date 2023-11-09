@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { TelValidator } from 'src/app/services/validators/telValidator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cadastrar-departamento',
@@ -12,8 +14,10 @@ export class CadastrarDepartamentoPage implements OnInit {
 
   cadastrarDepartamentoForm!: FormGroup
 
+  public telFormatado: any;
+
   constructor(public nav: NavController, private alertController: AlertController, private formBuilder: FormBuilder,
-    private departamentoService: DepartamentoService) { }
+    private departamentoService: DepartamentoService, private telValidator: TelValidator) { }
 
   /********************************************************\
                       SALVAR EDIÇÃO
@@ -25,7 +29,7 @@ export class CadastrarDepartamentoPage implements OnInit {
 
     let departamento = {
       nome: this.cadastrarDepartamentoForm.value.nome,
-      telefone: this.cadastrarDepartamentoForm.value.telefone,
+      telefone: this.telFormatado,
       email: this.cadastrarDepartamentoForm.value.email,
       endereco: this.cadastrarDepartamentoForm.value.endereco
     }
@@ -35,6 +39,17 @@ export class CadastrarDepartamentoPage implements OnInit {
         this.alerta(),
       error: (error) => console.log(error)
     })
+  }
+
+  /********************************************************\
+                FORMATA NÚMERO DE TELEFONE
+  \********************************************************/
+  validaTelefone() {
+    const telefone = this.cadastrarDepartamentoForm.value.telefone
+    const telefoneFormatado = this.telValidator.telService(telefone);
+    this.cadastrarDepartamentoForm.get('telefone')?.setValue(telefoneFormatado)
+    
+    this.telFormatado = telefoneFormatado
   }
 
   ngOnInit() {
@@ -52,29 +67,23 @@ export class CadastrarDepartamentoPage implements OnInit {
   /********************************************************\
                   MENSAGEM DE ALERTA 
   \********************************************************/
-  async alerta() {
-    const alert = await this.alertController.create({
-      header: 'Departamento cadastrado com sucesso',
-      message: 'Deseja cadastrar outro departamento?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            window.location.reload()
-          }
-        },
-        {
-          text: 'NÃO',
-          role: 'nao',
-          handler: () => {
-            this.nav.navigateForward('listagem-departamentos')
-          }
-        }
-      ]
-    });
-
-    await alert.present();
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'O departamento foi incluido com sucesso no sistema',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then(() => {
+      {
+        this.nav.navigateForward('listagem-departamentos')
+      }
+    })
   }
 
 }

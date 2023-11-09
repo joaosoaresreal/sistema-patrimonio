@@ -5,6 +5,7 @@ import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 import { CpfValidator } from 'src/app/services/validators/CpfValidator';
+import { TelValidator } from 'src/app/services/validators/telValidator';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +24,8 @@ export class CadastrarUsuarioPage implements OnInit {
   public arquivoPreview: any; // Guarda os bytes obtidos através da leitura
 
   constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService,
-    private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController) { }
+    private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController,
+    private telValidator: TelValidator) { }
 
   /********************************************************\
                   SALVA O FORMULÁRIO
@@ -109,22 +111,11 @@ export class CadastrarUsuarioPage implements OnInit {
                 FORMATA NÚMERO DE TELEFONE
   \********************************************************/
   validaTelefone() {
-    let telefoneValida = this.usuarioForm.value.telefone
-
-    let r = telefoneValida.replace(/\D/g, ""); // Remove todos os caracteres não numéricos (exceto dígitos)
-    r = r.replace(/^0/, ""); // Remove um zero inicial, se houver
-
-    if (r.length >= 11) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
-    } else if (r.length > 10) {
-      r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-    } else if (r.length > 2) {
-      r = r.replace(/^(\d\d)(\d{4})(\d{4}).*/, "($1) $2-$3");
-    } else if (telefoneValida.trim() !== "") {
-      r = r.replace(/^(\d*)/, "($1");
-    }
-
-    this.telFormatado = r // Armazena o telefone formatado
+    const telefone = this.usuarioForm.value.telefone
+    const telefoneFormatado = this.telValidator.telService(telefone);
+    this.usuarioForm.get('telefone')?.setValue(telefoneFormatado)
+    
+    this.telFormatado = telefoneFormatado
   }
 
   /********************************************************\

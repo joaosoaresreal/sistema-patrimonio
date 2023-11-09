@@ -48,7 +48,7 @@
 
           <ion-col>
             <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" type="tel" 
-              placeholder="(00) 90000-0000" (focusout)="validaTelefone()" [(ngModel)]="telFormatado"></ion-input>
+              placeholder="(00) 90000-0000" (focusout)="validaTelefone()"></ion-input>
             <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
               Informe o telefone corretamente
             </small>

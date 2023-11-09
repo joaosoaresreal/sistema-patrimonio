@@ -58,7 +58,8 @@
 
         <ion-row>
           <ion-col>
-              <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone"></ion-input>
+              <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" 
+                (focusout)="validaTelefone()"></ion-input>
               <small class="error-message" *ngIf="editarUsuarioForm.get('telefone')?.errors && form.submitted">
                 Informe o telefone corretamente
               </small>
@@ -76,9 +77,9 @@
 
         <ion-row>
           <ion-col>
-              <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
-                <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
-              </ion-select>
+            <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
+              <ion-select-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-select-option>
+            </ion-select>            
           </ion-col>
         </ion-row>
       </ion-grid>

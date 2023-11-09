@@ -41,7 +41,7 @@
         <ion-row>
           <ion-col>
             <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone"
-              placeholder="Ex.: (67) 3461-0000" type="tel"></ion-input>
+              placeholder="Ex.: (67) 3461-0000" type="tel" (focusout)="validaTelefone()"></ion-input>
             <small class="error-message" *ngIf="editarDepartamentoForm.get('telefone')?.errors && form.submitted">
               Informe o telefone corretamente
             </small>

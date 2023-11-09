@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { TelValidator } from 'src/app/services/validators/telValidator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-departamento',
@@ -13,8 +15,10 @@ export class EditarDepartamentoPage implements OnInit {
 
   editarDepartamentoForm!: FormGroup
 
+  public telFormatado: any;
+
   constructor(public nav: NavController, private formBuilder: FormBuilder, private alertController: AlertController, private route: ActivatedRoute,
-    private departamentoService: DepartamentoService) { }
+    private departamentoService: DepartamentoService, private telValidator: TelValidator) { }
 
   /********************************************************\
                   SALVAR EDIÇÃO
@@ -26,9 +30,20 @@ export class EditarDepartamentoPage implements OnInit {
 
     this.departamentoService.update(this.editarDepartamentoForm.value).subscribe({
       next: (response) =>
-        this.alerta('Departamento alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-departamentos') }),
+        this.alerta(),
       error: (error) => console.log(error)
     })
+  }
+
+  /********************************************************\
+                FORMATA NÚMERO DE TELEFONE
+  \********************************************************/
+  validaTelefone() {
+    const telefone = this.editarDepartamentoForm.value.telefone
+    const telefoneFormatado = this.telValidator.telService(telefone);
+    this.editarDepartamentoForm.get('telefone')?.setValue(telefoneFormatado)
+    
+    this.telFormatado = telefoneFormatado
   }
 
   /********************************************************\
@@ -78,20 +93,23 @@ export class EditarDepartamentoPage implements OnInit {
   /********************************************************\
                     MENSAGEM PADRÃO 
   \********************************************************/
-  async alerta(header: string, text: string, handler: any) {
-    const alert = await this.alertController.create({
-      header,
-      buttons: [
-        {
-          text,
-          handler,
-        }
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'O cadastro do departamento foi alterado',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then(() => {
+      {
+        this.nav.navigateForward('listagem-departamentos')
+      }
+    })
   }
 
 }

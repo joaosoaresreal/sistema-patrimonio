@@ -6,6 +6,8 @@ import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
+import { TelValidator } from 'src/app/services/validators/telValidator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -17,8 +19,11 @@ export class EditarUsuarioPage implements OnInit {
   editarUsuarioForm!: FormGroup
   departamentos!: DepartamentoNomeDTO[]
 
+  public telFormatado: any;
+
   constructor(private formBuilder: FormBuilder, public nav: NavController, private alertController: AlertController, 
-    private route: ActivatedRoute, private usuarioService: UsuarioService, private departamentoService: DepartamentoService) { }
+    private route: ActivatedRoute, private usuarioService: UsuarioService, private departamentoService: DepartamentoService,
+    private telValidator: TelValidator) { }
 
   /********************************************************\
                     LISTAGEM DOS DEPARTAMENTOS
@@ -42,19 +47,29 @@ export class EditarUsuarioPage implements OnInit {
       'id': this.editarUsuarioForm.value.id,
       'nome': this.editarUsuarioForm.value.nome,
       'cpf': this.editarUsuarioForm.value.cpf,
-      'telefone': this.editarUsuarioForm.value.telefone,
+      'telefone': this.telFormatado,
       'foto': this.editarUsuarioForm.value.foto,
       'email': this.editarUsuarioForm.value.email,
-      'senha': this.editarUsuarioForm.value.senha,
       'departamento': {
         'id': this.editarUsuarioForm.value.departamento
       }
     }
     console.log(usuarioEdicao)
-    
+
     this.usuarioService.update(usuarioEdicao).subscribe(response=>{
-      this.alerta('Usuário alterado com sucesso', 'OK', () => { this.nav.navigateForward('listagem-usuarios') })
+      this.alerta()
     })
+  }
+
+  /********************************************************\
+                FORMATA NÚMERO DE TELEFONE
+  \********************************************************/
+  validaTelefone() {
+    const telefone = this.editarUsuarioForm.value.telefone
+    const telefoneFormatado = this.telValidator.telService(telefone);
+    this.editarUsuarioForm.get('telefone')?.setValue(telefoneFormatado)
+    
+    this.telFormatado = telefoneFormatado
   }
 
   /********************************************************\
@@ -94,8 +109,7 @@ export class EditarUsuarioPage implements OnInit {
         telefone: [response.telefone, Validators.required],
         foto: [response.foto],
         email: [response.email, Validators.compose([Validators.required, Validators.email])],
-        senha: [response.senha, Validators.compose([Validators.required, Validators.minLength(8)])],
-        departamento: [response.departamento, Validators.required],
+        departamento: [response.departamento.id, Validators.required],
       })
     })
   }
@@ -103,20 +117,23 @@ export class EditarUsuarioPage implements OnInit {
   /********************************************************\
                     MENSAGEM PADRÃO 
   \********************************************************/
-  async alerta(header: string, text: string, handler: any) {
-    const alert = await this.alertController.create({
-      header,
-      buttons: [
-        {
-          text,
-          handler,
-        }
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'O cadastro do usuário foi alterado',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then(() => {
+      {
+        this.nav.navigateForward('listagem-usuarios')
+      }
+    })
   }
 
 }
