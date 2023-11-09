@@ -24,8 +24,8 @@ ion-content {
 }
 
 .login-form {
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
 
     .foto-usuario {
         display: flex;
@@ -49,7 +49,7 @@ ion-content {
 
 // CONFIGURAÇÕES GERAIS
 ion-input {
-    --border-color: var(--ion-color-primary);
+    --border-color: #000 !important;
 }
 
 // PROPRIEDADE DO ION-INPUT

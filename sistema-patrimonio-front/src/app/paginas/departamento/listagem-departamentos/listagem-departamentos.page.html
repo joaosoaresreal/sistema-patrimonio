@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">   
+    <ion-item color="primary" lines="none">   
       <ion-button slot="end" fill="clear" >
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,8 +20,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Listagem de Departamentos</ion-title>
-  
+  <div class="titulo">
+    <p>Listagem de Departamentos</p>
+  </div>
+
   <ion-list class="listagem" *ngFor="let departamento of departamentos">
 
     <ion-item>
@@ -31,15 +33,15 @@
         <p>{{departamento.email}}</p>
 
         <ion-fab vertical="center" horizontal="end">
-          <ion-fab-button >
+          <ion-fab-button size="small">
             <ion-icon name="settings-outline"></ion-icon>
           </ion-fab-button>
 
           <ion-fab-list side="start" >
-            <ion-fab-button (click)="editarSelecionado(departamento.id)">
+            <ion-fab-button (click)="editarSelecionado(departamento.id)" class="editar">
               <ion-icon name="create-outline"></ion-icon>
             </ion-fab-button>
-            <ion-fab-button (click)="excluirSelecionado(departamento.id)">
+            <ion-fab-button (click)="excluirSelecionado(departamento.id)" class="excluir">
               <ion-icon name="trash-outline"></ion-icon>
             </ion-fab-button>
           </ion-fab-list>
@@ -53,9 +55,3 @@
     <ion-button expand="block" (click)="cadastrarDepartamento()">CADASTRAR NOVO DEPTO</ion-button>
   </div>
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title>Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

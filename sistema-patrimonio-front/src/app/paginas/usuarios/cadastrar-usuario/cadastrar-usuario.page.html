@@ -20,7 +20,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Cadastrar Usuário</ion-title>
+  <div class="titulo">
+    <p>Cadastrar Usuário</p>
+  </div>
 
   <form #form="ngForm" [formGroup]="usuarioForm" (ngSubmit)="submit()">
     <ion-list class="formulario">
@@ -122,10 +124,4 @@
       <ion-button expand="block" type="submit">SALVAR CADASTRO</ion-button>
     </div>
   </form>
-
-  <ion-footer class="rodape">
-    <ion-toolbar color="primary">
-      <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>

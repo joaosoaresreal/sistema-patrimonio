@@ -15,10 +15,11 @@ p {
   margin: -2px;
 }
 
-.titulo {
+.titulo{
+  font-size: 1.3rem;
   text-align: center;
   padding-top: 4%;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .formulario {
@@ -64,13 +65,4 @@ small.error-message {
 .botoes ion-button {
   border-radius: 80;
   padding: 1%;
-}
-
-.rodape ion-title {
-  text-align: center;
-  font-size: 80%;
-}
-
-.rodape span {
-  font-weight: 800;
 }

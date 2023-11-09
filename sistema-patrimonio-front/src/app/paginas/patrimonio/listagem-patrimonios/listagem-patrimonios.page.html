@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">
+    <ion-item color="primary" lines="none">
       <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,7 +20,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Listagem de Patrimônios</ion-title>
+  <div class="titulo">
+    <p>Listagem de Patrimônios</p>
+  </div>
 
   <ion-accordion-group #accordionGroup *ngFor="let patrimonio of patrimonios">
     <ion-accordion class="listagem" value={{patrimonio.id}} toggleIcon="disabled">
@@ -31,7 +33,7 @@
           <p>{{patrimonio.descricao}}</p>
 
           <ion-fab vertical="center" horizontal="end">
-            <ion-fab-button>
+            <ion-fab-button size="small">
               <ion-icon name="settings-outline"></ion-icon>
             </ion-fab-button>
 
@@ -81,9 +83,3 @@
   </div>
 
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title>Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

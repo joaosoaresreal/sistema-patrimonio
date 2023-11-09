@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">
+    <ion-item color="primary" lines="none">
       <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,7 +20,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Editar Patrimônio</ion-title>
+  <div class="titulo">
+    <p>Editar Patrimônio</p>
+  </div>
 
   <form #form="ngForm" [formGroup]="editarPatrimonioForm" *ngIf="editarPatrimonioForm" (ngSubmit)="submit()">
     <ion-list class="formulario">
@@ -36,33 +38,31 @@
           <ion-col>
             <ion-item disabled="true">
               <ion-label position="floating">Data Entrada</ion-label>
-              <ion-input value=" ">{{data | date: 'dd/MM/yyyy'}}</ion-input> <!--'value' com um espaço vazio para que a posição do 'ion-label' fique correta-->
-            </ion-item>
-          </ion-col>
-
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Descrição</ion-label>
-              <ion-input formControlName="descricao" type="text" placeholder="Notebook 8 GB Ram, 500 GB HD, Marca..."></ion-input>
-              <small class="error-message" *ngIf="editarPatrimonioForm.get('descricao')?.errors && form.submitted">
-                Informe a descricao
-              </small>
+              <ion-input value=" ">{{data | date: 'dd/MM/yyyy'}}</ion-input>
+              <!--'value' com um espaço vazio para que a posição do 'ion-label' fique correta-->
             </ion-item>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Localização</ion-label>
-              <ion-input  formControlName="localizacao" type="text" placeholder="Sala 01"></ion-input>
-              <small class="error-message" *ngIf="editarPatrimonioForm.get('localizacao')?.errors && form.submitted">
-                Informe a localizacao
-              </small>
-            </ion-item>
+
+            <ion-input fill="outline" label="Descrição" labelPlacement="floating" formControlName="descricao"
+              type="text" placeholder="Notebook 8 GB Ram, 500 GB HD, Marca..."></ion-input>
+            <small class="error-message" *ngIf="editarPatrimonioForm.get('descricao')?.errors && form.submitted">
+              Informe a descricao
+            </small>
+
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-input fill="outline" label="Localização" labelPlacement="floating" formControlName="localizacao"
+              type="text" placeholder="Sala 01"></ion-input>
+            <small class="error-message" *ngIf="editarPatrimonioForm.get('localizacao')?.errors && form.submitted">
+              Informe a localizacao
+            </small>
           </ion-col>
 
           <ion-col>
@@ -75,42 +75,34 @@
 
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Estado de Conservação</ion-label>
-              <ion-select interface="popover" formControlName="estado">
+            <ion-select fill="outline" label="Estado de Conservação" labelPlacement="floating" interface="popover"
+              formControlName="estado">
+              <ion-select-option>EXCELENTE</ion-select-option>
+              <ion-select-option>BOM</ion-select-option>
+              <ion-select-option>DANIFICADO</ion-select-option>
+            </ion-select>
 
-                <ion-select-option >EXCELENTE</ion-select-option>
-                <ion-select-option >BOM</ion-select-option>
-                <ion-select-option >DANIFICADO</ion-select-option>
-
-              </ion-select>
-
-              <small class="error-message" *ngIf="editarPatrimonioForm.get('estado')?.errors && form.submitted">
-                Informe o estado de conservação
-              </small>
-            </ion-item>
+            <small class="error-message" *ngIf="editarPatrimonioForm.get('estado')?.errors && form.submitted">
+              Informe o estado de conservação
+            </small>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Observações</ion-label>
-              <ion-input formControlName="observacao" type="text"  placeholder="Equipamento veio sem cabo"></ion-input>
-              <small class="error-message" *ngIf="editarPatrimonioForm.get('observacao')?.errors && form.submitted">
-                Informe a(as) observacao(oes)
-              </small>
-            </ion-item>
+            <ion-textarea fill="outline" label="Observações" labelPlacement="floating" formControlName="observacao"
+              type="text" placeholder="Equipamento veio sem cabo"></ion-textarea>
+            <small class="error-message" *ngIf="editarPatrimonioForm.get('observacao')?.errors && form.submitted">
+              Informe a(as) observacao(oes)
+            </small>
           </ion-col>
         </ion-row>
-
-
       </ion-grid>
     </ion-list>
 
     <div class="termo">
       <ion-checkbox checked={{checked}} (ionChange)="clicou($event)"></ion-checkbox>
-      Estou ciente que qualquer alteração realizada ficará visível no Banco de Dados
+      <p>Estou ciente que qualquer alteração realizada ficará visível no Banco de Dados</p>
     </div>
 
     <div class="botoes">
@@ -118,11 +110,4 @@
       <ion-button expand="block" (click)="cancelar()">DESCARTAR ALTERAÇÕES</ion-button>
     </div>
   </form>
-
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

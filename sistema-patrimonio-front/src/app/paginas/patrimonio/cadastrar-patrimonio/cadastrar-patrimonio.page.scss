@@ -15,17 +15,17 @@
 }
 
 .titulo{
+    font-size: 1.3rem;
     text-align: center;
-    padding: 2%;
+    padding: 4%;
     font-weight: 600;
-}
-
-ion-list{
-    margin: 6px;
 }
 
 .formulario{
     padding: 1%;
+    ion-input, ion-select, ion-textarea {
+        --border-color: #000;
+    }
 }
 
 // ***** VALIDAÇÕES DO FORM *********
@@ -42,14 +42,4 @@ small.error-message{
 .botoes ion-button{
     border-radius: 80;
     padding: 1%;
-}
-
-
-.rodape ion-title{
-    text-align: center;
-    font-size: 80%;
-}
-
-.rodape span{
-    font-weight: 800;
 }

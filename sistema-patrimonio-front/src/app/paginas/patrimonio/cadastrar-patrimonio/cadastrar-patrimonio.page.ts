@@ -60,7 +60,7 @@ export class CadastrarPatrimonioPage implements OnInit {
       descricao: ['', Validators.required],
       estado: ['', Validators.required],
       localizacao: ['', Validators.required],
-      dataEntrada: [''],
+      dataEntrada: ['', Validators.required],
       observacao: [''],
       departamento: ['', Validators.required]
     })

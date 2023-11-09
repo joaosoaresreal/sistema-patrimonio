@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">
+    <ion-item color="primary" lines="none">
       <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,7 +20,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Listagem de Usuários</ion-title>
+  <div class="titulo">
+    <p>Listagem de Usuários</p>
+  </div>
 
   <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
     <ion-accordion class="listagem" value={{usuario.id}} toggle-icon="disabled">
@@ -31,15 +33,15 @@
           <p>{{usuario.departamento.nome}}</p>
 
           <ion-fab vertical="center" horizontal="end">
-            <ion-fab-button >
+            <ion-fab-button size="small">
               <ion-icon name="settings-outline"></ion-icon>
             </ion-fab-button>
 
             <ion-fab-list side="start" >
-              <ion-fab-button (click)="editarSelecionado(usuario.id)">
+              <ion-fab-button (click)="editarSelecionado(usuario.id)" class="editar">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-fab-button>
-              <ion-fab-button (click)="excluirSelecionado(usuario.id)">
+              <ion-fab-button (click)="excluirSelecionado(usuario.id)" class="excluir">
                 <ion-icon name="trash-outline"></ion-icon>
               </ion-fab-button>
             </ion-fab-list>
@@ -61,9 +63,3 @@
     <ion-button expand="block" (click)="cadastrarUsuario()">CADASTRAR NOVO USUÁRIO</ion-button>
   </div>
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title>Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

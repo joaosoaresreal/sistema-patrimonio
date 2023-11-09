@@ -14,32 +14,23 @@
     margin: -2px;
 }
 
-
-.titulo {
+.titulo{
+    font-size: 1.3rem;
     text-align: center;
-    padding: 2%;
+    padding-top: 4%;
     font-weight: 600;
 }
 
-.titulo-secao-form {
-    text-align: center;
-    padding: 1%;
-}
+.formulario{
+    padding-left: 2%;
+    padding-right: 2%;
 
-.formulario {
-    padding: 1%;
+    ion-input, ion-select {
+        --border-color: #000;
+    }
 }
 
 .botoes ion-button {
     border-radius: 80;
     padding: 1%;
-}
-
-.rodape ion-title {
-    text-align: center;
-    font-size: 80%;
-}
-
-.rodape span {
-    font-weight: 800;
 }

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar" color="primary">
 
-    <ion-item color="primary">
+    <ion-item color="primary" lines="none">
       <ion-button slot="end" fill="clear">
         <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-button>
@@ -20,99 +20,83 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Cadastrar Patrimônio</ion-title>
+  <div class="titulo">
+    <p>Cadastrar Patrimônio</p>
+  </div>
 
   <form #form="ngForm" [formGroup]="patrimonioForm" (ngSubmit)="submit()">
     <ion-list class="formulario">
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Plaqueta</ion-label>
-              <ion-input formControlName="plaqueta" type="text" placeholder="AA000"></ion-input>
-              <small class="error-message" *ngIf="patrimonioForm.get('plaqueta')?.errors && form.submitted">
-                Informe a plaqueta
-              </small>
-            </ion-item>
+            <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" formControlName="plaqueta" type="text"
+              placeholder="AA000"></ion-input>
+            <small class="error-message" *ngIf="patrimonioForm.get('plaqueta')?.errors && form.submitted">
+              Informe a plaqueta
+            </small>
           </ion-col>
 
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Data Entrada</ion-label>
-              <ion-input formControlName="dataEntrada" type="date" placeholder="01/01/2000"></ion-input>
-              <small class="error-message" *ngIf="patrimonioForm.get('dataEntrada')?.errors && form.submitted">
-                Informe a data de entrada
-              </small>
-            </ion-item>
-          </ion-col>
-
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Descrição</ion-label>
-              <ion-input formControlName="descricao" type="text" placeholder="Notebook 8 GB Ram, 500 GB HD, Marca..."></ion-input>
-              <small class="error-message" *ngIf="patrimonioForm.get('descricao')?.errors && form.submitted">
-                Informe a descricao
-              </small>
-            </ion-item>
+            <ion-input fill="outline" label="Data Entrada" labelPlacement="floating" formControlName="dataEntrada"
+              type="date" placeholder="01/01/2000"></ion-input>
+            <small class="error-message" *ngIf="patrimonioForm.get('dataEntrada')?.errors && form.submitted">
+              Informe a data de entrada
+            </small>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Localização</ion-label>
-              <ion-input  formControlName="localizacao" type="text" placeholder="Sala 01"></ion-input>
-              <small class="error-message" *ngIf="patrimonioForm.get('localizacao')?.errors && form.submitted">
-                Informe a localizacao
-              </small>
-            </ion-item>
-          </ion-col>
-
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Departamento</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="departamento">
-
-                <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
-
-              </ion-select>
-
-            </ion-item>
-          </ion-col>
-
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating">Estado de Conservação</ion-label>
-              <ion-select cancelText="CANCELAR" okText="CONFIRMAR" interface="popover" formControlName="estado">
-
-                <ion-select-option >EXCELENTE</ion-select-option>
-                <ion-select-option >BOM</ion-select-option>
-                <ion-select-option >DANIFICADO</ion-select-option>
-
-              </ion-select>
-
-              <small class="error-message" *ngIf="patrimonioForm.get('estado')?.errors && form.submitted">
-                Informe o estado de conservação
-              </small>
-            </ion-item>
+            <ion-input fill="outline" label="Descrição" labelPlacement="floating" formControlName="descricao"
+              type="text" placeholder="Notebook 8 GB Ram, 500 GB HD, Marca..."></ion-input>
+            <small class="error-message" *ngIf="patrimonioForm.get('descricao')?.errors && form.submitted">
+              Informe a descricao
+            </small>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col>
-            <ion-item>
-              <ion-label position="floating">Observações</ion-label>
-              <ion-input formControlName="observacao" type="text"  placeholder="Equipamento veio sem cabo"></ion-input>
-              <small class="error-message" *ngIf="patrimonioForm.get('observacao')?.errors && form.submitted">
-                Informe a(as) observacao(oes)
-              </small>
-            </ion-item>
+            <ion-input fill="outline" label="Localização" labelPlacement="floating" formControlName="localizacao"
+              type="text" placeholder="Sala 01"></ion-input>
+            <small class="error-message" *ngIf="patrimonioForm.get('localizacao')?.errors && form.submitted">
+              Informe a localizacao
+            </small>
+          </ion-col>
+
+          <ion-col>
+            <ion-select fill="outline" label="Departamento" labelPlacement="floating" cancelText="CANCELAR"
+              okText="CONFIRMAR" interface="popover" formControlName="departamento">
+              <ion-select-option *ngFor="let departamento of departamentos"
+                value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+            </ion-select>
+            <small class="error-message" *ngIf="patrimonioForm.get('departamento')?.errors && form.submitted">
+              Informe o departamento
+            </small>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-select fill="outline" label="Estado de Conservação" labelPlacement="floating" interface="popover"
+              formControlName="estado">
+              <ion-select-option>EXCELENTE</ion-select-option>
+              <ion-select-option>BOM</ion-select-option>
+              <ion-select-option>DANIFICADO</ion-select-option>
+            </ion-select>
+            <small class="error-message" *ngIf="patrimonioForm.get('estado')?.errors && form.submitted">
+              Informe o estado de conservação
+            </small>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-textarea fill="outline" label="Observações" labelPlacement="floating" formControlName="observacao"
+              type="text" [autoGrow]="true"></ion-textarea>
+            <small class="error-message" *ngIf="patrimonioForm.get('observacao')?.errors && form.submitted">
+              Informe a(as) observacao(oes)
+            </small>
           </ion-col>
         </ion-row>
 
@@ -126,9 +110,3 @@
   </form>
 
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

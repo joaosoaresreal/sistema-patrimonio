@@ -15,8 +15,9 @@
 }
 
 .titulo{
+    font-size: 1.3rem;
     text-align: center;
-    padding: 2%;
+    padding-top: 4%;
     font-weight: 600;
 }
 
@@ -27,19 +28,20 @@
 
 .formulario{
     padding: 1%;
+
+    ion-item-divider{
+        --padding-top: 10px;
+        --padding-bottom: 10px;
+        --padding-start: 20px;
+        --padding-end: 10px;
+
+        p{
+            font-weight: 600;
+        }
+    }
 }
 
 .botoes ion-button{
     border-radius: 80;
     padding: 1%;
-}
-
-
-.rodape ion-title{
-    text-align: center;
-    font-size: 80%;
-}
-
-.rodape span{
-    font-weight: 800;
 }
