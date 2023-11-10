@@ -30,7 +30,7 @@
         <ion-row>
           <ion-col>
             <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" formControlName="plaqueta" type="text"
-              placeholder="AA000"></ion-input>
+              placeholder="AA000" (focusout)="verificaPlaqueta()"></ion-input>
             <small class="error-message" *ngIf="patrimonioForm.get('plaqueta')?.errors && form.submitted">
               Informe a plaqueta
             </small>
