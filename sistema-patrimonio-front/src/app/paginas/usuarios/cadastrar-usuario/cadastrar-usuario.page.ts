@@ -159,29 +159,29 @@ export class CadastrarUsuarioPage implements OnInit {
   /********************************************************\
                 MENSAGEM DE ALERTA AO SALVAR
   \********************************************************/
-  async alerta() {
-    const alert = await this.alertController.create({
-      header: 'Usuário cadastrado com sucesso',
-      message: 'Deseja cadastrar outro usuário?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            window.location.reload()
-          }
-        },
-        {
-          text: 'NÃO',
-          role: 'nao',
-          handler: () => {
-            this.nav.navigateForward('listagem-usuarios')
-          }
-        }
-      ]
-    });
-
-    await alert.present();
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'O cadastro do usuário foi incluido. Deseja cadastrar outro usuário?',
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonText: 'SIM',
+      cancelButtonText: 'NÃO',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then((result) => {
+      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
+        window.location.reload()
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
+      ) {
+        this.nav.navigateForward('listagem-usuarios')
+      }
+    })
   }
 
 }
