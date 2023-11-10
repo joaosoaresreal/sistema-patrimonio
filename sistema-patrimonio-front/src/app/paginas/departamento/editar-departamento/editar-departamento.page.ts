@@ -28,7 +28,17 @@ export class EditarDepartamentoPage implements OnInit {
       return // CANCELA A SUBMISSAO E RETORNA OS ERROS PARA O USUÁRIO
     }
 
-    this.departamentoService.update(this.editarDepartamentoForm.value).subscribe({
+    let departamentoEdit = {
+      'id': this.editarDepartamentoForm.value.id,
+      'nome': this.editarDepartamentoForm.value.nome,
+      'telefone': this.telFormatado || this.editarDepartamentoForm.value.telefone,
+      'email': this.editarDepartamentoForm.value.email,
+      'endereco': this.editarDepartamentoForm.value.endereco
+    }
+
+    console.log(departamentoEdit)
+
+    this.departamentoService.update(departamentoEdit).subscribe({
       next: (response) =>
         this.alerta(),
       error: (error) => console.log(error)
@@ -42,7 +52,7 @@ export class EditarDepartamentoPage implements OnInit {
     const telefone = this.editarDepartamentoForm.value.telefone
     const telefoneFormatado = this.telValidator.telService(telefone);
     this.editarDepartamentoForm.get('telefone')?.setValue(telefoneFormatado)
-    
+
     this.telFormatado = telefoneFormatado
   }
 
@@ -85,7 +95,7 @@ export class EditarDepartamentoPage implements OnInit {
         telefone: [response.telefone, Validators.required],
         email: [response.email, Validators.compose([Validators.required, Validators.email])],
         endereco: [response.endereco, Validators.required],
-        empresa: [response.empresa, Validators.required]
+        empresa: [response.empresa]
       })
     })
   }

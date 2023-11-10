@@ -22,7 +22,7 @@ export class DepartamentoService {
     }
 
     // EDITAR DEPARTAMENTO
-    update(departamento: DepartamentoDTO) {
+    update(departamento: any) {
         return this.http.put(`${API_CONFIG.baseUrl}/api_departamentos/${departamento.id}`, departamento, {
             observe: 'response', responseType: 'text'
         })
