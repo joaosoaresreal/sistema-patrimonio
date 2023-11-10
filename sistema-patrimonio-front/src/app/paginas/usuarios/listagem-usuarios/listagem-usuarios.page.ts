@@ -18,9 +18,9 @@ export class ListagemUsuariosPage implements OnInit {
                     LISTAGEM DOS USUARIOS 
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.usuarioService.findAll().subscribe(response => {
-      this.usuarios = response
-    }, error => {
+    this.usuarioService.findAll().subscribe({next: (response) =>
+      this.usuarios = response, 
+      error: (error) => 
       console.log(error)
     })
   }
