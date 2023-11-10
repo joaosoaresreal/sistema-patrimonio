@@ -150,3 +150,60 @@ ion-input {
         }
     }
 }
+
+@media (min-width: 1060px) {
+    ion-content {
+        --padding-top: 0;
+        --background: linear-gradient(to top, #B63766, #fff)
+    }
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .header_img {
+            margin-top: 5%;
+            max-width: 230px;
+            align-self: center;
+            padding: 2%;
+        }
+
+        .header_texto {
+            line-height: 1px;
+            font-size: 280%;
+            font-weight: 700;
+        }
+    }
+
+    .login-form {
+        padding-left: 40%;
+        padding-right: 40%;
+
+        .foto-usuario {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+
+        .foto-usuario img {
+            text-align: center;
+            border-radius: 50%;
+            border: 3px solid var(--ion-color-primary);
+            min-width: 60px;
+            max-width: 80px;
+        }
+
+        a {
+            color: black;
+        }
+    }
+
+    .licenciamento {
+        .licenciamento_img {
+            max-width: 150px;
+        }
+    }
+}

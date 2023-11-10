@@ -21,27 +21,27 @@
 .boas-vindas-header-bg{
     display: flex;
     height: 90px;
-    margin: 5px;
+    margin: 10px;
     text-align: center;
     justify-content: center;
     background: var(--ion-color-primary);
-    background: linear-gradient(90deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 40%);
-    box-shadow: 0px 1px 10px var(--ion-color-primary);
+    background: linear-gradient(210deg, rgba(255, 255, 255, 0.534) 05%, var(--ion-color-secondary) 80%);
+    box-shadow: 0px 1px 20px var(--ion-color-primary);
     margin-bottom: 10px;
-    border-radius: 90px 90px 90px 30px;
+    border-radius: 90px 80px 90px 30px;
     color: #FFF;
 
     .boas-vindas{
         display: grid;
         margin: 0;
-        padding-top: 20px;
+        padding-top: 15px;
         font-size: 1.2rem;
+        color: #000;
     }
 
     .data{
         text-transform: capitalize;
-        font-size: 1rem;
-        padding: 7px;
+        font-size: 0.8rem;
     }
 }
 
