@@ -25,7 +25,7 @@ export class EditarPatrimonioPage implements OnInit {
   public disabled = true
 
   constructor(private formBuilder: FormBuilder, private patrimonioService: PatrimonioService, private route: ActivatedRoute,
-    private departamentoService: DepartamentoService, private alertController: AlertController, public nav: NavController) { }
+    private alertController: AlertController, public nav: NavController) { }
 
   /********************************************************\
                   SALVAR EDIÇÃO
@@ -48,7 +48,7 @@ export class EditarPatrimonioPage implements OnInit {
       'dataEntrada': formattedDate, // TRAZ A DATA COMO O JSON PRECISA RECEBER
       'observacao': this.editarPatrimonioForm.value.observacao,
       'departamento':{
-        'id': this.editarPatrimonioForm.value.departamento,
+        'id': this.editarPatrimonioForm.value.departamento.id,
       }
     }
 

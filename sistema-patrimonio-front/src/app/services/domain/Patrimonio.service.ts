@@ -37,4 +37,8 @@ export class PatrimonioService{
     delete(id: number){
         return this.http.delete(`${API_CONFIG.baseUrl}/api_patrimonio/${id}`)
     }
+
+    findByPlaqueta(plaqueta: string):Observable<PatrimonioDTO>{
+        return this.http.get<PatrimonioDTO>(`${API_CONFIG.baseUrl}/api_patrimonio/plaqueta/${plaqueta}`)
+    }
 }
