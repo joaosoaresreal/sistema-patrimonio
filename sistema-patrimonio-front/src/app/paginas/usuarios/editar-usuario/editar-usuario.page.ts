@@ -47,7 +47,7 @@ export class EditarUsuarioPage implements OnInit {
       'id': this.editarUsuarioForm.value.id,
       'nome': this.editarUsuarioForm.value.nome,
       'cpf': this.editarUsuarioForm.value.cpf,
-      'telefone': this.telFormatado,
+      'telefone': this.telFormatado || this.editarUsuarioForm.value.telefone,
       'foto': this.editarUsuarioForm.value.foto,
       'email': this.editarUsuarioForm.value.email,
       'departamento': {
