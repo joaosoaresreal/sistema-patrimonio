@@ -28,10 +28,10 @@ export class CadastrarDepartamentoPage implements OnInit {
     }
 
     let departamento = {
-      nome: this.cadastrarDepartamentoForm.value.nome,
-      telefone: this.telFormatado,
-      email: this.cadastrarDepartamentoForm.value.email,
-      endereco: this.cadastrarDepartamentoForm.value.endereco
+      'nome': this.cadastrarDepartamentoForm.value.nome,
+      'telefone': this.telFormatado,
+      'email': this.cadastrarDepartamentoForm.value.email,
+      'endereco': this.cadastrarDepartamentoForm.value.endereco
     }
 
     this.departamentoService.insert(departamento).subscribe({
@@ -72,15 +72,21 @@ export class CadastrarDepartamentoPage implements OnInit {
       heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
       allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
       title: 'SUCESSO',
-      text: 'O departamento foi incluido com sucesso no sistema',
+      text: 'O cadastro do departamento foi incluido no sistema. Deseja cadastrar outro departamento?',
       icon: 'success',
-      confirmButtonText: 'OK',
+      showCancelButton: true,
+      confirmButtonText: 'SIM',
+      cancelButtonText: 'NÃO',
       // Customizção
       confirmButtonColor: 'var(--ion-color-success-tint)',
       cancelButtonColor: 'var(--ion-color-danger-tint)',
       backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then(() => {
-      {
+    }).then((result) => {
+      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
+        window.location.reload()
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
+      ) {
         this.nav.navigateForward('listagem-departamentos')
       }
     })
