@@ -9,5 +9,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
     //QueryMethods
     // BUSCAR POR CPF
-	Usuario findByCpf(String cpf);
+    Usuario findByCpf(String cpf);
+
+    Usuario findByEmail(String email);
 }

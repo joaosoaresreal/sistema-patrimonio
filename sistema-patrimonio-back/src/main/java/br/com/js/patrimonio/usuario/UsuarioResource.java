@@ -1,5 +1,6 @@
 package br.com.js.patrimonio.usuario;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import br.com.js.patrimonio.patrimonio.PatrimonioDTO;
 
 @RestController
 @RequestMapping(value = "/api_usuarios")
@@ -39,7 +38,7 @@ public class UsuarioResource {
     
     // INSERIR REGISTRO
     @PostMapping
-    public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioInsertDTO dto){
+    public ResponseEntity<UsuarioDTO> insert(@Valid @RequestBody UsuarioInsertDTO dto){
         UsuarioDTO usuarioDTO = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(null);
@@ -47,7 +46,7 @@ public class UsuarioResource {
     
     // ATUALIZAR REGISTRO
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable long id, @RequestBody UsuarioDTO dto){
+    public ResponseEntity<UsuarioDTO> update(@PathVariable long id, @Valid @RequestBody UsuarioDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
@@ -66,6 +65,4 @@ public class UsuarioResource {
         UsuarioDTO dto = service.findByCpf(cpf);
         return ResponseEntity.ok().body(dto);
     }
-    
-    
 }

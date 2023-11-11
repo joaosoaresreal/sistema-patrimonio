@@ -2,8 +2,6 @@ package br.com.js.patrimonio.usuario;
 
 import br.com.js.patrimonio.role.RoleDTO;
 import br.com.js.patrimonio.role.RoleRepository;
-import br.com.js.patrimonio.patrimonio.Patrimonio;
-import br.com.js.patrimonio.patrimonio.PatrimonioDTO;
 import br.com.js.patrimonio.role.Role;
 import br.com.js.patrimonio.services.exceptions.ResourcesNotFoundException;
 
@@ -15,7 +13,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
