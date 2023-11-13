@@ -32,7 +32,7 @@ INSERT INTO TB_usuario_role (usuario_id, role_id) VALUES (3, 2);
 
 /*INSERINDO DADOS NA TABELA PATRIMONIO*/
 INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA000', 'Impressora HP', 'BOM', 'Sala 01 - adm', '2023-06-22', 'Impressora esta na manutenção', 1);
-INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA111', 'Maquina de Tatilografar', 'BOM', 'Sala Gerencia - 2º Piso', '2000-06-22', '', 2);
+INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA111', 'Maquina de Datilografar', 'BOM', 'Sala Gerencia - 2º Piso', '2000-06-22', '', 2);
 INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA222', 'Computador Dell - Core i3 5ª Geração', 'EXCELENTE', 'Recepcao - Balcao', '2021-06-22', 'Mouse foi substituido por um HP', 4);
 INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA333', 'Computador Acer - Core i7 5ª Geração', 'EXCELENTE', 'Recepcao - Balcao', '2021-06-22', 'AAAAA', 4);
 INSERT INTO TB_patrimonio(plaqueta, descricao, estado, localizacao, data_entrada, observacao, id_departamento_fk) VALUES ('AA444', 'Computador Lenovo - Intel Celeron', 'BOM', 'Recepcao - Balcao', '2021-06-22', 'AAA', 4);
