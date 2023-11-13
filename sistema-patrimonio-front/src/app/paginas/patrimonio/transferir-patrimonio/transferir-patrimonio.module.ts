@@ -8,6 +8,7 @@ import { TransferirPatrimonioPageRoutingModule } from './transferir-patrimonio-r
 
 import { TransferirPatrimonioPage } from './transferir-patrimonio.page';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { DepartamentoService } from 'src/app/services/domain/Departamento.servic
     TransferirPatrimonioPageRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [DepartamentoService],
+  providers: [DepartamentoService, RelatorioService],
   declarations: [TransferirPatrimonioPage]
 })
 export class TransferirPatrimonioPageModule {}

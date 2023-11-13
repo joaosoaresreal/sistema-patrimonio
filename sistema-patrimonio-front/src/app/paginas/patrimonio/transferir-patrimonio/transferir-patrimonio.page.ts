@@ -5,11 +5,9 @@ import { AlertController, NavController } from '@ionic/angular';
 import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
-
-// PDF Make
-import * as pdfMake from 'pdfmake/build/pdfmake.js';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
-(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
+import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-transferir-patrimonio',
@@ -21,10 +19,15 @@ export class TransferirPatrimonioPage implements OnInit {
   transferenciaForm!: FormGroup
   departamentos!: DepartamentoDTO[]
 
+  public datepipe: DatePipe = new DatePipe('pt-BR') 
+  public data = ''
+  public depto = ''
+
   constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
     private alertController: AlertController, 
     private patrimonioService: PatrimonioService,
-    private departamentoService: DepartamentoService) { }
+    private departamentoService: DepartamentoService,
+    private relatorioService: RelatorioService) { }
 
   /********************************************************\
                     LISTAGEM DOS DEPARTAMENTOS
@@ -67,57 +70,67 @@ export class TransferirPatrimonioPage implements OnInit {
 /********************************************************\
                 TERMO DE TRANSFERENCIA 
 \********************************************************/
-  transferir() {
-    let docDefinition = {  
-      header: 'Emitido por: JS Software',  
-      content: [
-        {
-          text: 'Termo de Transferência',
-          style: 'header'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.\n\n',
-        {
-          text: 'Subheader 1 - using subheader style',
-          style: 'subheader'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.\n\n',
-        {
-          text: 'Subheader 2 - using subheader style',
-          style: 'subheader'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.\n\n',
-        {
-          text: 'Emitido por: JS Software',
-          style: ['quote', 'small']
-        }
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true
-        },
-        subheader: {
-          fontSize: 15,
-          bold: true
-        },
-        quote: {
-          italics: true
-        },
-        small: {
-          fontSize: 8
-        }
+  submit() {
+    // TRATANDO A DATA PARA SER RECEBIDA NO JSON
+    let formattedDate = this.datepipe.transform(this.data, 'YYYY-MM-dd')
+
+    let patrimonioEdit = {
+      'id': this.transferenciaForm.value.id,
+      'plaqueta': this.transferenciaForm.value.plaqueta,
+      'descricao': this.transferenciaForm.value.descricao,
+      'estado': this.transferenciaForm.value.estado,
+      'localizacao': this.transferenciaForm.value.localizacao,
+      'dataEntrada': formattedDate, // TRAZ A DATA COMO O JSON PRECISA RECEBER
+      'observacao': this.transferenciaForm.value.observacao,
+      'departamento':{
+        'id': this.transferenciaForm.value.departamento,
       }
-    };  
-   
-    pdfMake.createPdf(docDefinition).open();  
-  }  
-  
+    }
 
-  ngOnInit() { 
+    console.log(patrimonioEdit)
 
+    this.patrimonioService.update(patrimonioEdit).subscribe({
+      next: (response)=> this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
+      error: (error) => console.log(error)
+    })
+  }
+
+  /* Aqui a requisição do relatório será enviada ao back */
+  gerarRelatorio(){
+    let dia = this.datepipe.transform(new Date(), 'd')
+    let mes = this.datepipe.transform(new Date(), 'MMMM')
+    let ano = this.datepipe.transform(new Date(), 'y')
+    let dataAtual = dia + " de " + mes + " de " + ano // Formatando a data por extenso para fazer o relatório
+
+    let dadosRelatorio = {
+      'user': 'Usuário Teste',
+      'deptoUser': 'Administrativo',
+      'deptoRecebedor': this.depto,
+      'plaqueta': this.transferenciaForm.value.plaqueta,
+      'descricao': this.transferenciaForm.value.descricao,
+      'estado': this.transferenciaForm.value.estado,
+      'observacao': this.transferenciaForm.value.observacao,
+      'data': dataAtual
+    }
+
+    this.alerta() // abrir o alerta enquanto o PDF é processado
+    this.relatorioService.gerarRelatorioTransferencia(dadosRelatorio).subscribe(
+      response => {
+        if (response.body) {
+          const file = new Blob([response.body], { type: 'application/pdf' });
+          const fileURL = URL.createObjectURL(file);
+          window.open(fileURL, '_blank');
+        } else {
+          console.log('A resposta não possui um corpo');
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  ngOnInit() {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
 
     this.patrimonioService.findById(id).subscribe(response=>{
@@ -127,10 +140,35 @@ export class TransferirPatrimonioPage implements OnInit {
         descricao: [response.descricao],
         estado: [response.estado, Validators.required],
         localizacao: [response.localizacao, Validators.required],
-        //dataEntrada: [''],  como vai ficar a data apos transferencia?
+        dataEntrada: [response.dataEntrada],
         observacao: [response.observacao],
-        departamento: [response.departamento.nome, Validators.required]
+        departamento: [response.departamento.id, Validators.required]
       })
+
+      this.data = response.dataEntrada // PEGA A DATA SEM FORMATAÇÃO
+      this.depto = response.departamento.nome // PEGA O NOME DO DPTO PARA INSERIR NO TERMO
+    })
+  }
+
+  /********************************************************\
+                    MENSAGEM PADRÃO 
+  \********************************************************/
+  alerta() {
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: 'SUCESSO',
+      text: 'A transferência do patrimônio foi efetivada, o termo será aberto em outra janela',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-tint)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
+    }).then(() => {
+      {
+        this.nav.navigateForward('listagem-patrimonios')
+      }
     })
   }
 
