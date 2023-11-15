@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'editar-patrimonio/:id',
     loadChildren: () => import('./paginas/patrimonio/editar-patrimonio/editar-patrimonio.module').then( m => m.EditarPatrimonioPageModule)
   },
+  {
+    path: 'log-alteracao',
+    loadChildren: () => import('./paginas/patrimonio/log-alteracao/log-alteracao.module').then( m => m.LogAlteracaoPageModule)
+  },
 
   /********************************************************\
                             USUARIO 
