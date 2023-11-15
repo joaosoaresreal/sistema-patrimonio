@@ -11,6 +11,7 @@ import br.com.js.patrimonio.patrimonio.Patrimonio;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +36,7 @@ public class TransferePatrimonio extends AuditListener<String>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private Long id;
     private String plaqueta;
     @Enumerated(EnumType.STRING)
     private EstadoConservacao estadoAnterior;
@@ -46,5 +47,9 @@ public class TransferePatrimonio extends AuditListener<String>{
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
     @JoinColumn(name = "id_departamento_fk")
     private Departamento deptoAnterior;
+
+    @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
+    @JoinColumn(name = "id_patrimonio_fk")
+    private Patrimonio patrimonio;
 
 }

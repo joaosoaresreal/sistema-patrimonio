@@ -70,8 +70,8 @@ public class RelatorioServiceImpl implements RelatorioService {
             				+ "possíveis diferenças que possam vir a surgir no tocante à quantidade sob "
             				+ "sua guarda.\n").setTextAlignment(TextAlignment.JUSTIFIED));
             document.add(patrimonio);
-            document.add(new Paragraph("\nPara os devidos fins lavramos em conjunto em conjunto o presente "
-            		+ "Termo em 3 (três) vias que vão assinadas pelo responsável atual, pelo futuro "
+            document.add(new Paragraph("\nPara os devidos fins lavramos em conjunto o presente "
+            		+ "Termo em 3 (três) vias que serão assinadas pelo responsável atual, pelo futuro "
             		+ "responsável e pelo Setor de Patrimônio.\n").setTextAlignment(TextAlignment.JUSTIFIED));
             document.add(new Paragraph("Naviraí/MS, " + dados.getData() + 
             		"\n\n").setTextAlignment(TextAlignment.RIGHT));

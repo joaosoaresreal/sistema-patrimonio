@@ -3,6 +3,8 @@ package br.com.js.patrimonio.patrimonio;
 import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.enums.EstadoConservacao;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PatrimonioDTO implements Serializable {
     private static final Long serialVersionUID = 1L;
-    
+
     private Long id;
     private String plaqueta;
     private String descricao;
