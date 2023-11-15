@@ -89,7 +89,7 @@ export class TransferirPatrimonioPage implements OnInit {
 
     console.log(patrimonioEdit)
 
-    this.patrimonioService.update(patrimonioEdit).subscribe({
+    this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
       next: (response)=> this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
       error: (error) => console.log(error)
     })
