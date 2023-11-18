@@ -1,43 +1,68 @@
-.toolbar ion-button{
+.toolbar ion-button {
     width: 50px;
     align-self: center;
     margin: auto;
     display: flex;
 }
 
-.toolbar ion-col{
+.toolbar ion-col {
     display: inline-block;
     text-align: right;
 }
 
-.toolbar h3, p{
+.toolbar h3,
+p {
     margin: -2px;
 }
 
-.titulo{
+.titulo {
     font-size: 1.3rem;
     text-align: center;
     padding: 4%;
     font-weight: 600;
 }
 
-.pesquisa{
+.pesquisa {
     padding: 10%;
 
-    ion-input, ion-select {
+    ion-input,
+    ion-select {
         --border-color: #000 !important;
     }
 }
 
-.patrimonio{
+.patrimonio {
     border: 2px solid var(--ion-color-primary);
     padding: 1px;
+    margin-bottom: 5px;
 
-    p{
+    p {
         padding: 5px;
     }
 
-    ion-button{
+    ion-button {
         padding: 6px;
     }
+
+    span{
+        font-weight: 700;
+    }
+}
+
+ion-modal {
+    --height: 90%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+ion-modal::part(backdrop) {
+    background: rgba(209, 213, 219);
+    opacity: 1;
+}
+
+ion-modal ion-toolbar {
+    --background: var(--ion-color-secondary);
+    --color: white;
 }
