@@ -76,11 +76,11 @@ public class PatrimonioService {
     }
 
     // TRANSFERENCIA (SÓ ATUALIZA O DPTO)
-    @Transactional(readOnly = true)
+    @Transactional
     public PatrimonioDTO transferencia(Long id, Long departamentoId) {
         try {
             Patrimonio entity = repository.getReferenceById(id);
-            Departamento departamento = departamentoRepository.getReferenceById(departamentoId);
+            var departamento = departamentoRepository.findById(departamentoId);
 
             TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
 
@@ -95,7 +95,7 @@ public class PatrimonioService {
 
             transferePatrimonioRepository.save(transferePatrimonio);
 
-            entity.setDepartamento(departamento);
+            entity.setDepartamento(departamento.get());
             entity = repository.save(entity);
 
             return new PatrimonioDTO(entity);

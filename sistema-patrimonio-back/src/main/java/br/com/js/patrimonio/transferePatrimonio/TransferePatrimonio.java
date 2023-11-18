@@ -1,17 +1,11 @@
 package br.com.js.patrimonio.transferePatrimonio;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import org.hibernate.annotations.Any;
-
 import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.enums.EstadoConservacao;
 import br.com.js.patrimonio.patrimonio.Patrimonio;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
