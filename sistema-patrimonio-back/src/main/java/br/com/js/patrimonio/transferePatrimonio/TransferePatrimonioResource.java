@@ -27,10 +27,17 @@ public class TransferePatrimonioResource {
         return ResponseEntity.ok().body(list);
     }
 
+    // BUSCAR POR 'ID'
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<TransferePatrimonioDTO>findById(@PathVariable Long id) {
+        TransferePatrimonioDTO dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     // LISTAR POR PATRIMONIO
-    @GetMapping(value = "/patrimonio/{patrimonio}")
-    public ResponseEntity<List<TransferePatrimonioDTO>> findByPatrimonio(@PathVariable Patrimonio patrimonio){
-        List<TransferePatrimonioDTO> lista = service.findByPatrimonio(patrimonio);
+    @GetMapping(value = "/plaqueta/{plaqueta}")
+    public ResponseEntity<List<TransferePatrimonioDTO>> findByPlaqueta(@PathVariable String plaqueta){
+        List<TransferePatrimonioDTO> lista = service.findByPlaqueta(plaqueta);
         return ResponseEntity.ok().body(lista);
     }
 }

@@ -10,5 +10,5 @@ import br.com.js.patrimonio.patrimonio.Patrimonio;
 public interface TransferePatrimonioRepository extends JpaRepository<TransferePatrimonio, Long> {
 
 	// Buscar por patrimonio
-	List<TransferePatrimonio> findByPatrimonio(Patrimonio patrimonio);
+	List<TransferePatrimonio> findByPlaqueta(String plaqueta);
 }

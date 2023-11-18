@@ -85,9 +85,9 @@ public class PatrimonioService {
             TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
 
             transferePatrimonio.setPatrimonio(entity);
-            transferePatrimonio.setDeptoAnterior(entity.getDepartamento());
-            transferePatrimonio.setEstadoAnterior(entity.getEstado());
-            transferePatrimonio.setDescricaoAnterior(entity.getDescricao());
+            transferePatrimonio.setEstado(entity.getEstado());
+            transferePatrimonio.setDeptoAnterior(entity.getDepartamento().nome);
+            transferePatrimonio.setDeptoTransferencia(departamento.get());
             transferePatrimonio.setLocalAnterior(entity.getLocalizacao());
             transferePatrimonio.setObsAnterior(entity.getObservacao());
             transferePatrimonio.setPlaqueta(entity.getPlaqueta());
