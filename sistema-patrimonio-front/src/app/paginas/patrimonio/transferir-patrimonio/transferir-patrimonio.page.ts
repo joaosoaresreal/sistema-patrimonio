@@ -19,12 +19,12 @@ export class TransferirPatrimonioPage implements OnInit {
   transferenciaForm!: FormGroup
   departamentos!: DepartamentoDTO[]
 
-  public datepipe: DatePipe = new DatePipe('pt-BR') 
+  public datepipe: DatePipe = new DatePipe('pt-BR')
   public data = ''
   public depto = ''
 
   constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
-    private alertController: AlertController, 
+    private alertController: AlertController,
     private patrimonioService: PatrimonioService,
     private departamentoService: DepartamentoService,
     private relatorioService: RelatorioService) { }
@@ -33,10 +33,11 @@ export class TransferirPatrimonioPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findAll().subscribe({next: (response)=>
-      this.departamentos = response, 
+    this.departamentoService.findAll().subscribe({
+      next: (response) =>
+        this.departamentos = response,
       error: (error) => console.log(error)
-  })
+    })
   }
 
   /********************************************************\
@@ -67,9 +68,9 @@ export class TransferirPatrimonioPage implements OnInit {
 
   }
 
-/********************************************************\
-                TERMO DE TRANSFERENCIA 
-\********************************************************/
+  /********************************************************\
+                  TERMO DE TRANSFERENCIA 
+  \********************************************************/
   submit() {
     // TRATANDO A DATA PARA SER RECEBIDA NO JSON
     let formattedDate = this.datepipe.transform(this.data, 'YYYY-MM-dd')
@@ -82,21 +83,27 @@ export class TransferirPatrimonioPage implements OnInit {
       'localizacao': this.transferenciaForm.value.localizacao,
       'dataEntrada': formattedDate, // TRAZ A DATA COMO O JSON PRECISA RECEBER
       'observacao': this.transferenciaForm.value.observacao,
-      'departamento':{
+      'departamento': {
         'id': this.transferenciaForm.value.departamento,
       }
     }
 
+    // PEGA O NOME DO DPTO NOVO PARA INSERIR NO TERMO
+    this.departamentoService.findById(this.transferenciaForm.value.departamento).subscribe({
+      next: (response) =>
+        this.depto = response.nome
+    })
+
     console.log(patrimonioEdit)
 
-    this.patrimonioService.update(patrimonioEdit).subscribe({
-      next: (response)=> this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
+    this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
+      next: (response) => this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
       error: (error) => console.log(error)
     })
   }
 
   /* Aqui a requisição do relatório será enviada ao back */
-  gerarRelatorio(){
+  gerarRelatorio() {
     let dia = this.datepipe.transform(new Date(), 'd')
     let mes = this.datepipe.transform(new Date(), 'MMMM')
     let ano = this.datepipe.transform(new Date(), 'y')
@@ -133,7 +140,7 @@ export class TransferirPatrimonioPage implements OnInit {
   ngOnInit() {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.patrimonioService.findById(id).subscribe(response=>{
+    this.patrimonioService.findById(id).subscribe(response => {
       this.transferenciaForm = this.formBuilder.group({
         id: [response.id],
         plaqueta: [response.plaqueta],
@@ -146,7 +153,7 @@ export class TransferirPatrimonioPage implements OnInit {
       })
 
       this.data = response.dataEntrada // PEGA A DATA SEM FORMATAÇÃO
-      this.depto = response.departamento.nome // PEGA O NOME DO DPTO PARA INSERIR NO TERMO
+      //this.depto = response.departamento.nome // PEGA O NOME DO DPTO PARA INSERIR NO TERMO
     })
   }
 

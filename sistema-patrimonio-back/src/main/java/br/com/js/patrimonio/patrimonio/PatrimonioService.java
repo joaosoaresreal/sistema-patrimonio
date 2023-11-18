@@ -1,6 +1,7 @@
 package br.com.js.patrimonio.patrimonio;
 
 import br.com.js.patrimonio.departamento.Departamento;
+import br.com.js.patrimonio.departamento.DepartamentoRepository;
 import br.com.js.patrimonio.services.exceptions.ResourcesNotFoundException;
 import br.com.js.patrimonio.transferePatrimonio.TransferePatrimonio;
 import br.com.js.patrimonio.transferePatrimonio.TransferePatrimonioRepository;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,10 @@ public class PatrimonioService {
 
     @Autowired
     private PatrimonioRepository repository;
-    
+
+    @Autowired
+    private DepartamentoRepository departamentoRepository;
+
     @Autowired
     private TransferePatrimonioRepository transferePatrimonioRepository;
 
@@ -51,7 +54,6 @@ public class PatrimonioService {
         entity = repository.save(entity);
 
         return new PatrimonioDTO(entity);
-
     }
 
     // ATUALIZAR
@@ -60,17 +62,41 @@ public class PatrimonioService {
         try {
             Patrimonio entity = repository.getReferenceById(id);
 
-            // Cria um objeto com os dados antigos
-            PatrimonioDTO dadosAntigos = new PatrimonioDTO(entity);
-
             // Copia os novos dados para a entidade
             copiarDTOparaEntidade(dto, entity);
 
             // Salva a entidade atualizada
             entity = repository.save(entity);
 
-            // Realiza a auditoria
-            auditoria(id, dadosAntigos, entity);
+            return new PatrimonioDTO(entity);
+
+        } catch (EntityNotFoundException e) {
+            throw new ResourcesNotFoundException("O ID não foi encontrado");
+        }
+    }
+
+    // TRANSFERENCIA (SÓ ATUALIZA O DPTO)
+    @Transactional
+    public PatrimonioDTO transferencia(Long id, Long departamentoId) {
+        try {
+            Patrimonio entity = repository.getReferenceById(id);
+            var departamento = departamentoRepository.findById(departamentoId);
+
+            TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
+
+            transferePatrimonio.setPatrimonio(entity);
+            transferePatrimonio.setDeptoAnterior(entity.getDepartamento());
+            transferePatrimonio.setEstadoAnterior(entity.getEstado());
+            transferePatrimonio.setDescricaoAnterior(entity.getDescricao());
+            transferePatrimonio.setLocalAnterior(entity.getLocalizacao());
+            transferePatrimonio.setObsAnterior(entity.getObservacao());
+            transferePatrimonio.setPlaqueta(entity.getPlaqueta());
+            transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
+
+            transferePatrimonioRepository.save(transferePatrimonio);
+
+            entity.setDepartamento(departamento.get());
+            entity = repository.save(entity);
 
             return new PatrimonioDTO(entity);
 
@@ -114,21 +140,20 @@ public class PatrimonioService {
     }
 
     // *********AUDITORIA DE MODIFICAÇÃO DO PATRIMONIO*********
-    public void auditoria(Long id, PatrimonioDTO dadosAntigos, Patrimonio novoPatrimonio) {
-
-    	if (dadosAntigos != null) {
-    		TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
-
-    		transferePatrimonio.setDeptoAnterior(dadosAntigos.getDepartamento());
-    		transferePatrimonio.setEstadoAnterior(dadosAntigos.getEstado());
-    		transferePatrimonio.setDescricaoAnterior(dadosAntigos.getDescricao());
-    		transferePatrimonio.setLocalAnterior(dadosAntigos.getLocalizacao());
-    		transferePatrimonio.setObsAnterior(dadosAntigos.getObservacao());
-    		transferePatrimonio.setPlaqueta(dadosAntigos.getPlaqueta());
-    		transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
-
-    		transferePatrimonioRepository.save(transferePatrimonio);
-    	}
-    }
-
+//    public void auditoria(Long id, PatrimonioDTO dadosAntigos, Patrimonio novoPatrimonio) {
+//
+//    	if (dadosAntigos != null) {
+//    		TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
+//
+//    		transferePatrimonio.setDeptoAnterior(dadosAntigos.getDepartamento());
+//    		transferePatrimonio.setEstadoAnterior(dadosAntigos.getEstado());
+//    		transferePatrimonio.setDescricaoAnterior(dadosAntigos.getDescricao());
+//    		transferePatrimonio.setLocalAnterior(dadosAntigos.getLocalizacao());
+//    		transferePatrimonio.setObsAnterior(dadosAntigos.getObservacao());
+//    		transferePatrimonio.setPlaqueta(dadosAntigos.getPlaqueta());
+//    		transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
+//
+//    		transferePatrimonioRepository.save(transferePatrimonio);
+//    	}
+//    }
 }

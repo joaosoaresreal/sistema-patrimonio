@@ -1,0 +1,114 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar" color="primary">
+
+    <ion-item color="primary" lines="none">
+      <ion-button slot="end" fill="clear">
+        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-button>
+
+      <ion-col>
+        <p><span>Nome Usuário</span></p>
+        <p>empresa</p>
+      </ion-col>
+    </ion-item>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="titulo">
+    <p>Consulta de Transferencia Patrimonial</p>
+  </div>
+
+  <div class="pesquisa">
+    <ion-row>
+      <ion-col>
+        <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" [(ngModel)]="plaquetaSelecionada"
+          type="text"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <div>
+      <ion-button expand="block" type="submit" id="open-modal">CONSULTAR TRANSFERENCIA</ion-button>
+    </div>
+  </div>
+
+  <!-- <div>
+    <p>Desenvolvido por: </p>
+    <img src="../../../../assets/logo-js-softwares.png" alt="">
+  </div> -->
+
+
+
+
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Plaqueta: </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">SAIR</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="patrimonio">
+          <div>
+            <ion-row>
+              <ion-col>
+                <p>Data/Hora de transferencia: </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p>De Dpto.: </p>
+              </ion-col>
+              <ion-col>
+                <p>Para Depto: </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p>Localização anterior: </p>
+                <p>Localização transf.: </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p>Estado de conservação: </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p>Obs.: </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p>Usuário alteração: </p>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div>
+            <ion-button expand="block" (click)="emitir()">REEMITIR TERMO</ion-button>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-button expand="block">LISTAGEM PATRIMONIAL</ion-button>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>

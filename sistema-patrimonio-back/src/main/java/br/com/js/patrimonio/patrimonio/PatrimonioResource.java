@@ -52,13 +52,19 @@ public class PatrimonioResource {
         return ResponseEntity.ok().body(dto);
     }
 
+    @PutMapping(value = "/transferencia/{id}/{departamentoId}")
+    public ResponseEntity<PatrimonioDTO> transferencia(@PathVariable long id, @PathVariable long departamentoId){
+        var dto = service.transferencia(id, departamentoId);
+        return ResponseEntity.ok().body(dto);
+    }
+
     // EXCLUIR REGISTRO
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     // ======================== Query Methods ==================================
     // BUSCAR POR Nº PLAQUETA
     @GetMapping(value = "/plaqueta/{plaqueta}")
@@ -66,7 +72,7 @@ public class PatrimonioResource {
         PatrimonioDTO dto = service.findByPlaqueta(plaqueta);
         return ResponseEntity.ok().body(dto);
     }
-    
+
     // LISTAR POR DEPTO
     @GetMapping(value = "/departamento/{departamento}")
     public ResponseEntity<List<PatrimonioDTO>> findByDepartamento(@PathVariable Departamento departamento){

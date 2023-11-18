@@ -28,6 +28,12 @@ export class PatrimonioService{
         })
     }
 
+    transferencia(patrimonio: any, departamento: any){
+        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/transferencia/${patrimonio.id}/${departamento.id}`, {
+            observe: 'response', responseType: 'text'
+        })
+    }
+
     // BUSCAR POR ID
     findById(id: number):Observable<PatrimonioDTO>{
         return this.http.get<PatrimonioDTO>(`${API_CONFIG.baseUrl}/api_patrimonio/${id}`)

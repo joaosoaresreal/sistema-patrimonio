@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PatrimonioDTO implements Serializable {
     private static final Long serialVersionUID = 1L;
-    
+
     private Long id;
     private String plaqueta;
     private String descricao;

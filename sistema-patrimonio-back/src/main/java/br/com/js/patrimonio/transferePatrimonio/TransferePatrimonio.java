@@ -1,10 +1,5 @@
 package br.com.js.patrimonio.transferePatrimonio;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import org.hibernate.annotations.Any;
-
 import br.com.js.patrimonio.departamento.Departamento;
 import br.com.js.patrimonio.enums.EstadoConservacao;
 import br.com.js.patrimonio.patrimonio.Patrimonio;
@@ -35,7 +30,7 @@ public class TransferePatrimonio extends AuditListener<String>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private Long id;
     private String plaqueta;
     @Enumerated(EnumType.STRING)
     private EstadoConservacao estadoAnterior;
@@ -46,5 +41,9 @@ public class TransferePatrimonio extends AuditListener<String>{
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
     @JoinColumn(name = "id_departamento_fk")
     private Departamento deptoAnterior;
+
+    @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
+    @JoinColumn(name = "id_patrimonio_fk")
+    private Patrimonio patrimonio;
 
 }
