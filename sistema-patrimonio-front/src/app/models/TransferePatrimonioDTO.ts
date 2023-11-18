@@ -1,11 +1,11 @@
 export interface TransferePatrimonioDTO{
     id: number,
-    estadoAnterior: string,
-    descricaoAnterior: string,
+    plaqueta: string,
+    estado: string,
     localAnterior: string,
     obsAnterior: string,
-    plaqueta: string,
-    deptoAnterior: {
+    deptoAnterior: string,
+    deptoTransferencia: {
         id: number,
         nome: string
     },
