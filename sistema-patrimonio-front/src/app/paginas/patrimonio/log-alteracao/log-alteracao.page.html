@@ -24,18 +24,18 @@
     <p>Consulta de Transferencia Patrimonial</p>
   </div>
 
-  <div class="pesquisa">
+  <form class="pesquisa" #form="ngForm" [formGroup]="logForm" (ngSubmit)="submit()">
     <ion-row>
       <ion-col>
-        <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" [(ngModel)]="plaquetaSelecionada"
-          type="text"></ion-input>
+        <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" (focusout)="plaquetaSelecionada()"
+          type="text" formControlName="plaqueta"></ion-input>
       </ion-col>
     </ion-row>
 
     <div>
-      <ion-button expand="block" type="submit" id="open-modal">CONSULTAR TRANSFERENCIA</ion-button>
+      <ion-button expand="block" type="submit">CONSULTAR TRANSFERENCIA</ion-button>
     </div>
-  </div>
+  </form>
 
   <!-- <div>
     <p>Desenvolvido por: </p>
@@ -45,12 +45,12 @@
 
 
 
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ion-modal [isOpen]="isModalOpen">
     <ng-template>
 
       <ion-header>
         <ion-toolbar>
-          <ion-title>Plaqueta: </ion-title>
+          <ion-title>Plaqueta: {{plaqueta}}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="confirm()" [strong]="true">SAIR</ion-button>
           </ion-buttons>
@@ -58,55 +58,48 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <div class="patrimonio">
+        <div class="patrimonio" *ngFor="let patrimonio of patrimonios" value="patrimonio.id">
           <div>
             <ion-row>
               <ion-col>
-                <p>Data/Hora de transferencia: </p>
+                <p><span>Data/Hora de transferencia: </span>{{dataHora}}</p>
               </ion-col>
             </ion-row>
 
             <ion-row>
               <ion-col>
-                <p>De Dpto.: </p>
+                <p><span>De Dpto.: </span>{{patrimonio.deptoAnterior}}</p>
               </ion-col>
               <ion-col>
-                <p>Para Depto: </p>
-              </ion-col>
-            </ion-row>
-
-            <ion-row>
-              <ion-col>
-                <p>Localização anterior: </p>
-                <p>Localização transf.: </p>
+                <p><span>Para Depto.: </span>{{patrimonio.deptoTransferencia.nome}}</p>
               </ion-col>
             </ion-row>
 
             <ion-row>
               <ion-col>
-                <p>Estado de conservação: </p>
+                <p><span>Localização anterior: </span>{{patrimonio.localAnterior}}</p>
               </ion-col>
             </ion-row>
 
             <ion-row>
               <ion-col>
-                <p>Obs.: </p>
+                <p><span>Obs.: </span>{{patrimonio.obsAnterior}}</p>
               </ion-col>
             </ion-row>
 
             <ion-row>
               <ion-col>
-                <p>Usuário alteração: </p>
+                <p><span>Usuário alteração: </span></p>
               </ion-col>
             </ion-row>
           </div>
           <div>
-            <ion-button expand="block" (click)="emitir()">REEMITIR TERMO</ion-button>
+            <ion-button expand="block" (click)="emitir(patrimonio.id)">REEMITIR TERMO</ion-button>
           </div>
         </div>
       </ion-content>
 
-      <ion-button expand="block">LISTAGEM PATRIMONIAL</ion-button>
+      <ion-button expand="block" (click)="listagem()">LISTAGEM PATRIMONIAL</ion-button>
     </ng-template>
   </ion-modal>
 
