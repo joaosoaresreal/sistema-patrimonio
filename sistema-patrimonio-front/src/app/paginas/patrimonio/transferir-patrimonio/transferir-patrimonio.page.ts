@@ -23,6 +23,12 @@ export class TransferirPatrimonioPage implements OnInit {
   public data = ''
   public depto = ''
 
+  deptoAnterior = ''
+  plaqueta = ''
+  estado = ''
+  descricao = ''
+  observacao = ''
+
   constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
     private alertController: AlertController,
     private patrimonioService: PatrimonioService,
@@ -71,7 +77,7 @@ export class TransferirPatrimonioPage implements OnInit {
   /********************************************************\
                   TERMO DE TRANSFERENCIA 
   \********************************************************/
-  submit() {
+  async submit() {
     // TRATANDO A DATA PARA SER RECEBIDA NO JSON
     let formattedDate = this.datepipe.transform(this.data, 'YYYY-MM-dd')
 
@@ -94,12 +100,24 @@ export class TransferirPatrimonioPage implements OnInit {
         this.depto = response.nome
     })
 
-    console.log(patrimonioEdit)
-
-    this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
-      next: (response) => this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
-      error: (error) => console.log(error)
-    })
+    if (this.depto === this.deptoAnterior) { // VERIFICA SE O DPTO NÃO É O MESMO QUE O PATRIMONIO JÁ ESTÁ
+      Swal.fire({
+        heightAuto: false,
+        text: "Para efetivar a transferência o departamento deve ser diferente do atual",
+        confirmButtonColor: 'var(--ion-color-primary)',
+        backdrop: `linear-gradient(#000000c2 100%, transparent 555%)`});
+    } else if (this.transferenciaForm.value.departamento === '') { // VERIFICA SE O DPTO FOI PREENCHIDO
+      Swal.fire({
+        heightAuto: false,
+        text: "Para efetivar a transferência o departamento recebedor deve ser informado",
+        confirmButtonColor: 'var(--ion-color-primary)',
+        backdrop: `linear-gradient(#000000c2 100%, transparent 555%)`});
+    } else if (this.transferenciaForm.value.departamento != '' && this.depto == this.deptoAnterior) { // SE O DPTO FOR PREENCHIDO E FOR DIFERENTE DO ANTERIOR, PROSSIGA
+      this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
+        next: (response) => this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
+        error: (error) => console.log(error)
+      });
+    }
   }
 
   /* Aqui a requisição do relatório será enviada ao back */
@@ -145,20 +163,24 @@ export class TransferirPatrimonioPage implements OnInit {
         id: [response.id],
         plaqueta: [response.plaqueta],
         descricao: [response.descricao],
-        estado: [response.estado, Validators.required],
-        localizacao: [response.localizacao, Validators.required],
+        estado: [response.estado],
+        localizacao: [response.localizacao],
         dataEntrada: [response.dataEntrada],
         observacao: [response.observacao],
-        departamento: [response.departamento.id, Validators.required]
+        departamento: ['', Validators.required]
       })
 
       this.data = response.dataEntrada // PEGA A DATA SEM FORMATAÇÃO
-      //this.depto = response.departamento.nome // PEGA O NOME DO DPTO PARA INSERIR NO TERMO
+      this.deptoAnterior = response.departamento.nome // PEGA O NOME DO DPTO PARA FAZER VALIDAÇÃO
+      this.plaqueta = response.plaqueta
+      this.estado = response.estado
+      this.descricao = response.descricao
+      this.observacao = response.observacao
     })
   }
 
   /********************************************************\
-                    MENSAGEM PADRÃO 
+            MENSAGEM DE TRANSF E GERAÇÃO DO TERMO 
   \********************************************************/
   alerta() {
     Swal.fire({
@@ -170,7 +192,6 @@ export class TransferirPatrimonioPage implements OnInit {
       confirmButtonText: 'OK',
       // Customizção
       confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
       backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
     }).then(() => {
       {

@@ -28,60 +28,55 @@
     <ion-list class="formulario">
       <ion-grid>
         <ion-item-group>
-          <ion-item-divider>
+          <div class="sessao">
             <p>Dados do Patrimônio a ser Transferido </p>
-          </ion-item-divider>
+          </div>
 
           <ion-row>
             <ion-col>
-              <ion-item disabled="true">
-                <ion-label position="stacked">Plaqueta</ion-label>
-                <ion-input formControlName="plaqueta" type="text"></ion-input>
-              </ion-item>
+              <div class="patrimonio">
+                <p><span>Plaqueta</span></p>
+                <p>{{plaqueta}}</p>
+              </div>
             </ion-col>
 
             <ion-col>
-                <ion-select fill="outline" label="Estado de Conservação" labelPlacement="floating" interface="popover" formControlName="estado">
-                  <ion-select-option >EXCELENTE</ion-select-option>
-                  <ion-select-option >BOM</ion-select-option>
-                  <ion-select-option >DANIFICADO</ion-select-option>
-                </ion-select>
+              <div class="patrimonio">
+                <p><span>Estado de Conservação</span></p>
+                <p>{{estado}}</p>
+              </div>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col>
-              <ion-item disabled="true">
-                <ion-label position="stacked">Descrição</ion-label>
-                <ion-input formControlName="descricao" type="text"></ion-input>
-              </ion-item>
+              <div class="patrimonio">
+                <p><span>Descrição</span></p>
+                <p>{{descricao}}</p>
+              </div>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col>
-                <ion-textarea fill="outline" label="Observações" labelPlacement="floating" formControlName="observacao" type="text"></ion-textarea>
+              <div class="patrimonio">
+                <p><span>Observações</span></p>
+                <p>{{observacao}}</p>
+              </div>
             </ion-col>
           </ion-row>
-
         </ion-item-group>
 
         <ion-item-group>
-          <ion-item-divider>
-            <p> Selecione o Departamento recebedor </p>
-          </ion-item-divider>
+          <div class="sessao">
+            <p>Selecione o Departamento recebedor</p>
+          </div>
 
           <ion-row>
             <ion-col>
                 <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
                   <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
                 </ion-select>
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col>
-                <ion-input fill="outline" label="Localização" labelPlacement="floating" placeholder="Sala 01" formControlName="localizacao" type="text"></ion-input>
             </ion-col>
           </ion-row>
         </ion-item-group>
