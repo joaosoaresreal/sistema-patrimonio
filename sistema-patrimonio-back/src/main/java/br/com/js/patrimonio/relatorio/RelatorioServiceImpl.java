@@ -32,7 +32,7 @@ public class RelatorioServiceImpl implements RelatorioService {
             // Fonte em negrito
             PdfFont fontNegrito = PdfFontFactory.createFont("Helvetica-Bold");
             // Logo
-            Image logo = new Image(ImageDataFactory.create("docs/logo-js-softwares.png"));
+            Image logo = new Image(ImageDataFactory.create("docs/logo-ss-tech.png"));
             logo.setWidth(50);
             logo.setHeight(50);
 
