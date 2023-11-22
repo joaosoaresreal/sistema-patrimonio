@@ -112,7 +112,7 @@ export class TransferirPatrimonioPage implements OnInit {
         text: "Para efetivar a transferência o departamento recebedor deve ser informado",
         confirmButtonColor: 'var(--ion-color-primary)',
         backdrop: `linear-gradient(#000000c2 100%, transparent 555%)`});
-    } else if (this.transferenciaForm.value.departamento != '' && this.depto == this.deptoAnterior) { // SE O DPTO FOR PREENCHIDO E FOR DIFERENTE DO ANTERIOR, PROSSIGA
+    } else { // SE O DPTO FOR PREENCHIDO E FOR DIFERENTE DO ANTERIOR, PROSSIGA
       this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
         next: (response) => this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
         error: (error) => console.log(error)
@@ -129,7 +129,7 @@ export class TransferirPatrimonioPage implements OnInit {
 
     let dadosRelatorio = {
       'user': 'Usuário Teste',
-      'deptoUser': 'Administrativo',
+      'deptoUser': this.deptoAnterior,
       'deptoRecebedor': this.depto,
       'plaqueta': this.transferenciaForm.value.plaqueta,
       'descricao': this.transferenciaForm.value.descricao,

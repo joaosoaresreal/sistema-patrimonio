@@ -93,6 +93,8 @@ export class LogAlteracaoPage implements OnInit {
         'data': this.dataRelatorio
       };
 
+      console.log(this.dadosRelatorio)
+
       // abrir o alerta enquanto o PDF é processado
       Swal.fire({
         heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
