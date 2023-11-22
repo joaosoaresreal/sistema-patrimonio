@@ -29,20 +29,22 @@
     }
 
     ion-fab-button {
-        --background: var(--ion-color-primary);
-        --background-activated: var(--ion-color-primary);
-        --background-hover: var(--ion-color-secondary);
+        --background: transparent;
+        --background-activated: transparent;
+        --background-hover: transparent;
         --border-radius: 15px;
-        --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        --box-shadow: transparent;
         --color: black;
     }
 
     .editar{
-        --background: var(--ion-color-warning-tint);
+        --background: var(--ion-color-warning-shade);
+        --color: #FFF !important;
     }
 
     .excluir{
         --background: var(--ion-color-danger-shade);
+        --color: #FFF !important;
     }
 }
 
