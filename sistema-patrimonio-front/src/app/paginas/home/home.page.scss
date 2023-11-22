@@ -24,18 +24,18 @@
     margin: 10px;
     text-align: center;
     justify-content: center;
-    background: var(--ion-color-primary);
-    background: linear-gradient(210deg, rgba(255, 255, 255, 0.534) 05%, var(--ion-color-secondary) 80%);
-    box-shadow: 0px 1px 20px var(--ion-color-primary);
+    // background: var(--ion-color-primary);
+    // background: linear-gradient(210deg, rgba(255, 255, 255, 0.534) 05%, var(--ion-color-secondary) 80%);
+    // box-shadow: 0px 1px 20px var(--ion-color-primary);
     margin-bottom: 10px;
-    border-radius: 90px 80px 90px 30px;
-    color: #FFF;
+    // border-radius: 90px 80px 90px 30px;
+    // color: #FFF;
 
     .boas-vindas{
         display: grid;
         margin: 0;
         padding-top: 15px;
-        font-size: 1.2rem;
+        //font-size: 1.2rem;
         color: #000;
     }
 
@@ -65,7 +65,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 10px 3px 16px rgba(216, 17, 17, 0.2);
+    // box-shadow: 10px 3px 16px rgba(216, 17, 17, 0.2);
 }
 
 .opcoes ion-card{
