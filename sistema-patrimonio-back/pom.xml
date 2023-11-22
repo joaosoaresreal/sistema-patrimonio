@@ -11,6 +11,7 @@
     <groupId>br.com.js.patrimonio</groupId>
     <artifactId>sistema-patrimonio</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!--<packaging>war</packaging>-->
     <name>sistema-patrimonio</name>
     <description>Sistema de controle de Patrimônio</description>
     <properties>
@@ -74,6 +75,7 @@
     </dependencies>
 
     <build>
+        <!--<finalName>sistema-patrimonio</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
