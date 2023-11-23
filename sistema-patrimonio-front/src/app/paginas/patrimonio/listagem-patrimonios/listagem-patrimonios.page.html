@@ -38,13 +38,13 @@
             </ion-fab-button>
 
             <ion-fab-list side="start">
-              <ion-fab-button (click)="editarSelecionado(patrimonio.id)">
+              <ion-fab-button (click)="editarSelecionado(patrimonio.id)" class="editar">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-fab-button>
-              <ion-fab-button (click)="transferirSelecionado(patrimonio.id)">
+              <ion-fab-button (click)="transferirSelecionado(patrimonio.id)" class="transferir">
                 <ion-icon name="move-outline"></ion-icon>
               </ion-fab-button>
-              <ion-fab-button (click)="baixarSelecionado(patrimonio.id)">
+              <ion-fab-button (click)="baixarSelecionado(patrimonio.id)" class="baixar">
                 <ion-icon name="download-outline"></ion-icon>
               </ion-fab-button>
             </ion-fab-list>

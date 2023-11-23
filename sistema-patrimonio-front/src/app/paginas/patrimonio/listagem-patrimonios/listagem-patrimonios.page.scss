@@ -46,6 +46,18 @@
         --color: #FFF !important;
     }
 
+    .editar{
+        --background: var(--ion-color-warning-shade);
+    }
+
+    .transferir{
+        --background: var(--ion-color-tertiary-shade)
+    }
+
+    .baixar{
+        --background: var(--ion-color-danger-shade);
+    }
+
     span{
         font-weight: 600;
     }
