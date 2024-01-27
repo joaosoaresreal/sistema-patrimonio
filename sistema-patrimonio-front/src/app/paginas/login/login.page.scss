@@ -1,6 +1,12 @@
 ion-content {
     --padding-top: 6%;
-    --background: linear-gradient(to top, #B63766, #fff)
+    //--background: linear-gradient(to top, #B63766, #fff)
+    //--background: linear-gradient(180deg, rgba(193,56,56,1) 0%, rgba(79,35,35,0.9750117612688729) 73%, rgba(55,31,31,1) 87%);
+    //--background: linear-gradient(0deg, rgba(17,53,99,1) 23%, rgba(74,121,181,1) 80%);
+    //--background: linear-gradient(0deg, #66E7E8 23%, #708FFF 80%);
+    //--background: linear-gradient(142deg, rgba(102,231,232,1) 23%, rgba(125,255,147,1) 41%, rgba(121,218,183,1) 64%, rgba(112,143,255,1) 94%), url("../../../assets/img/background-mobile-1.png");
+    //--background: #023373 url("../../../assets/img/background-mobile-1.png") no-repeat fixed center / 100vh;
+    --background: linear-gradient(rgba(2, 51, 115, 0.7), rgba(13, 116, 252, 0.329)), url("../../../assets/img/background-mobile-1.png") no-repeat fixed center / 100vh;
 }
 
 .header {
@@ -20,30 +26,51 @@ ion-content {
         line-height: 1px;
         font-size: 180%;
         font-weight: 700;
+        color: #FFF;
     }
 }
 
 .login-form {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
 
-    .foto-usuario {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 15px;
+    .login-form-div{
+        padding: 15px;
+        //background-color: #0000002c;
+        background-color: #ffffffb6;
+        //background-color: #f5f5f5a8;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+        .login-texto p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
     }
 
-    .foto-usuario img {
-        text-align: center;
-        border-radius: 50%;
-        border: 3px solid var(--ion-color-primary);
-        min-width: 60px;
-        max-width: 80px;
+    // .foto-usuario {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     padding-bottom: 15px;
+    // }
+
+    // .foto-usuario img {
+    //     text-align: center;
+    //     border-radius: 50%;
+    //     border: 3px solid var(--ion-color-primary);
+    //     min-width: 60px;
+    //     max-width: 80px;
+    // }
+
+    ion-button{
+        --background: #000;
     }
 
     a {
         color: black;
+        text-align: center;
     }
 }
 
@@ -57,23 +84,23 @@ ion-input {
     --highlight-color: #000;
 }
 
-.licenciamento {
-    display: table;
-    margin: auto;
-    padding: 1%;
+// .licenciamento {
+//     display: table;
+//     margin: auto;
+//     padding: 1%;
 
-    .licenciamento_img {
-        max-width: 120px;
-    }
+//     .licenciamento_img {
+//         max-width: 120px;
+//     }
 
-    .licenciamento_texto {
-        font-size: 80%;
-        align-items: center;
-        text-align: center;
-        font-weight: 700;
-        color: #c9c0c0;
-    }
-}
+//     .licenciamento_texto {
+//         font-size: 80%;
+//         align-items: center;
+//         text-align: center;
+//         font-weight: 700;
+//         color: #c9c0c0;
+//     }
+// }
 
 .rodape{
     margin: 0;
@@ -87,6 +114,11 @@ ion-input {
         font-size: 80%;
     }
 
+    a{
+        text-decoration: none;
+        color: #FFF;
+    }
+
     span{
         font-weight: 800;
     }
@@ -97,7 +129,7 @@ ion-input {
 @media (min-width: 700px) {
     ion-content {
         --padding-top: 0;
-        --background: linear-gradient(to top, #B63766, #fff)
+        --background: linear-gradient(rgba(2, 51, 115, 0.7), rgba(13, 116, 252, 0.329)), url("../../../assets/img/background-desktop-1.png") no-repeat fixed center / 100%;
     }
 
     .header {
@@ -124,37 +156,37 @@ ion-input {
         padding-left: 35%;
         padding-right: 35%;
 
-        .foto-usuario {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 15px;
-        }
+        // .foto-usuario {
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     padding-bottom: 15px;
+        // }
 
-        .foto-usuario img {
-            text-align: center;
-            border-radius: 50%;
-            border: 3px solid var(--ion-color-primary);
-            min-width: 60px;
-            max-width: 80px;
-        }
+        // .foto-usuario img {
+        //     text-align: center;
+        //     border-radius: 50%;
+        //     border: 3px solid var(--ion-color-primary);
+        //     min-width: 60px;
+        //     max-width: 80px;
+        // }
 
         a {
             color: black;
         }
     }
 
-    .licenciamento {
-        .licenciamento_img {
-            max-width: 150px;
-        }
-    }
+    // .licenciamento {
+    //     .licenciamento_img {
+    //         max-width: 150px;
+    //     }
+    // }
 }
 
 @media (min-width: 1060px) {
     ion-content {
         --padding-top: 0;
-        --background: linear-gradient(to top, #B63766, #fff)
+        --background: linear-gradient(rgba(2, 51, 115, 0.7), rgba(13, 116, 252, 0.329)), url("../../../assets/img/background-desktop-1.png") no-repeat fixed center / 100%;
     }
 
     .header {
@@ -164,46 +196,47 @@ ion-input {
         text-align: center;
 
         .header_img {
-            margin-top: 5%;
-            max-width: 230px;
+            margin-top: 1%;
+            max-width: 130px;
             align-self: center;
             padding: 2%;
         }
 
         .header_texto {
             line-height: 1px;
-            font-size: 280%;
+            font-size: 180%;
             font-weight: 700;
         }
     }
 
     .login-form {
-        padding-left: 40%;
-        padding-right: 40%;
+        padding-left: 35%;
+        padding-right: 35%;
 
-        .foto-usuario {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 15px;
-        }
+        // .foto-usuario {
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     padding-bottom: 15px;
+        // }
 
-        .foto-usuario img {
-            text-align: center;
-            border-radius: 50%;
-            border: 3px solid var(--ion-color-primary);
-            min-width: 60px;
-            max-width: 80px;
-        }
+        // .foto-usuario img {
+        //     text-align: center;
+        //     border-radius: 50%;
+        //     border: 3px solid var(--ion-color-primary);
+        //     min-width: 60px;
+        //     max-width: 80px;
+        // }
 
         a {
             color: black;
         }
     }
 
-    .licenciamento {
-        .licenciamento_img {
-            max-width: 150px;
-        }
-    }
+    // .licenciamento {
+    //     display: none;
+    //     .licenciamento_img {
+    //         max-width: 100px;
+    //     }
+    // }
 }
