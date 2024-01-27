@@ -88,12 +88,10 @@ export class LogAlteracaoPage implements OnInit {
         'deptoRecebedor': response.deptoTransferencia.nome,
         'plaqueta': response.plaqueta,
         'descricao': response.patrimonio.descricao,
-        'estado': response.estado,
+        'estado': response.patrimonio.estado,
         'observacao': response.obsAnterior,
         'data': this.dataRelatorio
       };
-
-      console.log(this.dadosRelatorio)
 
       // abrir o alerta enquanto o PDF é processado
       Swal.fire({
