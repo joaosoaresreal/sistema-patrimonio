@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 import localeBr from '@angular/common/locales/pt';
@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 
 // Registrando data como Português Brasileiro
 registerLocaleData(localeBr, 'pt')
@@ -22,12 +23,13 @@ registerLocaleData(localeBr, 'pt')
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage],
+  declarations: [HomePage, NavbarComponent],
   providers:[
     {
       provide: LOCALE_ID,
       useValue: 'pt-br'
     }
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class HomePageModule {}

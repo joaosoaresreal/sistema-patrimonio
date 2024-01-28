@@ -102,13 +102,20 @@
 /********************************************************\
                         RODAPÉ
 \********************************************************/
-.rodape ion-title{
-    text-align: center;
-    font-size: 80%;
-}
+.rodape{
+    background: var(--ion-color-primary);
+    color: #FFF;
+    padding: 1%;
+    margin: 0;
 
-.rodape span{
-    font-weight: 800;
+    p{
+        text-align: center;
+        font-size: 80%;
+    }
+
+    span{
+        font-weight: 800;
+    }
 }
 
 /*************************************************************\

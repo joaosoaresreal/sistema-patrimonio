@@ -1,23 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
   <div class="boas-vindas-header-bg">
@@ -27,7 +8,7 @@
       <p>Tenha um excelente trabalho</p>
     </div>
   </div>
-  
+
   <ion-row>
     <ion-col class="opcoes">
       <ion-card button="true" (click)="abrirPagina('listagem-patrimonios')" color="primary">
@@ -41,7 +22,7 @@
     <ion-col class="opcoes">
       <ion-card button="true" (click)="abrirPagina('cadastrar-patrimonio')" color="primary">
         <ion-card-header>
-          <ion-icon name="add"></ion-icon>
+          <ion-icon name="add-circle"></ion-icon>
           <ion-card-title>Cadastrar Patrimônios</ion-card-title>
         </ion-card-header>
       </ion-card>
@@ -94,10 +75,14 @@
     <p>sistema licenciado para</p>
     <ion-img src="assets/logo-ss-tech-blanck.png" alt="Logo JS Software"></ion-img>
   </div>
+
+  <div class="rodape">
+    <p size="">Desenvolvido por © <span>SS Tech</span></p>
+  </div>
 </ion-content>
 
-<div class="rodape">
+<!-- <div class="rodape">
   <ion-toolbar color="primary">
     <ion-title size="">Desenvolvido por © <span>SS Tech</span></ion-title>
   </ion-toolbar>
-</div>
+</div> -->
