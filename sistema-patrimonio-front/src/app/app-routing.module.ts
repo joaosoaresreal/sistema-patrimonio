@@ -83,6 +83,15 @@ const routes: Routes = [
     path: 'editar-departamento/:id',
     loadChildren: () => import('./paginas/departamento/editar-departamento/editar-departamento.module').then( m => m.EditarDepartamentoPageModule)
   },
+
+  /********************************************************\
+                          Pagina 404 
+  \********************************************************/
+  {
+    path: '404',
+    loadChildren: () => import('./paginas/page404/page404.module').then( m => m.Page404PageModule)
+  },
+
 ];
 
 @NgModule({
