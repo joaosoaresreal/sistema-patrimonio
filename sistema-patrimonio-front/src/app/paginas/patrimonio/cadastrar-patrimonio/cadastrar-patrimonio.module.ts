@@ -8,6 +8,7 @@ import { CadastrarPatrimonioPageRoutingModule } from './cadastrar-patrimonio-rou
 
 import { CadastrarPatrimonioPage } from './cadastrar-patrimonio.page';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { DepartamentoService } from 'src/app/services/domain/Departamento.servic
     FormsModule,
     IonicModule,
     CadastrarPatrimonioPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [DepartamentoService],
   declarations: [CadastrarPatrimonioPage],
