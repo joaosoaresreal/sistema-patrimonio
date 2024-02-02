@@ -1,45 +1,53 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
+/**********************************************************\
+|                    CONTEUDO GERAL DA PAGINA              |
+\**********************************************************/
+ion-content {
+    --background: var(--ion-color-background);
+    min-height: 100%;
 }
 
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
-}
-
-.toolbar h3, p{
-    margin: -2px;
-}
-
-.titulo{
-    font-size: 1.3rem;
+/**********************************************************\
+|                    TITULO DA PAGINA                      |
+\**********************************************************/
+.titulo {
+    font-size: 1.8rem;
     text-align: center;
-    padding: 4%;
     font-weight: 600;
+    color: #FFF;
 }
 
-.formulario{
-    padding: 1%;
-    ion-input, ion-select, ion-textarea {
+/**********************************************************\
+|                    FORMULÁRIO                            |
+\**********************************************************/
+.formulario {
+    border-radius: 10px;
+    background: var(--ion-color-light);
+
+    ion-input,
+    ion-select,
+    ion-textarea {
         --border-color: #000;
+    }
+
+    .botoes {
+        display: flex;
+        justify-content: right;
+    
+        ion-button {
+            border-radius: 80;
+            padding: 15px;
+            height: auto;
+        }
     }
 }
 
-// ***** VALIDAÇÕES DO FORM *********
-small.error-message{
-    color: var(--ion-color-primary);
+/**********************************************************\
+|           ********* VALIDAÇÕES DO FORM *********          |
+\**********************************************************/
+small.error-message {
+    color: var(--ion-color-danger);
 }
 
-.invalid{
-    border-bottom: 2px solid red;
-}
-
-// ************************************
-
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
+.invalid {
+    border-bottom: 2px solid var(--ion-color-danger);
 }
