@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ListagemPatrimoniosPageRoutingModule } from './listagem-patrimonios-routing.module';
 
 import { ListagemPatrimoniosPage } from './listagem-patrimonios.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListagemPatrimoniosPageRoutingModule
+    ListagemPatrimoniosPageRoutingModule,
+    SharedModule
   ],
   declarations: [ListagemPatrimoniosPage]
 })
