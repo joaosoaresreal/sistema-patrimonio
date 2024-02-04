@@ -1,0 +1,13 @@
+.layout{
+    background: var(--ion-color-background);
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .layout_titulo{
+        font-size: 1.8rem;
+        text-align: center;
+        font-weight: 600;
+        color: #FFF;
+    }
+}
