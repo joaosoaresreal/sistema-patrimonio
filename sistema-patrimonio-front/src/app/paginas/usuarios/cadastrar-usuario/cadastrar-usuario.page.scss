@@ -1,68 +1,55 @@
-.toolbar ion-button {
-  width: 50px;
-  align-self: center;
-  margin: auto;
-  display: flex;
-}
-
-.toolbar ion-col {
-  display: inline-block;
-  text-align: right;
-}
-
-.toolbar h3,
-p {
-  margin: -2px;
-}
-
-.titulo{
-  font-size: 1.3rem;
-  text-align: center;
-  padding-top: 4%;
-  font-weight: 600;
-}
-
+/**********************************************************\
+|                    FORMULÁRIO                            |
+\**********************************************************/
 .formulario {
-  padding-left: 2%;
-  padding-right: 2%;
+  border-radius: 10px;
+  background: var(--ion-color-light);
 
-  ion-input, ion-select {
+  ion-input,
+  ion-select,
+  ion-textarea {
     --border-color: #000;
+  }
+
+  .foto-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      border-radius: 50%;
+      border: 3px solid var(--ion-color-primary);
+      min-width: 100px;
+      max-width: 100px;
+      min-height: 100px;
+      max-height: 100px;
+    }
+  }
+
+  .foto-perfil-input {
+    display: flex;
+    align-items: center;
+  }
+
+  .botoes {
+    display: flex;
+    justify-content: right;
+
+    ion-button {
+      border-radius: 80;
+      padding: 15px;
+      height: auto;
+    }
   }
 }
 
-// ***** VALIDAÇÕES DO FORM *********
+/**********************************************************\
+|           ********* VALIDAÇÕES DO FORM *********          |
+\**********************************************************/
 small.error-message {
-  color: var(--ion-color-primary);
+  color: var(--ion-color-danger);
 }
 
 .invalid {
-  border-bottom: 2px solid red;
-}
-
-// ************************************
-
-.foto-perfil {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    border-radius: 50%;
-    border: 3px solid var(--ion-color-primary);
-    min-width: 100px;
-    max-width: 100px;
-    min-height: 100px;
-    max-height: 100px;
-  }
-}
-
-.foto-perfil-input{
-  display: flex;
-  align-items: center;
-}
-
-.botoes ion-button {
-  border-radius: 80;
-  padding: 1%;
+  border-bottom: 2px solid var(--ion-color-danger);
 }

@@ -1,31 +1,12 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
+.listagem {
+    border-bottom: 1px solid var(--ion-color-secondary);
 
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
-}
+    p {
+        color: black;
 
-.toolbar h3, p{
-    margin: -2px;
-}
-
-.titulo{
-    font-size: 1.3rem;
-    text-align: center;
-    padding: 4%;
-    font-weight: 600;
-}
-
-.listagem{
-    padding: 1px;
-
-    ion-label{
-        padding-left: 2px;
+        span {
+            font-weight: 600;
+        }
     }
 
     ion-fab-button {
@@ -37,20 +18,25 @@
         --color: black;
     }
 
-    .editar{
+    .editar {
         --background: var(--ion-color-warning-shade);
-        
-            --color: #FFF !important;
-        
+        --color: #FFF !important;
+
     }
 
-    .excluir{
+    .excluir {
         --background: var(--ion-color-danger-shade);
         --color: #FFF !important;
     }
 }
 
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
+.botoes {
+    display: flex;
+    justify-content: right;
+
+    ion-button {
+        border-radius: 80;
+        padding: 15px;
+        height: auto;
+    }
 }

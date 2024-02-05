@@ -8,13 +8,15 @@ import { ListagemDepartamentosPageRoutingModule } from './listagem-departamentos
 
 import { ListagemDepartamentosPage } from './listagem-departamentos.page';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListagemDepartamentosPageRoutingModule
+    ListagemDepartamentosPageRoutingModule,
+    SharedModule
   ],
   providers: [DepartamentoService],
   declarations: [ListagemDepartamentosPage]

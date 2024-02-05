@@ -1,127 +1,108 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Cadastrar Usuário</p>
-  </div>
+  <app-layout [pagina]="'Cadastrar Usuário'">
+    <app-forms>
+      <form #form="ngForm" [formGroup]="usuarioForm" (ngSubmit)="submit()" class="formulario">
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome" type="text" 
+                  placeholder="Samara Sudano"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  Informe o nome corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-  <form #form="ngForm" [formGroup]="usuarioForm" (ngSubmit)="submit()">
-    <ion-list class="formulario">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome" type="text" 
-              placeholder="Samara Sudano"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              Informe o nome corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="CPF" labelPlacement="floating" formControlName="cpf" type="numeric" 
+                  placeholder="000.111.222-33" (focusout)="validaCPF()" [(ngModel)]="cpfFormatado"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  Informe o CPF corretamente
+                </small>
+              </ion-col>
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="CPF" labelPlacement="floating" formControlName="cpf" type="numeric" 
-              placeholder="000.111.222-33" (focusout)="validaCPF()" [(ngModel)]="cpfFormatado"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              Informe o CPF corretamente
-            </small>
-          </ion-col>
+              <ion-col>
+                <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" type="tel" 
+                  placeholder="(00) 90000-0000" (focusout)="validaTelefone()"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  Informe o telefone corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-          <ion-col>
-            <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" type="tel" 
-              placeholder="(00) 90000-0000" (focusout)="validaTelefone()"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              Informe o telefone corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email" type="email" 
+                  placeholder="samara.sudano@JSsoftware.com.br"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  Informe o Email corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email" type="email" 
-              placeholder="samara.sudano@JSsoftware.com.br"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              Informe o Email corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <!-- <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Senha" labelPlacement="floating" formControlName="senha" type="password" 
+                    placeholder="EXEMPLO@de-senha$#123"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  Insira uma senha com no mínimo 8 caracteres
+                </small>
+              </ion-col>
+    
+              <ion-col>
+                <ion-input fill="outline" label="Confirme a senha" labelPlacement="floating" type="password" 
+                    placeholder="EXEMPLO@de-senha$#123"></ion-input>
+                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
+                  As senhas digitadas não conferem
+                </small>
+              </ion-col>
+            </ion-row> -->
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Senha" labelPlacement="floating" formControlName="senha" type="password" 
-                placeholder="EXEMPLO@de-senha$#123"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              Insira uma senha com no mínimo 8 caracteres
-            </small>
-          </ion-col>
+            <ion-row>
+              <ion-col>
+                <ion-select fill="outline" label="Departamento" labelPlacement="floating" 
+                  interface="popover" formControlName="departamento">
 
-          <ion-col>
-            <ion-input fill="outline" label="Confirme a senha" labelPlacement="floating" type="password" 
-                placeholder="EXEMPLO@de-senha$#123"></ion-input>
-            <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-              As senhas digitadas não conferem
-            </small>
-          </ion-col>
-        </ion-row>
+                  <ion-select-option *ngFor="let departamento of departamentos"
+                    value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
 
-        <ion-row>
-          <ion-col>
-            <ion-select fill="outline" label="Departamento" labelPlacement="floating" 
-              interface="popover" formControlName="departamento">
+                 </ion-select>
+              </ion-col>
 
-              <ion-select-option *ngFor="let departamento of departamentos"
-                value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+              <ion-col>
+                <ion-select fill="outline" label="Role" labelPlacement="floating" interface="popover" >
 
-             </ion-select>
-          </ion-col>
+                  <ion-select-option>Administrador</ion-select-option>
+                  <ion-select-option>Operador</ion-select-option>
 
-          <ion-col>
-            <ion-select fill="outline" label="Role" labelPlacement="floating" interface="popover" >
+                </ion-select>
+              </ion-col>
+            </ion-row>
 
-              <ion-select-option>Administrador</ion-select-option>
-              <ion-select-option>Operador</ion-select-option>
+            <ion-row>
+              <ion-col>
+                <div class="foto-perfil">
+                  <img [src]="arquivoPreview || 'assets/user-icon.png'" alt="Foto do Usuário"  />
+                </div>
+              </ion-col>
 
-            </ion-select>
-          </ion-col>
-        </ion-row>
+              <!-- https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/ -->
+              <ion-col class="foto-perfil-input">
+                <input formControlName="foto" type="file" id="fotoPerfil" (change)="preview($event)"/>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <div class="foto-perfil">
-              <img [src]="arquivoPreview || 'assets/user-icon.png'" alt="Foto do Usuário"  />
-            </div>
-          </ion-col>
+          </ion-grid>
+        </div>
 
-          <!-- https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/ -->
-          <ion-col class="foto-perfil-input">
-            <input formControlName="foto" type="file" id="fotoPerfil" (change)="preview($event)"/>
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-    </ion-list>
-
-    <div class="botoes">
-      <ion-button expand="block" type="submit">SALVAR CADASTRO</ion-button>
-    </div>
-  </form>
+        <div class="botoes">
+          <ion-button expand="block" type="submit">SALVAR CADASTRO</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
 </ion-content>
