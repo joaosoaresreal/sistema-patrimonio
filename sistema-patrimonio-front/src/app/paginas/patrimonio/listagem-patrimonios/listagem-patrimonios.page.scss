@@ -1,3 +1,13 @@
+.filtro{
+    padding: 1%;
+    ion-input{
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
+}
+
 .listagem{
     border-bottom: 1px solid var(--ion-color-secondary);
 
