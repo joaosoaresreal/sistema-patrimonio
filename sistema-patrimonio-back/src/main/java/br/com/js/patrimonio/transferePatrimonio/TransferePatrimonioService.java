@@ -1,5 +1,6 @@
 package br.com.js.patrimonio.transferePatrimonio;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,10 +30,17 @@ public class TransferePatrimonioService {
         return new TransferePatrimonioDTO(entity);
     }
 
-    // LISTAR POR DEPTO
+    // LISTAR POR PLAQUETA
     @Transactional(readOnly = true)
     public List<TransferePatrimonioDTO> findByPlaqueta(String plaqueta) {
         List<TransferePatrimonio> lista = repository.findByPlaqueta(plaqueta);
+        return lista.stream().map(x -> new TransferePatrimonioDTO(x)).collect(Collectors.toList());
+    }
+
+    // LISTAR POR DATA
+    @Transactional(readOnly = true)
+    public List<TransferePatrimonioDTO> findByDataHoraModificacaoBetween(Date startDate, Date endDate) {
+        List<TransferePatrimonio> lista = repository.findByDataHoraModificacaoBetween(startDate, endDate);
         return lista.stream().map(x -> new TransferePatrimonioDTO(x)).collect(Collectors.toList());
     }
 }

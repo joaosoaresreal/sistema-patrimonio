@@ -1,12 +1,15 @@
 package br.com.js.patrimonio.transferePatrimonio;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.js.patrimonio.departamento.Departamento;
@@ -38,6 +41,13 @@ public class TransferePatrimonioResource {
     @GetMapping(value = "/plaqueta/{plaqueta}")
     public ResponseEntity<List<TransferePatrimonioDTO>> findByPlaqueta(@PathVariable String plaqueta){
         List<TransferePatrimonioDTO> lista = service.findByPlaqueta(plaqueta);
+        return ResponseEntity.ok().body(lista);
+    }
+
+    // LISTAR POR DATA
+    @GetMapping(value = "/data") // /data?startDate=0000-00-00&endDate=0000-00-00
+    public ResponseEntity<List<TransferePatrimonioDTO>> findByDataHoraModificacaoBetween(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+        List<TransferePatrimonioDTO> lista = service.findByDataHoraModificacaoBetween(startDate, endDate);
         return ResponseEntity.ok().body(lista);
     }
 }

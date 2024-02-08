@@ -1,7 +1,11 @@
 package br.com.js.patrimonio.transferePatrimonio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.List;
 import br.com.js.patrimonio.patrimonio.Patrimonio;
 
@@ -11,4 +15,8 @@ public interface TransferePatrimonioRepository extends JpaRepository<TransferePa
 
 	// Buscar por patrimonio
 	List<TransferePatrimonio> findByPlaqueta(String plaqueta);
+
+	// Filtrar data de Transf
+	@Query("SELECT t FROM TransferePatrimonio t WHERE CAST(t.dataHoraModificacao AS date) BETWEEN :startDate AND :endDate")
+    List<TransferePatrimonio> findByDataHoraModificacaoBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
