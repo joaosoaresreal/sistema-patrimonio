@@ -22,4 +22,9 @@ export class TransferePatrimonioService {
     findByPlaqueta(plaqueta: string): Observable<TransferePatrimonioDTO[]> {
         return this.http.get<TransferePatrimonioDTO[]>(`${API_CONFIG.baseUrl}/api_alteracao-patrimonio/plaqueta/${plaqueta}`)
     }
+
+    // Buscar por data de transf
+    findByDataHoraModificacaoBetween(startDate: string, endDate: string): Observable<TransferePatrimonioDTO[]> {
+        return this.http.get<TransferePatrimonioDTO[]>(`${API_CONFIG.baseUrl}/api_alteracao-patrimonio/data?startDate=${startDate}&endDate=${endDate}`)
+    }
 }
