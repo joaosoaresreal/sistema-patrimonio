@@ -1,105 +1,98 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Consulta de Transferencia Patrimonial</p>
-  </div>
+  <app-layout [pagina]="'Consultar transferência patrimonial'">
+    <app-forms>
+      <form class="pesquisa" #form="ngForm" [formGroup]="logForm" (ngSubmit)="submit()" class="formulario">
+        <ion-row>
+          <ion-col>
+            <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" (focusout)="plaquetaSelecionada()"
+              type="text" formControlName="plaqueta"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline" label="Data Inicial" labelPlacement="floating" type="date" formControlName="startDate"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input fill="outline" label="Data Final" labelPlacement="floating" type="date" formControlName="endDate"></ion-input>
+          </ion-col>
+        </ion-row>
 
-  <form class="pesquisa" #form="ngForm" [formGroup]="logForm" (ngSubmit)="submit()">
-    <ion-row>
-      <ion-col>
-        <ion-input fill="outline" label="Plaqueta" labelPlacement="floating" (focusout)="plaquetaSelecionada()"
-          type="text" formControlName="plaqueta"></ion-input>
-      </ion-col>
-    </ion-row>
+        <div class="botoes">
+          <ion-button expand="block" type="submit">CONSULTAR TRANSFERENCIA</ion-button>
+        </div>
+      </form>
 
-    <div>
-      <ion-button expand="block" type="submit">CONSULTAR TRANSFERENCIA</ion-button>
-    </div>
-  </form>
-
-  <!-- <div>
-    <p>Desenvolvido por: </p>
-    <img src="../../../../assets/logo-js-softwares.png" alt="">
-  </div> -->
-
-
+    </app-forms>
+  </app-layout>
 
 
   <ion-modal [isOpen]="isModalOpen">
-    <ng-template>
+    <ng-template class="modal">
 
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Plaqueta: {{plaqueta}}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true">SAIR</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
+        <ion-header>
+          <ion-toolbar>
+            <p><span>{{toolbarTitulo}}</span></p>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirm()" [strong]="true">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
 
-      <ion-content class="ion-padding">
-        <div class="patrimonio" *ngFor="let patrimonio of patrimonios" value="patrimonio.id">
-          <div>
-            <ion-row>
-              <ion-col>
-                <p><span>Data/Hora de transferencia: </span>{{dataHora}}</p>
-              </ion-col>
-            </ion-row>
+        <ion-content class="ion-padding">
+          <div class="patrimonio" *ngFor="let patrimonio of patrimonios" value="patrimonio.id">
+            <ion-label>
+              <ion-row>
+                <ion-col>
+                  <p><span>Data/Hora de transferencia: </span>{{patrimonio.dataHoraModificacao}}</p>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col>
-                <p><span>De Dpto.: </span>{{patrimonio.deptoAnterior}}</p>
-              </ion-col>
-              <ion-col>
-                <p><span>Para Depto.: </span>{{patrimonio.deptoTransferencia.nome}}</p>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col>
+                  <p><span>Plaqueta: </span>{{patrimonio.plaqueta}}</p>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col>
-                <p><span>Localização anterior: </span>{{patrimonio.localAnterior}}</p>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col>
+                  <p><span>De Depto.: </span>{{patrimonio.deptoAnterior}}</p>
+                </ion-col>
+                <ion-col>
+                  <p><span>Para Depto.: </span>{{patrimonio.deptoTransferencia.nome}}</p>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col>
-                <p><span>Obs.: </span>{{patrimonio.obsAnterior}}</p>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col>
+                  <p><span>Localização anterior: </span>{{patrimonio.localAnterior}}</p>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col>
-                <p><span>Usuário alteração: </span></p>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col>
+                  <p><span>Obs.: </span>{{patrimonio.obsAnterior}}</p>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <p><span>Usuário alteração: </span></p>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+            <div>
+              <ion-button expand="block" (click)="emitir(patrimonio.id)">REEMITIR TERMO</ion-button>
+            </div>
           </div>
-          <div>
-            <ion-button expand="block" (click)="emitir(patrimonio.id)">REEMITIR TERMO</ion-button>
-          </div>
+        </ion-content>
+
+        <div class="modal_botao">
+          <ion-button expand="block" (click)="listagem()">LISTAGEM PATRIMONIAL</ion-button>
         </div>
-      </ion-content>
 
-      <ion-button expand="block" (click)="listagem()">LISTAGEM PATRIMONIAL</ion-button>
+
     </ng-template>
   </ion-modal>
 

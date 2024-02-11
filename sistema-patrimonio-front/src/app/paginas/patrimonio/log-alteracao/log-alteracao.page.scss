@@ -1,68 +1,73 @@
-.toolbar ion-button {
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
+.formulario {
+    border-radius: 10px;
+    background: var(--ion-color-light);
 
-.toolbar ion-col {
-    display: inline-block;
-    text-align: right;
-}
-
-.toolbar h3,
-p {
-    margin: -2px;
-}
-
-.titulo {
-    font-size: 1.3rem;
-    text-align: center;
-    padding: 4%;
-    font-weight: 600;
-}
-
-.pesquisa {
-    padding: 10%;
-
-    ion-input,
-    ion-select {
-        --border-color: #000 !important;
-    }
-}
-
-.patrimonio {
-    border: 2px solid var(--ion-color-primary);
-    padding: 1px;
-    margin-bottom: 5px;
-
-    p {
-        padding: 5px;
+    ion-input {
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
     }
 
-    ion-button {
-        padding: 6px;
+    .pesquisa_data p {
+        padding-left: 5px;
+        font-weight: 600;
     }
 
-    span{
-        font-weight: 700;
+    .botoes {
+        display: flex;
+        justify-content: right;
+
+        ion-button {
+            border-radius: 80;
+            padding: 15px;
+            height: auto;
+        }
     }
 }
 
 ion-modal {
-    --height: 90%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     padding-left: 20px;
     padding-right: 20px;
+    width: 100%;
+
+    &::part(content){
+        max-width: 630px;
+        height: 89%;
+    }
+
+    &::part(backdrop) {
+        background: rgba(209, 213, 219);
+        opacity: 1;
+    
+    }
+
+    ion-toolbar {
+        span {
+            padding-left: 20px;
+            font-weight: 600;
+        }
+    }
+
+    .modal_botao{
+        padding: 5px;
+    }
+
+    .patrimonio {
+        border: 2px solid var(--ion-color-primary);
+        border-radius: 10px;
+        padding: 1px;
+        margin-bottom: 5px;
+
+        ion-button {
+            padding: 6px;
+        }
+
+        span {
+            font-weight: 700;
+        }
+    }
 }
 
-ion-modal::part(backdrop) {
-    background: rgba(209, 213, 219);
-    opacity: 1;
-}
-
-ion-modal ion-toolbar {
-    --background: var(--ion-color-secondary);
-    --color: white;
-}
