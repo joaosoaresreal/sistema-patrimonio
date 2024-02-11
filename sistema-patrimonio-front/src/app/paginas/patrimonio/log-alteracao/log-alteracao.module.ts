@@ -8,6 +8,7 @@ import { LogAlteracaoPageRoutingModule } from './log-alteracao-routing.module';
 
 import { LogAlteracaoPage } from './log-alteracao.page';
 import { TransferePatrimonioService } from 'src/app/services/domain/TransferePatrimonio.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { TransferePatrimonioService } from 'src/app/services/domain/TransferePat
     FormsModule,
     IonicModule,
     LogAlteracaoPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [TransferePatrimonioService],
   declarations: [LogAlteracaoPage]

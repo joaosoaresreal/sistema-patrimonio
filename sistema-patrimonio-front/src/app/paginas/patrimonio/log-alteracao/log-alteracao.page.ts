@@ -1,12 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { AlertController, IonModal, NavController } from '@ionic/angular';
+import { IonModal, NavController } from '@ionic/angular';
 import { TransferePatrimonioDTO } from 'src/app/models/TransferePatrimonioDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
 import { TransferePatrimonioService } from 'src/app/services/domain/TransferePatrimonio.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-log-alteracao',
@@ -24,12 +23,18 @@ export class LogAlteracaoPage implements OnInit {
 
   isModalOpen = false;
   plaqueta: any;
+  startDate: any;
+  endDate: any;
   dataHora: any;
   dataRelatorio: any;
   dadosRelatorio: any = [];
 
-  constructor(public nav: NavController, private formBuilder: FormBuilder, private route: ActivatedRoute, private alertController: AlertController,
-    private relatorioService: RelatorioService, private transferePatrimonioService: TransferePatrimonioService) { }
+  dataInicialFormat: any;
+  dataFinalFormat: any;
+  toolbarTitulo: any;
+
+  constructor(public nav: NavController, private formBuilder: FormBuilder, private relatorioService: RelatorioService,
+    private transferePatrimonioService: TransferePatrimonioService, private alerta: AlertsService) { }
 
   /*********************************************************************\
                 FORMATA A PLAQUETA INSERIDA PARA UPPERCASE
@@ -37,29 +42,84 @@ export class LogAlteracaoPage implements OnInit {
   plaquetaSelecionada() {
     let plaquetaInserida = this.logForm.value.plaqueta.toUpperCase()
     this.logForm.get('plaqueta')?.setValue(plaquetaInserida)
-    this.plaqueta = plaquetaInserida
+    this.plaqueta = plaquetaInserida.trim()
   }
 
   /*********************************************************************\
-                  BUSCA A PLAQUETA NA TABELA DE TRANSFERENCIA
+                    VALIDA O QUE FOI PREENCHIDO
   \*********************************************************************/
   submit() {
-    this.transferePatrimonioService.findByPlaqueta(this.plaqueta).subscribe((response) => {
-      if (response.length >= 1) { // Se tiver resultados vai abrir o modal
-        this.patrimonios = response // Resposta da API
-        // Formatando a data para exibir na UI
-        this.patrimonios.forEach(patrimonio => {
-          if (patrimonio.dataHoraModificacao) {
-            const dataArray = patrimonio.dataHoraModificacao;
-            const data = new Date(dataArray[0], dataArray[1] - 1, dataArray[2], dataArray[3], dataArray[4], dataArray[5], dataArray[6]);
-            this.dataHora = this.datepipe.transform(data, 'dd/MM/yyyy hh:mm')
-          }
-        });
-        this.isModalOpen = true; // Abre o modal
-      } else { // Senão abre o aviso de que não existe dados dessa plaqueta
-        this.alertaPlaqueta()
-      }
+    this.startDate = this.logForm.value.startDate
+    this.endDate = this.logForm.value.endDate
+
+    this.dataInicialFormat = this.datepipe.transform(this.startDate, 'yyyy-MM-dd')
+    this.dataFinalFormat = this.datepipe.transform(this.endDate, 'yyyy-MM-dd')
+
+    if (this.startDate != '' && this.endDate != '' && this.plaqueta != '') { // SE preencher TODOS os campos
+      this.buscaCompleta()
+    }
+    else if (this.startDate != '' || this.endDate != '' && this.plaqueta == '') { // se um dos campos estiver preenchido, menos a plaqueta vai pela data
+      this.buscaData()
+    }
+    else if (this.plaqueta != '' && this.startDate == '' && this.endDate == '') { // Se inserir SOMENTE a plaqueta vai nessa condição
+      this.buscaPlaqueta()
+    }
+    else { // Se apertar o botão sem inserir nada vai nessa condição
+      this.alerta.alertaAtencao('ATENÇÃO', 'Deve ser informado algum parametro de busca, como Plaqueta ou um periodo entre Datas ou ambas as opções',
+        'info', false, 'OK')
+    }
+  }
+
+  buscaCompleta() {
+    this.transferePatrimonioService.findByPlaquetaDataHoraModificacao(this.plaqueta, this.dataInicialFormat, this.dataFinalFormat).subscribe((response) => {
+      this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para a plaqueta e periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
+        'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
     })
+    this.toolbarTitulo = `Plaqueta: ${this.plaqueta} e Periodo de ${this.datepipe.transform(this.startDate, 'dd/MM/yyyy')} a ${this.datepipe.transform(this.endDate, 'dd/MM/yyyy')}`
+  }
+
+  buscaData() {
+    if (this.startDate === '' || this.endDate === '') { // Valida se os dois campos estao preenchidos
+      this.alerta.alertaAtencao('ATENÇÃO', 'Informe a data inicial e final, ou o número da plaqueta', 'info', false, 'OK')
+    } else if (this.startDate != '' && this.endDate != '') { // Se inserir a data nos dois campos vai nessa condição
+      this.transferePatrimonioService.findByDataHoraModificacaoBetween(this.dataInicialFormat, this.dataFinalFormat).subscribe((response) => {
+        this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para o periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
+          'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
+      })
+    }
+    this.toolbarTitulo = `Período: ${this.datepipe.transform(this.startDate, 'dd/MM/yyyy')} a ${this.datepipe.transform(this.endDate, 'dd/MM/yyyy')}`
+  }
+
+  buscaPlaqueta() {
+    this.transferePatrimonioService.findByPlaqueta(this.plaqueta).subscribe((response) => {
+      this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'A plaqueta inserida não possui nenhum registro de transferência', 'warning', true,
+        'FAZER OUTRA PESQUISA', 'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
+    })
+    this.toolbarTitulo = `Plaqueta: ${this.plaqueta}`
+  }
+
+  /***************** RESPOSTA DA API *****************/
+  processResponse(response: any, alertaModal: any) {
+    if (response.length >= 1) { // Se tiver resultados vai abrir o modal
+      this.patrimonios = response; // Resposta da API
+
+      // Formatando a data para exibir na UI
+      this.patrimonios.forEach(patrimonio => {
+        if (patrimonio.dataHoraModificacao) {
+          // console.log("BACK: " + patrimonio.dataHoraModificacao)
+          // console.log("TIPO: " + typeof patrimonio.dataHoraModificacao)
+          const dataArray = patrimonio.dataHoraModificacao
+          const data = new Date(dataArray[0], dataArray[1] - 1, dataArray[2], dataArray[3], dataArray[4], dataArray[5], dataArray[6]);
+          this.dataHora = this.datepipe.transform(data, 'dd/MM/yyyy hh:mm');
+          patrimonio.dataHoraModificacao = this.dataHora;
+          // console.log(data)
+        }
+      });
+      // console.log("FRONT: " + this.dataHora)
+      this.isModalOpen = true; // Abre o modal
+    } else { // Senão abre o aviso personalizado para cada opção
+      alertaModal()
+    }
   }
 
   /*********************************************************************\
@@ -94,18 +154,7 @@ export class LogAlteracaoPage implements OnInit {
       };
 
       // abrir o alerta enquanto o PDF é processado
-      Swal.fire({
-        heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-        allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-        title: 'SUCESSO',
-        text: 'O termo está sendo processado e será aberto em outra janela',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        // Customizção
-        confirmButtonColor: 'var(--ion-color-success-tint)',
-        cancelButtonColor: 'var(--ion-color-danger-tint)',
-        backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-      })
+      this.alerta.alertaAtencao('SUCESSO', 'O termo está sendo processado e será aberto em outra janela', 'success', false, 'OK')
 
       // Enviar a requisição de relatório ao back-end e retornar o PDF do termo ao usuário
       this.relatorioService.gerarRelatorioTransferencia(this.dadosRelatorio).subscribe(
@@ -131,55 +180,15 @@ export class LogAlteracaoPage implements OnInit {
   }
 
   /* Botão de listagem patrimonial */
-  async listagem() {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente sair desta página?',
-      buttons: [
-        {
-          text: 'SIM',
-          handler: () => {
-            this.nav.navigateForward('listagem-patrimonios')
-          },
-        },
-        {
-          text: 'NÃO',
-          handler: () => { },
-        },
-      ],
-    });
-
-    await alert.present();
+  listagem() {
+    this.alerta.alertaPadrao('Deseja realmente sair desta página?', 'SIM', 'NÃO', () => this.nav.navigateForward('listagem-patrimonios'), () => { })
   }
 
   ngOnInit() {
     this.logForm = this.formBuilder.group({
-      plaqueta: ['']
-    })
-  }
-
-  // Alerta que não existe a plaqueta buscada
-  alertaPlaqueta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'ATENÇÃO',
-      text: 'A plaqueta inserida não possui nenhum registro de transferência',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'FAZER OUTRA PESQUISA',
-      cancelButtonText: 'VOLTAR A LISTAGEM',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then((result) => {
-      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
-
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
-      ) {
-        this.nav.navigateForward('listagem-patrimonios')
-      }
+      plaqueta: [''],
+      startDate: [''],
+      endDate: ['']
     })
   }
 
