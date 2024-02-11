@@ -43,4 +43,11 @@ public class TransferePatrimonioService {
         List<TransferePatrimonio> lista = repository.findByDataHoraModificacaoBetween(startDate, endDate);
         return lista.stream().map(x -> new TransferePatrimonioDTO(x)).collect(Collectors.toList());
     }
+
+    // LISTAR POR PLAQUETA E DATA
+    @Transactional(readOnly = true)
+    public List<TransferePatrimonioDTO> findByPlaquetaDataHoraModificacao(String plaqueta, Date startDate, Date endDate) {
+        List<TransferePatrimonio> lista = repository.findByPlaquetaDataHoraModificacao(plaqueta, startDate, endDate);
+        return lista.stream().map(x -> new TransferePatrimonioDTO(x)).collect(Collectors.toList());
+    }
 }

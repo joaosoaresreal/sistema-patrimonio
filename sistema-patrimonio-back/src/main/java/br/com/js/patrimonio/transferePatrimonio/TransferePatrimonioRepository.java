@@ -19,4 +19,8 @@ public interface TransferePatrimonioRepository extends JpaRepository<TransferePa
 	// Filtrar data de Transf
 	@Query("SELECT t FROM TransferePatrimonio t WHERE CAST(t.dataHoraModificacao AS date) BETWEEN :startDate AND :endDate")
     List<TransferePatrimonio> findByDataHoraModificacaoBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	// Filtrar plaqueta E data de Transf
+	@Query("SELECT t FROM TransferePatrimonio t WHERE t.plaqueta = :plaqueta AND CAST(t.dataHoraModificacao AS date) BETWEEN :startDate AND :endDate")
+	List<TransferePatrimonio> findByPlaquetaDataHoraModificacao(@Param("plaqueta") String plaqueta, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

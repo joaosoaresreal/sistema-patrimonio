@@ -50,4 +50,11 @@ public class TransferePatrimonioResource {
         List<TransferePatrimonioDTO> lista = service.findByDataHoraModificacaoBetween(startDate, endDate);
         return ResponseEntity.ok().body(lista);
     }
+
+    // LISTAR POR PLAQUETA E DATA
+    @GetMapping(value = "/{plaqueta}/data") // /plaqueta/data?startDate=0000-00-00&endDate=0000-00-00
+    public ResponseEntity<List<TransferePatrimonioDTO>> findByPlaquetaDataHoraModificacao(@PathVariable String plaqueta, @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+        List<TransferePatrimonioDTO> lista = service.findByPlaquetaDataHoraModificacao(plaqueta, startDate, endDate);
+        return ResponseEntity.ok().body(lista);
+    }
 }
