@@ -5,8 +5,8 @@
 
     <app-lists>
       <div class="filtro">
-        <ion-input fill="outline" label="Buscar" labelPlacement="floating"
-            [formControl]="queryField" type="text" placeholder="Descrição ou Plaqueta"></ion-input>
+        <ion-searchbar fill="outline" label="Buscar" labelPlacement="floating"
+            [formControl]="queryField" type="text" placeholder="Descrição ou Plaqueta"></ion-searchbar>
       </div>
       <ion-accordion-group #accordionGroup *ngFor="let patrimonio of patrimoniosFiltrados">
         <ion-accordion class="listagem" value={{patrimonio.id}} toggleIcon="disabled">
