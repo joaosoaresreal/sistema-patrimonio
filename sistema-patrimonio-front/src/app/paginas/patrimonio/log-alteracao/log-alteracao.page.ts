@@ -22,7 +22,7 @@ export class LogAlteracaoPage implements OnInit {
   public datepipe: DatePipe = new DatePipe('pt-BR')
 
   isModalOpen = false;
-  plaqueta: any;
+  plaqueta = '';
   startDate: any;
   endDate: any;
   dataHora: any;
@@ -58,7 +58,7 @@ export class LogAlteracaoPage implements OnInit {
     if (this.startDate != '' && this.endDate != '' && this.plaqueta != '') { // SE preencher TODOS os campos
       this.buscaCompleta()
     }
-    else if (this.startDate != '' || this.endDate != '' && this.plaqueta == '') { // se um dos campos estiver preenchido, menos a plaqueta vai pela data
+    else if ((this.startDate != '' || this.endDate != '') && this.plaqueta == '') { // se um dos campos estiver preenchido, menos a plaqueta vai pela data
       this.buscaData()
     }
     else if (this.plaqueta != '' && this.startDate == '' && this.endDate == '') { // Se inserir SOMENTE a plaqueta vai nessa condição
@@ -71,9 +71,11 @@ export class LogAlteracaoPage implements OnInit {
   }
 
   buscaCompleta() {
-    this.transferePatrimonioService.findByPlaquetaDataHoraModificacao(this.plaqueta, this.dataInicialFormat, this.dataFinalFormat).subscribe((response) => {
-      this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para a plaqueta e periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
-        'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
+    this.transferePatrimonioService.findByPlaquetaDataHoraModificacao(this.plaqueta, this.dataInicialFormat, this.dataFinalFormat).subscribe({
+      next: (response) =>
+        this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para a plaqueta e periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
+          'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios'))), 
+      error: (error) => this.mensagemErro()
     })
     this.toolbarTitulo = `Plaqueta: ${this.plaqueta} e Periodo de ${this.datepipe.transform(this.startDate, 'dd/MM/yyyy')} a ${this.datepipe.transform(this.endDate, 'dd/MM/yyyy')}`
   }
@@ -82,18 +84,22 @@ export class LogAlteracaoPage implements OnInit {
     if (this.startDate === '' || this.endDate === '') { // Valida se os dois campos estao preenchidos
       this.alerta.alertaAtencao('ATENÇÃO', 'Informe a data inicial e final, ou o número da plaqueta', 'info', false, 'OK')
     } else if (this.startDate != '' && this.endDate != '') { // Se inserir a data nos dois campos vai nessa condição
-      this.transferePatrimonioService.findByDataHoraModificacaoBetween(this.dataInicialFormat, this.dataFinalFormat).subscribe((response) => {
-        this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para o periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
-          'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
+      this.transferePatrimonioService.findByDataHoraModificacaoBetween(this.dataInicialFormat, this.dataFinalFormat).subscribe({
+        next: (response) => 
+          this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'Não há dados para o periodo informado', 'warning', true, 'FAZER OUTRA PESQUISA',
+            'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios'))),
+        error: (error) => this.mensagemErro()
       })
     }
     this.toolbarTitulo = `Período: ${this.datepipe.transform(this.startDate, 'dd/MM/yyyy')} a ${this.datepipe.transform(this.endDate, 'dd/MM/yyyy')}`
   }
 
   buscaPlaqueta() {
-    this.transferePatrimonioService.findByPlaqueta(this.plaqueta).subscribe((response) => {
-      this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'A plaqueta inserida não possui nenhum registro de transferência', 'warning', true,
-        'FAZER OUTRA PESQUISA', 'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios')))
+    this.transferePatrimonioService.findByPlaqueta(this.plaqueta).subscribe({
+      next: (response) => 
+        this.processResponse(response, () => this.alerta.alertaAtencao('ATENÇÃO', 'A plaqueta inserida não possui nenhum registro de transferência', 'warning', true,
+          'FAZER OUTRA PESQUISA', 'VOLTAR A LISTAGEM', () => this.nav.navigateForward('listagem-patrimonios'))), 
+      error: (error) => this.mensagemErro()
     })
     this.toolbarTitulo = `Plaqueta: ${this.plaqueta}`
   }
@@ -120,6 +126,12 @@ export class LogAlteracaoPage implements OnInit {
     } else { // Senão abre o aviso personalizado para cada opção
       alertaModal()
     }
+  }
+
+  /***************** MENSAGEM DE ERRO, CASO NÃO TENHA RESPOSTA DA API *****************/
+  mensagemErro(){
+    this.alerta.alertaAtencao('ERRO', 'O servidor demorou muito para responder a solicitação, tente novamente mais tarde',
+     'error', false, 'OK')
   }
 
   /*********************************************************************\
