@@ -67,6 +67,10 @@ const routes: Routes = [
     path: 'editar-usuario/:id',
     loadChildren: () => import('./paginas/usuarios/editar-usuario/editar-usuario.module').then( m => m.EditarUsuarioPageModule)
   },
+  {
+    path: 'meu-usuario',
+    loadChildren: () => import('./paginas/usuarios/meu-usuario/meu-usuario.module').then( m => m.MeuUsuarioPageModule)
+  },
 
   /********************************************************\
                             DEPARTAMENTO 

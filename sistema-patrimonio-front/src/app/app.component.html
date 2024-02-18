@@ -8,15 +8,14 @@
         <div class="header-content">
           <img src="../assets/user-icon-logado.png" alt="Foto do Usuário" />
           <ion-label>
-            <h2>Usuário Teste</h2>
+            <h2>João Soares</h2>
             <p>falecom@joaosoares.dev.br</p>
           </ion-label>
         </div>
 
         <!--Botão do PERFIL e SAIR-->
         <div class="botoes">
-          <ion-button fill="clear" expand="block"><ion-icon name="contrast"></ion-icon></ion-button>
-          <ion-button fill="clear" expand="block"><ion-icon name="person-outline"></ion-icon>Perfil</ion-button>
+          <ion-button fill="clear" expand="block" (click)="meuUsuario()"><ion-icon name="person-outline"></ion-icon>Perfil</ion-button>
           <ion-button fill="clear" expand="block" (click)="sairSistema()"><ion-icon
               name="exit-outline"></ion-icon>Sair</ion-button>
         </div>

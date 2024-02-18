@@ -33,4 +33,9 @@ export class AppComponent {
 
     await alert.present();
   }
+
+
+  meuUsuario(){
+    this.nav.navigateForward('meu-usuario')
+  }
 }
