@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,24 @@ public class RelatorioResource {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    // Requisição para gerar o relatório de patrimonios geral
+    @GetMapping("/gerar_rel_patrimonio")
+    public ResponseEntity<byte[]> gerarRelatorioPatrimonioGeral(){
+    	try {
+    		byte[] relatorioPDF = relatorioService.gerarRelatorioPatrimonioGeral();
+    		
+            HttpHeaders headers = new HttpHeaders();
+            // indica que o conteúdo da resposta é um arquivo PDF
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            // indica que o arquivo deve ser exibido "inline" no navegador e tem o nome "transferencia.pdf".
+            headers.setContentDispositionFormData("inline", "patrimonios.pdf");
+            // Retorna o PDF
+            return new ResponseEntity<>(relatorioPDF, headers, HttpStatus.OK);
+    	} catch (IOException e) {
+    		 e.printStackTrace();
+             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
     
 }
