@@ -55,7 +55,26 @@ export class AlertsService {
     })
   }
 
-
+  alertaOk(titulo: string, texto: string, icone: any, botaoConfirma: string, okFuncao?: any){
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: titulo,
+      text: texto,
+      icon: icone,
+      showCancelButton: false,
+      confirmButtonText: botaoConfirma,
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-primary)',
+      backdrop: `linear-gradient(#FFF 70%)`,
+      background: `var(--ion-color-secondary)`,
+      color: `var(--ion-color-light)`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        okFuncao()
+      }
+    })
+  }
 
 
 }
