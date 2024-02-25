@@ -89,4 +89,11 @@ public class PatrimonioResource {
         List<PatrimonioDTO> lista = service.findByDepartamento(departamento);
         return ResponseEntity.ok().body(lista);
     }
+
+    // LISTAR PATRIMONIOS ATIVOS
+    @GetMapping("/ativos")
+    public ResponseEntity<List<PatrimonioDTO>> findByAtivos() {
+        List<PatrimonioDTO> list = service.findByAtivos();
+        return ResponseEntity.ok().body(list);
+    }
 }

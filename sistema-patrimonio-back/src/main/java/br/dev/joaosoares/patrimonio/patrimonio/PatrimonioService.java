@@ -175,21 +175,11 @@ public class PatrimonioService {
         return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
     }
 
-    // *********AUDITORIA DE MODIFICAÇÃO DO PATRIMONIO*********
-//    public void auditoria(Long id, PatrimonioDTO dadosAntigos, Patrimonio novoPatrimonio) {
-//
-//    	if (dadosAntigos != null) {
-//    		TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
-//
-//    		transferePatrimonio.setDeptoAnterior(dadosAntigos.getDepartamento());
-//    		transferePatrimonio.setEstadoAnterior(dadosAntigos.getEstado());
-//    		transferePatrimonio.setDescricaoAnterior(dadosAntigos.getDescricao());
-//    		transferePatrimonio.setLocalAnterior(dadosAntigos.getLocalizacao());
-//    		transferePatrimonio.setObsAnterior(dadosAntigos.getObservacao());
-//    		transferePatrimonio.setPlaqueta(dadosAntigos.getPlaqueta());
-//    		transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
-//
-//    		transferePatrimonioRepository.save(transferePatrimonio);
-//    	}
-//    }
+    // LISTAR PATRIMONIOS ATIVO
+    @Transactional(readOnly = true)
+    public List<PatrimonioDTO> findByAtivos() {
+        List<Patrimonio> lista = repository.findByAtivos();
+        return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
+    }
+
 }
