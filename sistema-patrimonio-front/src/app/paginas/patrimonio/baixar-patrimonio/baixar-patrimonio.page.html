@@ -43,7 +43,7 @@
             <ion-row>
               <ion-col>
                 <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nomeProfissionalBaixa"
-                  type="text"></ion-input>
+                  type="text" (focusout)="formataNome()" [(ngModel)]="nomeFormatado"></ion-input>
                 <small class="error-message" *ngIf="baixaForm.get('nomeProfissionalBaixa')?.errors && form.submitted">
                   Informe o nome completo do profissional
                 </small>

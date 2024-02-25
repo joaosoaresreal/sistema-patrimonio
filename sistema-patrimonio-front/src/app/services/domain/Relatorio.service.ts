@@ -7,13 +7,23 @@ import { API_CONFIG } from "src/app/config/api.config";
     providedIn: 'root',
 })
 export class RelatorioService{
-    private apiUrl = `${API_CONFIG.baseUrl}/api_relatorio/gerar_rel_transf`;
+    private apiUrl = `${API_CONFIG.baseUrl}/api_relatorio`;
     constructor(public http: HttpClient){}
 
     gerarRelatorioTransferencia(dados: any): Observable<HttpResponse<Blob>> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-        return this.http.post(this.apiUrl, dados, {
+        return this.http.post(`${this.apiUrl}/gerar_rel_transf`, dados, {
+          headers,
+          responseType: 'blob',
+          observe: 'response',
+        });
+    }
+
+    gerarRelatorioBaixa(dados: any): Observable<HttpResponse<Blob>> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(`${this.apiUrl}/gerar_rel_baixa`, dados, {
           headers,
           responseType: 'blob',
           observe: 'response',
