@@ -1,10 +1,14 @@
-package br.com.js.patrimonio.patrimonio;
+package br.dev.joaosoares.patrimonio.patrimonio;
 
-import br.com.js.patrimonio.departamento.Departamento;
-import br.com.js.patrimonio.departamento.DepartamentoRepository;
-import br.com.js.patrimonio.services.exceptions.ResourcesNotFoundException;
-import br.com.js.patrimonio.transferePatrimonio.TransferePatrimonio;
-import br.com.js.patrimonio.transferePatrimonio.TransferePatrimonioRepository;
+import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonio;
+import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioDTO;
+import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioRepository;
+import br.dev.joaosoares.patrimonio.departamento.Departamento;
+import br.dev.joaosoares.patrimonio.departamento.DepartamentoRepository;
+import br.dev.joaosoares.patrimonio.enums.Status;
+import br.dev.joaosoares.patrimonio.services.exceptions.ResourcesNotFoundException;
+import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonio;
+import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -14,7 +18,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,9 @@ public class PatrimonioService {
 
     @Autowired
     private TransferePatrimonioRepository transferePatrimonioRepository;
+
+    @Autowired
+    private BaixaPatrimonioRepository baixaPatrimonioRepository;
 
     // LISTAR
     @Transactional(readOnly = true)
@@ -92,6 +98,7 @@ public class PatrimonioService {
             transferePatrimonio.setObsAnterior(entity.getObservacao());
             transferePatrimonio.setPlaqueta(entity.getPlaqueta());
             transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
+            transferePatrimonio.setUsuarioTransferencia(null);
 
             transferePatrimonioRepository.save(transferePatrimonio);
 
@@ -105,19 +112,48 @@ public class PatrimonioService {
         }
     }
 
-    // EXCLUIR
-    public void delete(Long id) {
-        try {
-            repository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
+    // BAIXA (VAI MUDAR O STATUS PARA BAIXADO)
+    @Transactional
+    public PatrimonioDTO baixa(Long id, BaixaPatrimonioDTO dto) {
+    	try {
+    		Patrimonio entity = repository.getReferenceById(id);
+
+    		BaixaPatrimonio baixaPatrimonio = new BaixaPatrimonio();
+
+    		baixaPatrimonio.setPatrimonio(entity);
+    		baixaPatrimonio.setPlaqueta(entity.getPlaqueta());
+    		baixaPatrimonio.setDescricao(entity.getDescricao());
+    		baixaPatrimonio.setMotivo(dto.getMotivo());
+    		baixaPatrimonio.setNomeProfissionalBaixa(dto.getNomeProfissionalBaixa());
+    		baixaPatrimonio.setCpfProfissionalBaixa(dto.getCpfProfissionalBaixa());
+    		baixaPatrimonio.setDataBaixa(LocalDateTime.now());
+    		baixaPatrimonio.setUsuarioBaixa(dto.getUsuarioBaixa());
+
+    		entity.setStatus(Status.BAIXADO);
+
+    		baixaPatrimonioRepository.save(baixaPatrimonio);
+
+    		entity = repository.save(entity);
+    		return new PatrimonioDTO(entity);
+    	}  catch (EntityNotFoundException e) {
+            throw new ResourcesNotFoundException("O ID não foi encontrado");
         }
     }
+
+//    // EXCLUIR
+//    public void delete(Long id) {
+//        try {
+//            repository.deleteById(id);
+//        } catch (EmptyResultDataAccessException e) {
+//            throw new ResourcesNotFoundException("O recurso com o ID solicitado não foi localizado");
+//        }
+//    }
 
     private void copiarDTOparaEntidade(PatrimonioDTO dto, Patrimonio entity) {
         entity.setPlaqueta(dto.getPlaqueta());
         entity.setDescricao(dto.getDescricao());
         entity.setEstado(dto.getEstado());
+        entity.setStatus(Status.ATIVO);
         entity.setLocalizacao(dto.getLocalizacao());
         entity.setDataEntrada(dto.getDataEntrada());
         entity.setObservacao(dto.getLocalizacao());
