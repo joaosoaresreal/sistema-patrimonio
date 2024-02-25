@@ -1,9 +1,11 @@
-package br.com.js.patrimonio.transferePatrimonio;
+package br.dev.joaosoares.patrimonio.transferePatrimonio;
 
-import br.com.js.patrimonio.departamento.Departamento;
-import br.com.js.patrimonio.enums.EstadoConservacao;
-import br.com.js.patrimonio.patrimonio.Patrimonio;
+import java.time.LocalDateTime;
 
+import br.dev.joaosoares.patrimonio.departamento.Departamento;
+import br.dev.joaosoares.patrimonio.enums.EstadoConservacao;
+import br.dev.joaosoares.patrimonio.patrimonio.Patrimonio;
+import br.dev.joaosoares.patrimonio.usuario.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Builder // padrão de projeto para construção de objetos
 @Entity
 @Table(name = "tb_transfere_patrimonio")
-public class TransferePatrimonio extends AuditListener<String>{
+public class TransferePatrimonio {
 	private static final long serialVersionUID = 1L;
 
     @Id
@@ -39,6 +41,7 @@ public class TransferePatrimonio extends AuditListener<String>{
     private String localAnterior;
     private String obsAnterior;
     private String deptoAnterior;
+    private LocalDateTime dataHoraModificacao;
 
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
     @JoinColumn(name = "id_departamentoTransf_fk")
@@ -47,5 +50,9 @@ public class TransferePatrimonio extends AuditListener<String>{
     @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
     @JoinColumn(name = "id_patrimonio_fk")
     private Patrimonio patrimonio;
+
+    @ManyToOne // RELACIONAMENTO ENTRE AS CLASSES
+    @JoinColumn(name = "id_usuario_fk")
+    private Usuario usuarioTransferencia;
 
 }
