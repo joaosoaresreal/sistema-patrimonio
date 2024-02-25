@@ -112,8 +112,72 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}
 	}
 
-	// RELATÓRIO DE BAIXA
 
+	// RELATÓRIO DE BAIXA
+	public byte[] gerarRelatorioBaixa(RelatorioBaixaPatrimonioDTO dados) throws IOException{
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+			PdfWriter writer = new PdfWriter(outputStream);
+			PdfDocument pdf = new PdfDocument(writer);
+			Document document = new Document(pdf);
+
+			// Fonte em negrito
+			PdfFont fontNegrito = PdfFontFactory.createFont("Helvetica-Bold");
+
+			// Tamanho da tabela
+			float tableWidth = 510f;
+
+			// Criando a tabela de patrimonio
+			Table patrimonioBaixa = new Table(3).setWidth(tableWidth)
+					.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+			// Adicionar cabeçalho à tabela
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Plaqueta")
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Descrição")
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Observações")
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getPlaqueta())
+				.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getDescricao())
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getObservacao())
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+
+			var texto = new Paragraph("Pelo presente termo, eu " + dados.getNomeProfissional() + 
+					", portador do CPF " + dados.getCpfProfissional() + ", "
+					+ "no uso das atribuições legais, declaro que o bem patrimonial aqui listado não "
+					+ "está em condições de uso, portanto o mesmo está sendo baixado pelo motivo "
+					+ "descrito a baixo:\n").setTextAlignment(TextAlignment.JUSTIFIED);
+
+			var motivo = new Paragraph(dados.getMotivo() + "\n").setFont(fontNegrito).setTextAlignment(TextAlignment.CENTER);
+
+			var texto2 = new Paragraph("Para os devidos fins lavramos em conjunto o presente termo em "
+					+ "3 (três) vias que serão assinadas pelo responsável atual do patrimônio, "
+					+ "pelo profissional que autoriza a baixa e pelo responsável do Setor de Patrimônio.")
+					.setTextAlignment(TextAlignment.JUSTIFIED);
+
+			var assinaturas = new Paragraph("\n\n\n_____________________________________________\n" + 
+			"DEPARTAMENTO RESPONSÁVEL" + "\n\n\n_____________________________________________\n" + 
+			dados.getNomeProfissional() + "\n\n\n_____________________________________________\n" + 
+			"DEPARTAMENTO DE PATRIMÔNIO").setTextAlignment(TextAlignment.CENTER);
+
+			// ADICIONANDO ELEMENTOS AO PDF
+			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+			document.add(RelatorioLayout.criarParagrafoTitulo("Termo de Baixa Patrimonial")); // Nome Relatório
+			document.add(texto);
+			document.add(motivo);
+			document.add(patrimonioBaixa); // Tabela de Patrimonio
+			document.add(texto2);
+			document.add(new Paragraph("Naviraí/MS, " + dados.getData() + "\n\n").setTextAlignment(TextAlignment.RIGHT));
+			document.add(assinaturas);
+			document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
+
+			document.close();
+			return outputStream.toByteArray();
+		}
+	}
 
 
 	// RELATÓRIO DE PATRIMONIO

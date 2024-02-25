@@ -41,6 +41,26 @@ public class RelatorioResource {
         }
     }
 
+	// Requisição para gerar o relatório de baixa
+	@PostMapping("/gerar_rel_baixa")
+    public ResponseEntity<byte[]> gerarRelatorioBaixa(@RequestBody RelatorioBaixaPatrimonioDTO dados) {
+        try {
+        	// cria o relatório em formato PDF com base nos dados fornecidos na solicitação
+            byte[] relatorioPDF = relatorioService.gerarRelatorioBaixa(dados);
+
+            HttpHeaders headers = new HttpHeaders();
+            // indica que o conteúdo da resposta é um arquivo PDF
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            // indica que o arquivo deve ser exibido "inline" no navegador e tem o nome "transferencia.pdf".
+            headers.setContentDispositionFormData("inline", "baixa.pdf");
+            // Retorna o PDF
+            return new ResponseEntity<>(relatorioPDF, headers, HttpStatus.OK);
+        } catch (IOException e) { // Tratamento de excessão
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Requisição para gerar o relatório de patrimonios geral
     @GetMapping("/gerar_rel_patrimonio")
     public ResponseEntity<byte[]> gerarRelatorioPatrimonioGeral(){
