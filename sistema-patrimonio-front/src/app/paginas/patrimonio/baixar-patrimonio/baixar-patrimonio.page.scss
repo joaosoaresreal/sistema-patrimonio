@@ -1,43 +1,61 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
+/**********************************************************\
+|                    FORMULÁRIO                            |
+\**********************************************************/
+.formulario {
+    border-radius: 10px;
+    background: var(--ion-color-light);
+
+    ion-input, ion-textarea {
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
+
+    .sessao{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+
+        p{
+            font-weight: 600;
+        }
+    }
+
+    .patrimonio{
+        padding-left: 5px;
+
+        span{
+            display: flex;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+    }
+
+    .botoes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: right;
+    
+        ion-button {
+            border-radius: 80;
+            padding-right: 15px;
+            height: auto;
+        }
+    }
 }
 
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
+app-forms{
+    padding-bottom: 10px;
 }
 
-.toolbar h3, p{
-    margin: -2px;
+/**********************************************************\
+|           ********* VALIDAÇÕES DO FORM *********          |
+\**********************************************************/
+small.error-message {
+    color: var(--ion-color-danger);
 }
 
-.titulo{
-    text-align: center;
-    padding: 2%;
-    font-weight: 600;
-}
-
-ion-list{
-    margin: 6px;
-}
-
-.formulario{
-    padding: 1%;
-}
-
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
-}
-
-.rodape ion-title{
-    text-align: center;
-    font-size: 80%;
-}
-
-.rodape span{
-    font-weight: 800;
+.invalid {
+    border-bottom: 2px solid var(--ion-color-danger);
 }
