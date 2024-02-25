@@ -40,7 +40,7 @@ const routes: Routes = [
     loadChildren: () => import('./paginas/patrimonio/transferir-patrimonio/transferir-patrimonio.module').then( m => m.TransferirPatrimonioPageModule)
   },
   {
-    path: 'baixar-patrimonio',
+    path: 'baixar-patrimonio/:id',
     loadChildren: () => import('./paginas/patrimonio/baixar-patrimonio/baixar-patrimonio.module').then( m => m.BaixarPatrimonioPageModule)
   },
   {
