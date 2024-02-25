@@ -22,7 +22,7 @@ export class ListagemPatrimoniosPage implements OnInit {
               LISTAGEM E FILTRAGEM DOS PATRIMONIOS 
   \********************************************************/
   ionViewDidEnter() {
-    this.patrimonioService.findAll().subscribe({ // Carrega todos os patrimônios
+    this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
       next: (response) => {
         this.patrimonios = response;
 
