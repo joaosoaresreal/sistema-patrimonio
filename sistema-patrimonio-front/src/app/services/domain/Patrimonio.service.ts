@@ -53,4 +53,11 @@ export class PatrimonioService {
     findByAtivos(): Observable<PatrimonioDTO[]> {
         return this.http.get<PatrimonioDTO[]>(`${API_CONFIG.baseUrl}/api_patrimonio/ativos`)
     }
+
+    // BAIXA PATRIMONIO
+    baixa(id: number, dados: any){
+        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/baixa/${id}`, dados, {
+            observe: 'response', responseType: 'text'
+        })
+    }
 }
