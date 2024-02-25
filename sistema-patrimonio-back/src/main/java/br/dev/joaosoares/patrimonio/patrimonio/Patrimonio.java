@@ -1,8 +1,8 @@
-package br.com.js.patrimonio.patrimonio;
+package br.dev.joaosoares.patrimonio.patrimonio;
 
-import br.com.js.patrimonio.departamento.Departamento;
-import br.com.js.patrimonio.enums.EstadoConservacao;
-
+import br.dev.joaosoares.patrimonio.departamento.Departamento;
+import br.dev.joaosoares.patrimonio.enums.EstadoConservacao;
+import br.dev.joaosoares.patrimonio.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_patrimonio")
 public class Patrimonio implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,6 +42,8 @@ public class Patrimonio implements Serializable {
     private String descricao;
     @Enumerated(EnumType.STRING)
     private EstadoConservacao estado;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private String localizacao;
     private LocalDate dataEntrada;
     @Column(columnDefinition = "TEXT")
