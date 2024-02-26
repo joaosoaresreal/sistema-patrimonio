@@ -9,6 +9,7 @@ import { TransferirPatrimonioPageRoutingModule } from './transferir-patrimonio-r
 import { TransferirPatrimonioPage } from './transferir-patrimonio.page';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
     FormsModule,
     IonicModule,
     TransferirPatrimonioPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [DepartamentoService, RelatorioService],
   declarations: [TransferirPatrimonioPage]
