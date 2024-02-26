@@ -1,91 +1,73 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Transferir Patrimônio</p>
-  </div>
-
-  <form [formGroup]="transferenciaForm" *ngIf="transferenciaForm" (ngSubmit)="submit()">
-    <ion-list class="formulario">
-      <ion-grid>
-        <ion-item-group>
-          <div class="sessao">
-            <p>Dados do Patrimônio a ser Transferido </p>
-          </div>
-
-          <ion-row>
-            <ion-col>
-              <div class="patrimonio">
-                <p><span>Plaqueta</span></p>
-                <p>{{plaqueta}}</p>
+  <app-layout [pagina]="'Transferir Patrimônio'">
+    <app-forms>
+      <form [formGroup]="transferenciaForm" *ngIf="transferenciaForm" (ngSubmit)="submit()" class="formulario">
+        <div>
+          <ion-grid>
+            <ion-item-group>
+              <div class="sessao">
+                <p>Dados do Patrimônio a ser Transferido </p>
               </div>
-            </ion-col>
 
-            <ion-col>
-              <div class="patrimonio">
-                <p><span>Estado de Conservação</span></p>
-                <p>{{estado}}</p>
+              <ion-row>
+                <ion-col>
+                  <div class="patrimonio">
+                    <p><span>Plaqueta</span></p>
+                    <p>{{plaqueta}}</p>
+                  </div>
+                </ion-col>
+
+                <ion-col>
+                  <div class="patrimonio">
+                    <p><span>Estado de Conservação</span></p>
+                    <p>{{estado}}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <div class="patrimonio">
+                    <p><span>Descrição</span></p>
+                    <p>{{descricao}}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <div class="patrimonio">
+                    <p><span>Observações</span></p>
+                    <p>{{observacao}}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-item-group>
+
+            <ion-item-group>
+              <div class="sessao">
+                <p>Selecione o Departamento recebedor</p>
               </div>
-            </ion-col>
-          </ion-row>
 
-          <ion-row>
-            <ion-col>
-              <div class="patrimonio">
-                <p><span>Descrição</span></p>
-                <p>{{descricao}}</p>
-              </div>
-            </ion-col>
-          </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover"
+                    formControlName="departamento">
+                    <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </ion-item-group>
+          </ion-grid>
+        </div>
 
-          <ion-row>
-            <ion-col>
-              <div class="patrimonio">
-                <p><span>Observações</span></p>
-                <p>{{observacao}}</p>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-item-group>
-
-        <ion-item-group>
-          <div class="sessao">
-            <p>Selecione o Departamento recebedor</p>
-          </div>
-
-          <ion-row>
-            <ion-col>
-                <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
-                  <ion-select-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
-                </ion-select>
-            </ion-col>
-          </ion-row>
-        </ion-item-group>
-      </ion-grid>
-    </ion-list>
-
-    <div class="botoes">
-      <ion-button expand="block" type="submit">SALVAR E GERAR TERMO</ion-button>
-      <ion-button expand="block" (click)="cancelar()">CANCELAR E VOLTAR A LISTA</ion-button>
-    </div>
-  </form>
+        <div class="botoes">
+          <ion-button expand="block" type="submit">SALVAR E GERAR TERMO</ion-button>
+          <ion-button expand="block" (click)="cancelar()">CANCELAR E VOLTAR A LISTA</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
 </ion-content>
