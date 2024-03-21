@@ -120,7 +120,7 @@ export class ListagemPatrimoniosPage implements OnInit {
           text: 'BAIXAR',
           role: 'baixar',
           handler: () => {
-            this.nav.navigateForward('baixar-patrimonio')
+            this.nav.navigateForward(`baixar-patrimonio/${id}`)
           },
         },
         {
