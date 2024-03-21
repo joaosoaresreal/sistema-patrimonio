@@ -76,5 +76,30 @@ export class AlertsService {
     })
   }
 
+  alertaAcoes(titulo: string, texto: string, icone: any, botaoConfirma: string, botaoCancela: string, confirmaFuncao:any, cancelarFuncao: any){
+    Swal.fire({
+      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
+      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
+      title: titulo,
+      text: texto,
+      icon: icone,
+      showCancelButton: true,
+      confirmButtonText: botaoConfirma,
+      cancelButtonText: botaoCancela,
+      // Customizção
+      confirmButtonColor: 'var(--ion-color-success-shade)',
+      cancelButtonColor: 'var(--ion-color-danger-tint)',
+      backdrop: `linear-gradient(#FFF 70%)`,
+      background: `var(--ion-color-secondary)`,
+      color: `var(--ion-color-light)`
+    }).then((result) => { // Se o resultado for 'SIM' vai fazer isso
+      if (result.isConfirmed) {
+        confirmaFuncao()
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) { // Se o resultado for 'NÃO', vai fazer isso
+        cancelarFuncao()
+      }
+    })
+  }
 
 }
