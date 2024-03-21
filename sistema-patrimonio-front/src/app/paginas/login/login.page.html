@@ -10,9 +10,6 @@
   </div>
 
   <div class="login-form">
-    <!-- <div class="foto-usuario">
-      <img src="assets/user-icon.png" alt="Foto do Usuário" />
-    </div> -->
     <div class="login-form-div">
       <div class="login-texto">
         <p>Login</p>
@@ -34,6 +31,14 @@
 
       <ion-row>
         <ion-col>
+          <div class="exibe-senha">
+            Exibir senha <ion-checkbox (click)="verSenha()" ></ion-checkbox>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
           <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
           <a href="">Esqueceu a senha?</a>
         </ion-col>
@@ -41,22 +46,7 @@
     </div>
   </div>
 
-  <!-- <div class="licenciamento">
-    <div class="licenciamento_texto">
-      <p>sistema licenciado para</p>
-    </div>
-    <div class="licenciamento_img">
-      <img src="assets/logo-ss-tech-png.png" alt="Logo JS Software" />
-    </div>
-  </div> -->
-
   <div class="rodape">
     <p>Desenvolvido por © <span><a href="www.joaosoares.dev.br" target="_blank">SS Tech</a></span></p>
   </div>
 </ion-content>
-
-<!-- <footer class="rodape">
-  <ion-toolbar color="primary">
-    <p>Desenvolvido por © <span>SS Tech</span></p>
-  </ion-toolbar>
-</footer> -->
