@@ -44,24 +44,6 @@
               </ion-col>
             </ion-row>
 
-            <!-- <ion-row>
-              <ion-col>
-                <ion-input fill="outline" label="Senha" labelPlacement="floating" formControlName="senha" type="password" 
-                    placeholder="EXEMPLO@de-senha$#123"></ion-input>
-                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-                  Insira uma senha com no mínimo 8 caracteres
-                </small>
-              </ion-col>
-    
-              <ion-col>
-                <ion-input fill="outline" label="Confirme a senha" labelPlacement="floating" type="password" 
-                    placeholder="EXEMPLO@de-senha$#123"></ion-input>
-                <small class="error-message" *ngIf="usuarioForm.get('nome')?.errors && form.submitted">
-                  As senhas digitadas não conferem
-                </small>
-              </ion-col>
-            </ion-row> -->
-
             <ion-row>
               <ion-col>
                 <ion-select fill="outline" label="Departamento" labelPlacement="floating" 
@@ -82,20 +64,6 @@
                 </ion-select>
               </ion-col>
             </ion-row>
-
-            <ion-row>
-              <ion-col>
-                <div class="foto-perfil">
-                  <img [src]="arquivoPreview || 'assets/user-icon.png'" alt="Foto do Usuário"  />
-                </div>
-              </ion-col>
-
-              <!-- https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/ -->
-              <ion-col class="foto-perfil-input">
-                <input formControlName="foto" type="file" id="fotoPerfil" (change)="preview($event)"/>
-              </ion-col>
-            </ion-row>
-
           </ion-grid>
         </div>
 

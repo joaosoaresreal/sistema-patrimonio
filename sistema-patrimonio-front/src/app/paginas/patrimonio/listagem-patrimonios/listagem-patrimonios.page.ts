@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
 @Component({
@@ -16,7 +17,11 @@ export class ListagemPatrimoniosPage implements OnInit {
   patrimonios!: PatrimonioDTO[]
   patrimoniosFiltrados!: PatrimonioDTO[]
 
-  constructor(public nav: NavController, public patrimonioService: PatrimonioService, private alertController: AlertController) { }
+  constructor(
+    public nav: NavController,
+    public patrimonioService: PatrimonioService,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
               LISTAGEM E FILTRAGEM DOS PATRIMONIOS 
@@ -55,85 +60,25 @@ export class ListagemPatrimoniosPage implements OnInit {
   /********************************************************\
                           EDITAR 
   \********************************************************/
-  async editarSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente editar o Patrimônio?',
-      buttons: [
-        {
-          text: 'EDITAR',
-          role: 'editar',
-          handler: () => {
-            this.nav.navigateForward(`editar-patrimonio/${id}`)
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  editarSelecionado(id: number){
+    this.alerta.alertaPadrao('Deseja editar o Patrimônio selecionado?','SIM', 'NÃO', 
+    ()=>this.nav.navigateForward(`editar-patrimonio/${id}`), () => {})
   }
-
-
 
   /********************************************************\
                         TRANSFERIR 
   \********************************************************/
-  async transferirSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente transferir o Patrimônio?',
-      buttons: [
-        {
-          text: 'TRANSFERIR',
-          role: 'transferir',
-          handler: () => {
-            this.nav.navigateForward(`transferir-patrimonio/${id}`)
-            
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  transferirSelecionado(id: number) {
+    this.alerta.alertaPadrao('Deseja transferir o Patrimônio selecionado?', 'SIM', 'NÃO',
+    ()=>this.nav.navigateForward(`transferir-patrimonio/${id}`), ()=>{})
   }
 
   /********************************************************\
                         BAIXAR 
   \********************************************************/
-  async baixarSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente baixar o Patrimônio?',
-      buttons: [
-        {
-          text: 'BAIXAR',
-          role: 'baixar',
-          handler: () => {
-            this.nav.navigateForward('baixar-patrimonio')
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  baixarSelecionado(id: number){
+    this.alerta.alertaPadrao('Deseja baixar o Patrimonio selecionado?', 'SIM', 'NÃO', 
+    ()=> this.nav.navigateForward(`baixar-patrimonio/${id}`), ()=>{})
   }
 
   /********************************************************\

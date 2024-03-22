@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
-import { TelValidator } from 'src/app/services/validators/telValidator';
-import Swal from 'sweetalert2';
+import { TelValidator } from 'src/app/services/validators/TelValidator';
 
 @Component({
   selector: 'app-cadastrar-departamento',
@@ -13,11 +13,15 @@ import Swal from 'sweetalert2';
 export class CadastrarDepartamentoPage implements OnInit {
 
   cadastrarDepartamentoForm!: FormGroup
+  protected telFormatado: any;
 
-  public telFormatado: any;
-
-  constructor(public nav: NavController, private alertController: AlertController, private formBuilder: FormBuilder,
-    private departamentoService: DepartamentoService, private telValidator: TelValidator) { }
+  constructor(
+    public nav: NavController, 
+    private formBuilder: FormBuilder,
+    private departamentoService: DepartamentoService, 
+    private telValidator: TelValidator,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
                       SALVAR EDIÇÃO
@@ -36,7 +40,13 @@ export class CadastrarDepartamentoPage implements OnInit {
 
     this.departamentoService.insert(departamento).subscribe({
       next: (response) =>
-        this.alerta(),
+        this.alerta.alertaAcoes(
+          'SUCESSO', 'O cadastro do departamento foi incluido no sistema. Deseja cadastrar outro departamento?',
+          'success', 'SIM', 'NÃO', () => window.location.reload(), () => {
+            this.nav.navigateForward('listagem-departamentos')
+            this.cadastrarDepartamentoForm.reset()
+          }
+        ),
       error: (error) => console.log(error)
     })
   }
@@ -48,7 +58,7 @@ export class CadastrarDepartamentoPage implements OnInit {
     const telefone = this.cadastrarDepartamentoForm.value.telefone
     const telefoneFormatado = this.telValidator.telService(telefone);
     this.cadastrarDepartamentoForm.get('telefone')?.setValue(telefoneFormatado)
-    
+
     this.telFormatado = telefoneFormatado
   }
 
@@ -63,33 +73,4 @@ export class CadastrarDepartamentoPage implements OnInit {
       }
     })
   }
-
-  /********************************************************\
-                  MENSAGEM DE ALERTA 
-  \********************************************************/
-  alerta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'SUCESSO',
-      text: 'O cadastro do departamento foi incluido no sistema. Deseja cadastrar outro departamento?',
-      icon: 'success',
-      showCancelButton: true,
-      confirmButtonText: 'SIM',
-      cancelButtonText: 'NÃO',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then((result) => {
-      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
-        window.location.reload()
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
-      ) {
-        this.nav.navigateForward('listagem-departamentos')
-      }
-    })
-  }
-
 }
