@@ -8,7 +8,11 @@ import { MenuController, NavController, ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  public login = {
+  // iconSenha = "eye"
+  typeSenha = 'password'
+  // checked:any
+
+  protected login = {
     usuario: "",
     senha: ""
   }
@@ -49,6 +53,14 @@ export class LoginPage implements OnInit {
     this.nav.navigateForward(page)
   }
 
+
+  /********************************************************\
+                EXIBIR/OCULTAR SENHA
+  \********************************************************/
+  verSenha(){
+    console.log("clicou");
+    this.typeSenha = (this.typeSenha === 'password') ? 'text' : 'password';
+  }
   
 
   ngOnInit() {
