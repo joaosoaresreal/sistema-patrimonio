@@ -8,13 +8,15 @@ import { ListagemUsuariosPageRoutingModule } from './listagem-usuarios-routing.m
 
 import { ListagemUsuariosPage } from './listagem-usuarios.page';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListagemUsuariosPageRoutingModule
+    ListagemUsuariosPageRoutingModule,
+    SharedModule
   ],
   providers: [UsuarioService],
   declarations: [ListagemUsuariosPage]

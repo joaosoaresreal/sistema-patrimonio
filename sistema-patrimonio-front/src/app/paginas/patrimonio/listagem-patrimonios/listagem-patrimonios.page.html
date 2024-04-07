@@ -1,85 +1,58 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Listagem de Patrimônios</p>
-  </div>
+  <app-layout [pagina]="'Listagem de Patrimônios'">
 
-  <ion-accordion-group #accordionGroup *ngFor="let patrimonio of patrimonios">
-    <ion-accordion class="listagem" value={{patrimonio.id}} toggleIcon="disabled">
-
-      <ion-item slot="header" color="light">
-        <ion-label>
-          <h3>{{patrimonio.plaqueta}}</h3>
-          <p>{{patrimonio.descricao}}</p>
-
-          <ion-fab vertical="center" horizontal="end">
-            <ion-fab-button size="small">
-              <ion-icon name="settings-outline"></ion-icon>
-            </ion-fab-button>
-
-            <ion-fab-list side="start">
-              <ion-fab-button (click)="editarSelecionado(patrimonio.id)">
-                <ion-icon name="create-outline"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-button (click)="transferirSelecionado(patrimonio.id)">
-                <ion-icon name="move-outline"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-button (click)="baixarSelecionado(patrimonio.id)">
-                <ion-icon name="download-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab-list>
-          </ion-fab>
-        </ion-label>
-      </ion-item>
-
-      <div class="ion-padding" slot="content">
-        <ion-label>
-          <ion-item-divider>
-            <h3><span>Descrição:</span> {{patrimonio.descricao}}</h3>
-          </ion-item-divider>
-          <ion-item-divider>
-          <h3><span>Departamento:</span> {{patrimonio.departamento.nome}}</h3>
-          </ion-item-divider>
-          <ion-item-divider>
-          <h3><span>Localização:</span> {{patrimonio.localizacao}}</h3>
-          </ion-item-divider>
-          <ion-item-divider>
-          <h3><span>Estado:</span> {{patrimonio.estado}}</h3>
-          </ion-item-divider>
-          <ion-item-divider>
-          <h4><span>Data de Entrada:</span> {{patrimonio.dataEntrada | date: 'dd/MM/yyyy'}}</h4>
-          </ion-item-divider>
-          <ion-item-divider>
-          <h4><span>Obs.:</span> {{patrimonio.observacao}}</h4>
-          </ion-item-divider>
-        </ion-label>
+    <app-lists>
+      <div class="filtro">
+        <ion-searchbar fill="outline" label="Buscar" labelPlacement="floating"
+            [formControl]="queryField" type="text" placeholder="Descrição ou Plaqueta"></ion-searchbar>
       </div>
+      <ion-accordion-group #accordionGroup *ngFor="let patrimonio of patrimoniosFiltrados">
+        <ion-accordion class="listagem" value={{patrimonio.id}} toggleIcon="disabled">
 
-    </ion-accordion>
-  </ion-accordion-group>
+          <ion-item slot="header">
+            <ion-label>
+              <p><span>{{patrimonio.plaqueta}}</span></p>
+              <p>{{patrimonio.descricao}}</p>
 
-  <div class="botoes">
-    <ion-button expand="block">GERAR RELATÓRIO</ion-button>
-  </div>
+              <ion-fab vertical="center" horizontal="end">
+                <ion-fab-button size="small" class="opcoes-alterar">
+                  <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                </ion-fab-button>
 
+                <ion-fab-list side="start">
+                  <ion-fab-button (click)="editarSelecionado(patrimonio.id)" class="editar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button (click)="transferirSelecionado(patrimonio.id)" class="transferir">
+                    <ion-icon name="move-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button (click)="baixarSelecionado(patrimonio.id)" class="baixar">
+                    <ion-icon name="download-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+            </ion-label>
+          </ion-item>
+
+          <div class="ion-padding" slot="content">
+            <ion-label class="listagem_descricao">
+              <p><span>Descrição:</span> {{patrimonio.descricao}}</p>
+              <p><span>Departamento:</span> {{patrimonio.departamento.nome}}</p>
+              <p><span>Localização:</span> {{patrimonio.localizacao}}</p>
+              <p><span>Estado:</span> {{patrimonio.estado}}</p>
+              <p><span>Data de Entrada:</span> {{patrimonio.dataEntrada | date: 'dd/MM/yyyy'}}</p>
+              <p><span>Obs.:</span> {{patrimonio.observacao}}</p>
+            </ion-label>
+          </div>
+
+        </ion-accordion>
+      </ion-accordion-group>
+
+      <div class="botoes">
+        <ion-button expand="block">GERAR RELATÓRIO FIXO</ion-button>
+      </div>
+    </app-lists>
+  </app-layout>
 </ion-content>

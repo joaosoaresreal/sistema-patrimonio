@@ -1,47 +1,51 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
+.formulario {
+    border-radius: 10px;
+    background: var(--ion-color-light);
 
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
-}
+    ion-input {
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
 
-.toolbar h3, p{
-    margin: -2px;
-}
-
-.titulo{
-    font-size: 1.3rem;
-    text-align: center;
-    padding-top: 4%;
-    font-weight: 600;
-}
-
-.titulo-secao-form{
-    text-align: center;
-    padding: 1%;
-}
-
-.formulario{
-    padding: 1%;
-
-    ion-item-divider{
-        --padding-top: 10px;
-        --padding-bottom: 10px;
-        --padding-start: 20px;
-        --padding-end: 10px;
+    .sessao{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
 
         p{
             font-weight: 600;
         }
     }
+
+    ion-col{
+        padding-top: 0;
+    }
+
+    .patrimonio{
+        padding-left: 5px;
+
+        span{
+            display: flex;
+            margin-bottom: -5px;
+            font-weight: 600;
+        }
+    }
+
+    .botoes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: right;
+
+        ion-button {
+            border-radius: 80;
+            padding: 15px;
+            height: auto;
+        }
+    }
 }
 
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
+app-forms{
+    padding-bottom: 10px;
 }

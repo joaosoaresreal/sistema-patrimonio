@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { FormControl } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
 @Component({
@@ -11,110 +13,77 @@ import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
 export class ListagemPatrimoniosPage implements OnInit {
 
+  queryField = new FormControl('') // Pesquisa
   patrimonios!: PatrimonioDTO[]
+  patrimoniosFiltrados!: PatrimonioDTO[]
 
-  constructor(public nav: NavController, public patrimonioService: PatrimonioService, private alertController: AlertController) { }
+  constructor(
+    public nav: NavController,
+    public patrimonioService: PatrimonioService,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
-                    LISTAGEM DOS PATRIMONIOS 
+              LISTAGEM E FILTRAGEM DOS PATRIMONIOS 
   \********************************************************/
-  ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.patrimonioService.findAll().subscribe({next: (response) =>
-      this.patrimonios = response, 
-      error: (error) => 
-      console.log(error)
-    })
+  ionViewDidEnter() {
+    this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
+      next: (response) => {
+        this.patrimonios = response;
+
+        // Após receber os dados, inicializa os patrimônios filtrados
+        this.patrimoniosFiltrados = this.patrimonios.slice();
+      },
+      error: (error) => console.log(error)
+    });
+
+    // Observa mudanças no campo de pesquisa
+    this.queryField.valueChanges.subscribe((query: string | null) => {
+      if (query !== null) {
+        this.filterPatrimonios(query);
+      }
+    });
+  }
+
+  filterPatrimonios(query: string) {
+    query = query.toLowerCase();
+
+    // Verifica se patrimonios não é nulo antes de filtrar
+    if (this.patrimonios) {
+      this.patrimoniosFiltrados = this.patrimonios.filter(
+        // usado para verificar se a string convertida para minúsculas (toLowerCase()) contém a substring fornecida (query)
+        (patrimonio) => patrimonio.descricao.toLowerCase().includes(query) || patrimonio.plaqueta.toLowerCase().includes(query)
+      );
+    }
   }
 
   /********************************************************\
                           EDITAR 
   \********************************************************/
-  async editarSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente editar o Patrimônio?',
-      buttons: [
-        {
-          text: 'EDITAR',
-          role: 'editar',
-          handler: () => {
-            this.nav.navigateForward(`editar-patrimonio/${id}`)
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  editarSelecionado(id: number){
+    this.alerta.alertaPadrao('Deseja editar o Patrimônio selecionado?','SIM', 'NÃO', 
+    ()=>this.nav.navigateForward(`editar-patrimonio/${id}`), () => {})
   }
-
-
 
   /********************************************************\
                         TRANSFERIR 
   \********************************************************/
-  async transferirSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente transferir o Patrimônio?',
-      buttons: [
-        {
-          text: 'TRANSFERIR',
-          role: 'transferir',
-          handler: () => {
-            this.nav.navigateForward(`transferir-patrimonio/${id}`)
-            
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  transferirSelecionado(id: number) {
+    this.alerta.alertaPadrao('Deseja transferir o Patrimônio selecionado?', 'SIM', 'NÃO',
+    ()=>this.nav.navigateForward(`transferir-patrimonio/${id}`), ()=>{})
   }
 
   /********************************************************\
                         BAIXAR 
   \********************************************************/
-  async baixarSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente baixar o Patrimônio?',
-      buttons: [
-        {
-          text: 'BAIXAR',
-          role: 'baixar',
-          handler: () => {
-            this.nav.navigateForward('baixar-patrimonio')
-          },
-        },
-        {
-          text: 'CANCELAR',
-          role: 'cancelar',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  baixarSelecionado(id: number){
+    this.alerta.alertaPadrao('Deseja baixar o Patrimonio selecionado?', 'SIM', 'NÃO', 
+    ()=> this.nav.navigateForward(`baixar-patrimonio/${id}`), ()=>{})
   }
 
   /********************************************************\
                       GERAR RELATÓRIO 
   \********************************************************/
-
-
 
 
   ngOnInit() {

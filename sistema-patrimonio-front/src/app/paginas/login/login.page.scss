@@ -1,6 +1,6 @@
 ion-content {
-    --padding-top: 6%;
-    --background: linear-gradient(to top, #B63766, #fff)
+    --padding-top: 10%;
+    --background: linear-gradient(rgba(2, 51, 115, 0.7), rgba(13, 116, 252, 0.329)), url("../../../assets/img/background-mobile-1.png") no-repeat fixed center / 1080px;
 }
 
 .header {
@@ -8,42 +8,56 @@ ion-content {
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-wrap: wrap;
+    max-width: 100%;
 
     .header_img {
-        margin-top: 5%;
-        max-width: 110px;
+        margin-top: 3%;
+        max-width: 15vw;
         align-self: center;
         padding: 2%;
     }
 
     .header_texto {
         line-height: 1px;
-        font-size: 180%;
+        font-size: 4vw;
         font-weight: 700;
+        color: #FFF;
     }
 }
 
 .login-form {
-    padding-left: 10%;
-    padding-right: 10%;
+    display: flex;
+    justify-content: center;
 
-    .foto-usuario {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 15px;
+    .login-form-div {
+        min-width: 50%;
+        padding: 15px;
+        background-color: #ffffffb6;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+        .login-texto p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
     }
 
-    .foto-usuario img {
-        text-align: center;
-        border-radius: 50%;
-        border: 3px solid var(--ion-color-primary);
-        min-width: 60px;
-        max-width: 80px;
+    .exibe-senha {
+        display: flex;
+        justify-content: end;
+        gap: 4px;
+        padding-right: 2px;
+    }
+
+    ion-button {
+        --background: #000;
     }
 
     a {
         color: black;
+        text-align: center;
     }
 }
 
@@ -57,37 +71,25 @@ ion-input {
     --highlight-color: #000;
 }
 
-.licenciamento {
-    display: table;
-    margin: auto;
-    padding: 1%;
 
-    .licenciamento_img {
-        max-width: 120px;
-    }
-
-    .licenciamento_texto {
-        font-size: 80%;
-        align-items: center;
-        text-align: center;
-        font-weight: 700;
-        color: #c9c0c0;
-    }
-}
-
-.rodape{
+.rodape {
     margin: 0;
     left: 0;
     bottom: 0;
     width: 100%;
     color: #FFF;
 
-    p{
+    p {
         text-align: center;
         font-size: 80%;
     }
 
-    span{
+    a {
+        text-decoration: none;
+        color: #FFF;
+    }
+
+    span {
         font-weight: 800;
     }
 }
@@ -96,8 +98,8 @@ ion-input {
 
 @media (min-width: 700px) {
     ion-content {
-        --padding-top: 0;
-        --background: linear-gradient(to top, #B63766, #fff)
+        --padding-top: 2%;
+        --background: linear-gradient(rgba(2, 51, 115, 0.7), rgba(13, 116, 252, 0.329)), url("../../../assets/img/background-desktop-1.png") no-repeat fixed center / 1920px;
     }
 
     .header {
@@ -105,105 +107,33 @@ ion-input {
         justify-content: center;
         align-items: center;
         text-align: center;
+        flex-wrap: wrap;
+        max-width: 100%;
 
         .header_img {
-            margin-top: 5%;
-            max-width: 150px;
+            margin-top: 2%;
+            max-width: 12vw;
             align-self: center;
             padding: 2%;
         }
 
         .header_texto {
             line-height: 1px;
-            font-size: 180%;
+            font-size: 3vw;
             font-weight: 700;
         }
     }
 
     .login-form {
-        padding-left: 35%;
-        padding-right: 35%;
-
-        .foto-usuario {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 15px;
-        }
-
-        .foto-usuario img {
-            text-align: center;
-            border-radius: 50%;
-            border: 3px solid var(--ion-color-primary);
-            min-width: 60px;
-            max-width: 80px;
-        }
-
-        a {
-            color: black;
-        }
-    }
-
-    .licenciamento {
-        .licenciamento_img {
-            max-width: 150px;
-        }
-    }
-}
-
-@media (min-width: 1060px) {
-    ion-content {
-        --padding-top: 0;
-        --background: linear-gradient(to top, #B63766, #fff)
-    }
-
-    .header {
         display: flex;
         justify-content: center;
-        align-items: center;
-        text-align: center;
 
-        .header_img {
-            margin-top: 5%;
-            max-width: 230px;
-            align-self: center;
-            padding: 2%;
-        }
-
-        .header_texto {
-            line-height: 1px;
-            font-size: 280%;
-            font-weight: 700;
-        }
-    }
-
-    .login-form {
-        padding-left: 40%;
-        padding-right: 40%;
-
-        .foto-usuario {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 15px;
-        }
-
-        .foto-usuario img {
-            text-align: center;
-            border-radius: 50%;
-            border: 3px solid var(--ion-color-primary);
-            min-width: 60px;
-            max-width: 80px;
+        .login-form-div {
+            min-width: 30%;
         }
 
         a {
             color: black;
-        }
-    }
-
-    .licenciamento {
-        .licenciamento_img {
-            max-width: 150px;
         }
     }
 }

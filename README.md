@@ -5,8 +5,8 @@ Este é o repositório da implementação do SCP - Sistema de Controle Patrimoni
 **By João Soares e Sandra Sedano**
 
 ## Documentação:
-* :link: [Diagrama de caso de uso]()
-* :link: [Diagrama de classes]()
+* :link: [Diagrama de caso de uso](https://github.com/joaosoaresreal/sistema-patrimonio/blob/master/sistema-patrimonio-back/docs/diagrama-caso-de-uso.jpg)
+* :link: [Diagrama de classes](https://github.com/joaosoaresreal/sistema-patrimonio/blob/master/sistema-patrimonio-back/docs/diagrama-de-classes.jpg)
 * :link: [Protótipo de telas](https://www.figma.com/file/SWW9DeizEuHo2GgHseqi1w/Sistema-de-Patrim%C3%B4nio?type=design&node-id=0%3A1&mode=design&t=Q0qlmCz2iZcPiU2G-1)
 
 ## 🛠 Tecnologias

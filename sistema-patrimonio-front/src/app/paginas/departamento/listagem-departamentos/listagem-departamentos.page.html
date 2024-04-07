@@ -1,26 +1,42 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">   
-      <ion-button slot="end" fill="clear" >
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-    
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
+  <app-layout [pagina]="'Listagem de Departamentos'">
+    <app-lists>
+      <ion-list class="listagem" *ngFor="let departamento of departamentos">
+
+        <ion-item>
+          <ion-label>
+            <p><span>{{departamento.nome}}</span></p>
+            <p>{{departamento.telefone}}</p>
+            <p>{{departamento.email}}</p>
+
+            <ion-fab vertical="center" horizontal="end">
+              <ion-fab-button size="small">
+                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+              </ion-fab-button>
+
+              <ion-fab-list side="start">
+                <ion-fab-button (click)="editarSelecionado(departamento.id)" class="editar">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button (click)="excluirSelecionado(departamento.id)" class="excluir">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-fab-button>
+              </ion-fab-list>
+            </ion-fab>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+      <div class="botoes">
+        <ion-button expand="block" (click)="cadastrarDepartamento()">CADASTRAR NOVO DEPTO</ion-button>
+      </div>
+    </app-lists>
+  </app-layout>
+
+  <!-- <div class="titulo">
     <p>Listagem de Departamentos</p>
   </div>
 
@@ -34,7 +50,7 @@
 
         <ion-fab vertical="center" horizontal="end">
           <ion-fab-button size="small">
-            <ion-icon name="settings-outline"></ion-icon>
+            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
           </ion-fab-button>
 
           <ion-fab-list side="start" >
@@ -53,5 +69,5 @@
 
   <div class="botoes">
     <ion-button expand="block" (click)="cadastrarDepartamento()">CADASTRAR NOVO DEPTO</ion-button>
-  </div>
+  </div> -->
 </ion-content>

@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="header">
     <div class="header_img">
-      <img src="assets/logo-js-softwares.png" alt="Logo JS Software">
+      <img src="assets/logo-ss-tech-png.png" alt="Logo JS Software">
     </div>
     <div class="header_texto">
       <p>Controle</p>
@@ -10,45 +10,43 @@
   </div>
 
   <div class="login-form">
-    <div class="foto-usuario">
-      <img src="assets/user-icon.png" alt="Foto do Usuário" />
+    <div class="login-form-div">
+      <div class="login-texto">
+        <p>Login</p>
+      </div>
+
+      <ion-row>
+        <ion-col>
+          <ion-input class="custom" label="Usuário" labelPlacement="floating" fill="outline"
+            placeholder="usuario@joaosoares.dev.br" [(ngModel)]="login.usuario"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-input class="custom" label="Senha" labelPlacement="floating" fill="outline"
+            type="password" [(ngModel)]="login.senha"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div class="exibe-senha">
+            Exibir senha <ion-checkbox (click)="verSenha()" ></ion-checkbox>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
+          <a href="">Esqueceu a senha?</a>
+        </ion-col>
+      </ion-row>
     </div>
-
-    <ion-row>
-      <ion-col>
-        <ion-input class="custom" label="Usuário" labelPlacement="floating" fill="outline"
-          placeholder="Ex.: samara.sudano@JSsoftware.com.br" [(ngModel)]="login.usuario"></ion-input>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <ion-input class="custom" label="Senha" labelPlacement="floating" fill="outline" placeholder="Sua-senha-Aqui" type="password"
-          [(ngModel)]="login.senha"></ion-input>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
-        <a href="">Esqueceu a senha?</a>
-      </ion-col>
-    </ion-row>
   </div>
 
-  <div class="licenciamento">
-    <div class="licenciamento_texto">
-      <p>sistema licenciado para</p>
-    </div>
-    <div class="licenciamento_img">
-      <img src="assets/logo-js-softwares.png" alt="Logo JS Software" />
-    </div>
+  <div class="rodape">
+    <p>Desenvolvido por © <span><a href="www.joaosoares.dev.br" target="_blank">SS Tech</a></span></p>
   </div>
-
 </ion-content>
-
-<footer class="rodape">
-  <ion-toolbar color="primary">
-    <p>Desenvolvido por © <span>JSsoftware</span></p>
-  </ion-toolbar>
-</footer>

@@ -1,69 +1,73 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary">   
-      <ion-button slot="end" fill="clear" >
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-    
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <ion-title class="titulo" size="large">Baixar Patrimônio</ion-title>
+  <app-layout [pagina]="'Baixar Patrimônio'">
+    <app-forms>
+      <form #form="ngForm" [formGroup]="baixaForm" *ngIf="baixaForm" (ngSubmit)="submit()" class="formulario">
+        <div>
+          <ion-grid>
+            <div class="sessao">
+              <p>Dados do Patrimônio a ser Baixado</p>
+            </div>
 
-  <ion-list class="formulario">
-    <ion-grid>
-      <p>Dados do Patrimônio a ser Baixado </p>
+            <ion-row>
+              <ion-col>
+                <div class="patrimonio">
+                  <p><span>Plaqueta</span></p>
+                  <p>{{plaqueta}}</p>
+                </div>
+              </ion-col>
+              
+              <ion-col>
+                <div class="patrimonio">
+                  <p><span>Descrição</span></p>
+                  <p>{{descricao}}</p>
+                </div>
+              </ion-col>
+            </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item disabled="true">
-            <ion-label position="stacked">Plaqueta</ion-label>
-            <ion-input>AA000</ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-textarea fill="outline" label="Motivo" labelPlacement="floating" formControlName="motivo"
+                  type="text" placeholder="Motivo da baixa do patrimônio"></ion-textarea>
+                <small class="error-message" *ngIf="baixaForm.get('motivo')?.errors && form.submitted">
+                  Informe o motivo da baixa
+                </small>
+              </ion-col>
+            </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-item disabled="true">
-            <ion-label position="stacked">Descrição</ion-label>
-            <ion-input>Descrição aqui</ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+            <div class="sessao">
+              <p>Dados do profissional que autoriza a baixa</p>
+            </div>
 
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label position="stacked">Observações</ion-label>
-            <ion-input>Equipamento sem condições de uso</ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nomeProfissionalBaixa"
+                  type="text" (focusout)="formataNome()" [(ngModel)]="nomeFormatado"></ion-input>
+                <small class="error-message" *ngIf="baixaForm.get('nomeProfissionalBaixa')?.errors && form.submitted">
+                  Informe o nome completo do profissional
+                </small>
+              </ion-col>
+            </ion-row>
 
-  <div class="botoes">
-    <ion-button expand="block" (click)="efetivarBaixa()">SALVAR E GERAR TERMO</ion-button>
-    <ion-button expand="block" (click)="cancelarBaixa()">CANCELAR E VOLTAR A LISTA</ion-button>
-  </div>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="CPF" labelPlacement="floating" formControlName="cpfProfissionalBaixa"
+                  type="numeric" (focusout)="validaCPF()" [(ngModel)]="cpfFormatado"></ion-input>
+                <small class="error-message" *ngIf="baixaForm.get('cpfProfissionalBaixa')?.errors && form.submitted">
+                  Informe o CPF do profissional
+                </small>
+              </ion-col>
+            </ion-row>
 
+          </ion-grid>
+        </div>
+
+        <div class="botoes">
+          <ion-button expand="block" type="submit">SALVAR E GERAR TERMO</ion-button>
+          <ion-button expand="block" (click)="cancelarBaixa()">CANCELAR E VOLTAR A LISTA</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
 </ion-content>
-
-<ion-footer class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title size="">Desenvolvido por © <span>JSsoftware</span></ion-title>
-  </ion-toolbar>
-</ion-footer>

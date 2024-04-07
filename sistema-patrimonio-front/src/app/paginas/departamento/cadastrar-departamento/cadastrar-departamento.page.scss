@@ -1,47 +1,39 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
+/**********************************************************\
+|                    FORMULÁRIO                            |
+\**********************************************************/
+.formulario {
+    border-radius: 10px;
+    background: var(--ion-color-light);
 
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
-}
-
-.toolbar h3, p{
-    margin: -2px;
-}
-
-.titulo{
-    font-size: 1.3rem;
-    text-align: center;
-    padding-top: 4%;
-    font-weight: 600;
-}
-
-.formulario{
-    padding-left: 2%;
-    padding-right: 2%;
-
-    ion-input, ion-select {
+    ion-input,
+    ion-select,
+    ion-textarea {
         --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
+
+    .botoes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: right;
+    
+        ion-button {
+            border-radius: 80;
+            padding-right: 15px;
+            height: auto;
+        }
     }
 }
 
-// ***** VALIDAÇÕES DO FORM *********
-small.error-message{
-    color: var(--ion-color-primary);
+/**********************************************************\
+|           ********* VALIDAÇÕES DO FORM *********          |
+\**********************************************************/
+small.error-message {
+    color: var(--ion-color-danger);
 }
 
-.invalid{
-    border-bottom: 2px solid red;
-}
-
-// ************************************
-
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
+.invalid {
+    border-bottom: 2px solid var(--ion-color-danger);
 }

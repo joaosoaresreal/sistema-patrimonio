@@ -8,7 +8,11 @@ import { MenuController, NavController, ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  public login = {
+  // iconSenha = "eye"
+  typeSenha = 'password'
+  // checked:any
+
+  protected login = {
     usuario: "",
     senha: ""
   }
@@ -37,7 +41,7 @@ export class LoginPage implements OnInit {
   
   logar(){
 
-    if(this.login.usuario==='usuario@teste.com' && this.login.senha==='12345678'){
+    if(this.login.usuario==='sstech@sstech.com' && this.login.senha==='ifms12345678'){
       this.nav.navigateForward('home')
     }else{
       this.presentToast()
@@ -49,6 +53,14 @@ export class LoginPage implements OnInit {
     this.nav.navigateForward(page)
   }
 
+
+  /********************************************************\
+                EXIBIR/OCULTAR SENHA
+  \********************************************************/
+  verSenha(){
+    console.log("clicou");
+    this.typeSenha = (this.typeSenha === 'password') ? 'text' : 'password';
+  }
   
 
   ngOnInit() {

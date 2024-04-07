@@ -1,0 +1,27 @@
+.toolbar{
+    border-bottom: 1px solid var(--ion-color-secondary);
+
+    ion-button{
+        width: 50px;
+        align-self: center;
+        margin: auto;
+        display: flex;
+    }
+
+    ion-col{
+        display: inline-block;
+        text-align: right;
+    }
+
+    p{
+        margin: -2px;
+
+        span{
+            font-weight: 500;
+        }
+    }
+
+    img{
+        border-radius: 50px;
+    }
+}

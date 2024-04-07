@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
-import { TelValidator } from 'src/app/services/validators/telValidator';
-import Swal from 'sweetalert2';
+import { TelValidator } from 'src/app/services/validators/TelValidator';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -19,11 +19,17 @@ export class EditarUsuarioPage implements OnInit {
   editarUsuarioForm!: FormGroup
   departamentos!: DepartamentoNomeDTO[]
 
-  public telFormatado: any;
+  protected telFormatado: any;
 
-  constructor(private formBuilder: FormBuilder, public nav: NavController, private alertController: AlertController, 
-    private route: ActivatedRoute, private usuarioService: UsuarioService, private departamentoService: DepartamentoService,
-    private telValidator: TelValidator) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private nav: NavController,
+    private route: ActivatedRoute,
+    private usuarioService: UsuarioService,
+    private departamentoService: DepartamentoService,
+    private telValidator: TelValidator,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
                     LISTAGEM DOS DEPARTAMENTOS
@@ -54,10 +60,13 @@ export class EditarUsuarioPage implements OnInit {
         'id': this.editarUsuarioForm.value.departamento
       }
     }
-    console.log(usuarioEdicao)
 
-    this.usuarioService.update(usuarioEdicao).subscribe(response=>{
-      this.alerta()
+    this.usuarioService.update(usuarioEdicao).subscribe({
+      next: (response)=>{
+        this.alerta.alertaOk('SUCESSO', 'O cadastro do usuário foi alterado', 'success', 'OK', ()=> this.nav.navigateForward('listagem-usuarios'))
+      },
+      error: (error)=> this.alerta.alertaOk('ERRO', 'Não foi possível alterar o cadastro, tente novamente mais tarde, ou contate o administrador do sistema',
+       'error', 'OK', ()=> this.nav.navigateForward('listagem-usuarios'))
     })
   }
 
@@ -68,35 +77,16 @@ export class EditarUsuarioPage implements OnInit {
     const telefone = this.editarUsuarioForm.value.telefone
     const telefoneFormatado = this.telValidator.telService(telefone);
     this.editarUsuarioForm.get('telefone')?.setValue(telefoneFormatado)
-    
+
     this.telFormatado = telefoneFormatado
   }
 
   /********************************************************\
-                  CANCELAR EDIÇÃO 
+                    CANCELAR EDIÇÃO 
   \********************************************************/
-  async descartarAlteracao() {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente descartar as alterações?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            this.nav.navigateForward('listagem-usuarios')
-          },
-        },
-        {
-          text: 'NÃO',
-          role: 'nao',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  descartarAlteracao() {
+    this.alerta.alertaPadrao('Deseja realmente descartar as alterações?', 'SIM', 'NÃO', 
+    ()=>this.nav.navigateForward('listagem-usuarios'), ()=>{})
   }
 
   ngOnInit() {
@@ -113,27 +103,4 @@ export class EditarUsuarioPage implements OnInit {
       })
     })
   }
-
-  /********************************************************\
-                    MENSAGEM PADRÃO 
-  \********************************************************/
-  alerta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'SUCESSO',
-      text: 'O cadastro do usuário foi alterado',
-      icon: 'success',
-      confirmButtonText: 'OK',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then(() => {
-      {
-        this.nav.navigateForward('listagem-usuarios')
-      }
-    })
-  }
-
 }

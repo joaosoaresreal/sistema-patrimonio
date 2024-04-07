@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 import { CpfValidator } from 'src/app/services/validators/CpfValidator';
-import { TelValidator } from 'src/app/services/validators/telValidator';
-import Swal from 'sweetalert2';
+import { TelValidator } from 'src/app/services/validators/TelValidator';
 
 @Component({
   selector: 'app-cadastrar-usuario',
@@ -17,15 +17,20 @@ export class CadastrarUsuarioPage implements OnInit {
 
   usuarioForm!: FormGroup
   departamentos!: DepartamentoNomeDTO[]
-  arquivo!: File // Guarda a referência da foto selecionado
+  // arquivo!: File // Guarda a referência da foto selecionado
 
   public cpfFormatado: any;
   public telFormatado: any;
-  public arquivoPreview: any; // Guarda os bytes obtidos através da leitura
+  // public arquivoPreview: any; // Guarda os bytes obtidos através da leitura
 
-  constructor(private formBuilder: FormBuilder, private departamentoService: DepartamentoService,
-    private usuarioService: UsuarioService, private alertController: AlertController, public nav: NavController,
-    private telValidator: TelValidator) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private departamentoService: DepartamentoService,
+    private usuarioService: UsuarioService,
+    public nav: NavController,
+    private telValidator: TelValidator,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
                   SALVA O FORMULÁRIO
@@ -48,11 +53,13 @@ export class CadastrarUsuarioPage implements OnInit {
     }
 
     this.usuarioService.insert(usuario).subscribe({
-      next: (response) =>
-        this.alerta(),
-      error: (error) => console.log(error)
+      next: (response) => {
+        this.alerta.alertaAcoes('Cadastro Realizado', 'Deseja cadastrar outro usuário?', 'success', 'SIM', 'NÃO',
+        ()=> window.location.reload(), ()=> this.nav.navigateForward('listagem-usuarios'))
+      },
+      error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível salvar o cadastro no momento, tente novamente mais tarde ou contate o administrador do sistema',
+      'error', 'OK', ()=>this.nav.navigateForward('listagem-usuarios'))
     })
-
   }
 
   /********************************************************\
@@ -75,7 +82,7 @@ export class CadastrarUsuarioPage implements OnInit {
     this.cpfFormatado = formattedCpf
 
     this.usuarioService.findByCpf(formattedCpf).subscribe((response) => {
-      if (response.id >= 1) {
+      if (response.id > 0) {
         this.alertaCpf(response.id) // Se o CPF já existe, exiba o alerta e envia o 'id' para poder fazer o método de edição
       }
     }
@@ -83,28 +90,8 @@ export class CadastrarUsuarioPage implements OnInit {
   }
 
   alertaCpf(id: number) {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'ATENÇÃO',
-      text: 'O CPF inserido já está cadastrado no sistema, deseja editar o cadastro do usuário?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'SIM',
-      cancelButtonText: 'NÃO',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then((result) => {
-      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
-        this.nav.navigateForward(`editar-usuario/${id}`)
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
-      ) {
-        this.nav.navigateForward('listagem-usuarios')
-      }
-    })
+    this.alerta.alertaAcoes('O CPF inserido já está cadastrado no sistema', 'Deseja editar o cadastro do usuário?', 'warning', 'SIM', 'NÃO',
+    ()=>this.nav.navigateForward(`editar-usuario/${id}`), ()=>this.nav.navigateForward('listagem-usuarios'))
   }
 
   /********************************************************\
@@ -118,26 +105,26 @@ export class CadastrarUsuarioPage implements OnInit {
     this.telFormatado = telefoneFormatado
   }
 
-  /********************************************************\
-                  FOTO DO USUÁRIO
-  \********************************************************/
-  // https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/
-  preview(event: Event) {
-    const target = event.target as HTMLInputElement;
+  // /********************************************************\
+  //                 FOTO DO USUÁRIO
+  // \********************************************************/
+  // // https://consolelog.com.br/angular-upload-arquivo-barra-progresso-porcentagem/
+  // preview(event: Event) {
+  //   const target = event.target as HTMLInputElement;
 
-    if (target instanceof HTMLInputElement && target.files && target.files.length > 0) {
-      const arquivo = target.files[0]; // O navegador fornece acesso ao arquivo através da propriedade 'files' do elemento
-      console.log(arquivo);
+  //   if (target instanceof HTMLInputElement && target.files && target.files.length > 0) {
+  //     const arquivo = target.files[0]; // O navegador fornece acesso ao arquivo através da propriedade 'files' do elemento
+  //     console.log(arquivo);
 
-      const reader = new FileReader();
+  //     const reader = new FileReader();
 
-      reader.onloadend = () => {
-        this.arquivoPreview = reader.result;
-      };
+  //     reader.onloadend = () => {
+  //       this.arquivoPreview = reader.result;
+  //     };
 
-      reader.readAsDataURL(arquivo);
-    }
-  }
+  //     reader.readAsDataURL(arquivo);
+  //   }
+  // }
 
   /********************************************************\
                   AÇÕES DE INICIALIZAÇÃO
@@ -155,33 +142,4 @@ export class CadastrarUsuarioPage implements OnInit {
       }
     })
   }
-
-  /********************************************************\
-                MENSAGEM DE ALERTA AO SALVAR
-  \********************************************************/
-  alerta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'SUCESSO',
-      text: 'O cadastro do usuário foi incluido. Deseja cadastrar outro usuário?',
-      icon: 'success',
-      showCancelButton: true,
-      confirmButtonText: 'SIM',
-      cancelButtonText: 'NÃO',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then((result) => {
-      if (result.isConfirmed) { // Se o resultado for 'SIM', faça isso
-        window.location.reload()
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel // Se o resultado for 'NÃO', faça isso
-      ) {
-        this.nav.navigateForward('listagem-usuarios')
-      }
-    })
-  }
-
 }

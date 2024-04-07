@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+
 import { DepartamentoDTO } from 'src/app/models/DepartamentoDTO';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
 
 @Component({
@@ -12,10 +14,14 @@ export class ListagemDepartamentosPage implements OnInit {
 
   departamentos!: DepartamentoDTO[]
 
-  constructor(public nav: NavController, public departamentoService: DepartamentoService, private alertController: AlertController) { }
+  constructor(
+    public nav: NavController,
+    public departamentoService: DepartamentoService,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
-                    LISTAGEM DOS DEPARTAMENTOS
+                  LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
     this.departamentoService.findAll().subscribe({
@@ -36,61 +42,25 @@ export class ListagemDepartamentosPage implements OnInit {
   /********************************************************\
                     EDITAR DEPARTAMENTO
   \********************************************************/
-  async editarSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente editar o Departamento selecionado?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            this.nav.navigateForward(`editar-departamento/${id}`)
-          },
-        },
-        {
-          text: 'NAO',
-          role: 'nao',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+  editarSelecionado(id: number) {
+    this.alerta.alertaPadrao('Deseja editar o Departamento selecionado?', 'SIM', 'NÃO', ()=>this.nav.navigateForward(`editar-departamento/${id}`), ()=>{})
   }
 
   /********************************************************\
                     EXCLUIR DEPARTAMENTO
   \********************************************************/
   async excluirSelecionado(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente excluir o Departamento selecionado?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            this.departamentoService.delete(id).subscribe({
-              next: (response) => window.location.reload(),
-              error: (error) => console.log(error)
-            })
-          },
-        },
-        {
-          text: 'NAO',
-          role: 'nao',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+    this.alerta.alertaPadrao('Deseja excluir o Departamento selecionado?', 'SIM', 'NÃO', 
+      ()=>{ // Aqui vai verificar se é possivel excluir
+        this.departamentoService.delete(id).subscribe({
+          next: (response) => window.location.reload(),
+          error: (error) => {this.alerta.alertaOk('ATENÇÃO', 'Não foi possível excluir o cadastro do departamento', 'warning', 'OK', ()=>{})}
+        })
+      }, // Se a resposta do usuário for 'não' fecha o modal
+      ()=>{}
+    )
   }
 
   ngOnInit() {
   }
-
 }

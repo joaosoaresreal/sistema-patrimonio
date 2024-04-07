@@ -1,65 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Listagem de Usuários</p>
-  </div>
+  <app-layout [pagina]="'Controle de Usuário'">
+    <app-lists>
+      <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
+        <ion-accordion class="listagem" value={{usuario.id}} toggle-icon="disabled">
 
-  <ion-accordion-group #accordionGroup *ngFor="let usuario of usuarios">
-    <ion-accordion class="listagem" value={{usuario.id}} toggle-icon="disabled">
-      
-      <ion-item slot="header" color="light">
-        <ion-label>
-          <h3>{{usuario.nome}}</h3>
-          <p>{{usuario.departamento.nome}}</p>
+          <ion-item slot="header" color="light">
+            <ion-label>
+              <p><span>{{usuario.nome}}</span></p>
+              <p>{{usuario.departamento.nome}}</p>
 
-          <ion-fab vertical="center" horizontal="end">
-            <ion-fab-button size="small">
-              <ion-icon name="settings-outline"></ion-icon>
-            </ion-fab-button>
+              <ion-fab vertical="center" horizontal="end">
+                <ion-fab-button size="small">
+                  <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                </ion-fab-button>
 
-            <ion-fab-list side="start" >
-              <ion-fab-button (click)="editarSelecionado(usuario.id)" class="editar">
-                <ion-icon name="create-outline"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-button (click)="excluirSelecionado(usuario.id)" class="excluir">
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab-list>
-          </ion-fab>
-        </ion-label>
-      </ion-item>
-      
-      <div class="ion-padding" slot="content">
-        <ion-label>
-          <h3>Telefone: {{usuario.telefone}}</h3>
-          <h3>Email: {{usuario.email}}</h3>
-          <h3>Empresa: {{usuario.departamento.empresa.nomeFantasia}}</h3>
-        </ion-label>
+                <ion-fab-list side="start">
+                  <ion-fab-button (click)="editarSelecionado(usuario.id)" class="editar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button (click)="excluirSelecionado(usuario.id)" class="excluir">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+            </ion-label>
+          </ion-item>
+
+          <div class="ion-padding" slot="content">
+            <ion-label>
+              <p><span>Telefone:</span> {{usuario.telefone}}</p>
+              <p><span>Email:</span> {{usuario.email}}</p>
+            </ion-label>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+
+      <div class="botoes">
+        <ion-button expand="block" (click)="cadastrarUsuario()">CADASTRAR NOVO USUÁRIO</ion-button>
       </div>
-    </ion-accordion>
-  </ion-accordion-group>
-
-  <div class="botoes">
-    <ion-button expand="block" (click)="cadastrarUsuario()">CADASTRAR NOVO USUÁRIO</ion-button>
-  </div>
+    </app-lists>
+  </app-layout>
 </ion-content>

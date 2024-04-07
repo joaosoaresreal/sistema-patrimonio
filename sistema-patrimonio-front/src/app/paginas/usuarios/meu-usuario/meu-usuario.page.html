@@ -1,0 +1,96 @@
+<app-navbar></app-navbar>
+
+<ion-content [fullscreen]="true">
+  <app-layout [pagina]="'Meu Usuário'">
+    <app-forms>
+      <form #form="ngForm" [formGroup]="meuUsuarioForm" *ngIf="meuUsuarioForm" (ngSubmit)="submit()" class="formulario">
+        <div class="form-texto">
+          <p>
+            Olá Usuário
+          </p>
+          <p>
+            O que vamos alterar hoje?
+          </p>
+        </div>
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col class="foto-usuario">
+                <img src="./../../../../assets/user-icon-logado.png" alt="Foto do Usuário">
+                <div class="foto-buttons">
+                  <ion-button expand="block">SELECIONAR FOTO</ion-button>
+                  <ion-button expand="block">EXCLUIR FOTO</ion-button>
+                </div>
+              </ion-col>
+
+              <!-- <ion-col>
+                <ion-button expand="block">SELECIONAR FOTO</ion-button>
+                <ion-button expand="block">EXCLUIR FOTO</ion-button>
+              </ion-col> -->
+            </ion-row>
+          </ion-grid>
+
+          <ion-row>
+            <ion-col>
+              <ion-input fill="outline" label="Email" labelPlacement="floating" type="email" formControlName="email"></ion-input>
+              <small class="error-message" *ngIf="meuUsuarioForm.get('email')?.errors && form.submitted">
+                Informe o email corretamente
+              </small>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item class="col-senha" fill="outline">
+                <ion-label position="floating">Senha Atual</ion-label>
+                <ion-input type={{typeSenhaAtual}} formControlName="senhaAtual" class="col-senha-input"></ion-input>
+                <ion-button slot="end" fill="clear" (click)="verSenhaAtual()">
+                  <ion-icon size="small" name={{iconSenhaAtual}}></ion-icon>
+                </ion-button>
+              </ion-item>
+              <small class="error-message" *ngIf="meuUsuarioForm.get('senhaAtual')?.errors && form.submitted">
+                Informe a Senha atual
+              </small>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item class="col-senha" fill="outline">
+                <ion-label position="floating">Nova Senha</ion-label>
+                <ion-input type={{typeNovaSenha}} formControlName="novaSenha" class="col-senha-input"></ion-input>
+                <ion-button slot="end" fill="clear" (click)="verNovaSenha()">
+                  <ion-icon size="small" name={{iconNovaSenha}}></ion-icon>
+                </ion-button>
+              </ion-item>
+              <small class="error-message" *ngIf="meuUsuarioForm.get('novaSenha')?.errors && form.submitted">
+                Informe a nova senha
+              </small>
+            </ion-col>
+
+            <ion-col>
+              <ion-item class="col-senha" fill="outline">
+                <ion-label position="floating">Repita a nova senha</ion-label>
+                <ion-input type={{typeConfirmacaoSenha}} formControlName="novaSenhaConfirmacao" class="col-senha-input"></ion-input>
+                <ion-button slot="end" fill="clear" (click)="verConfirmacaoSenha()">
+                  <ion-icon size="small" name={{iconConfirmacaoSenha}}></ion-icon>
+                </ion-button>
+              </ion-item>
+              <small class="error-message" *ngIf="meuUsuarioForm.get('novaSenhaConfirmacao')?.errors && form.submitted">
+                Informe a nova senha novamente
+              </small>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+          </ion-row>
+
+
+        </div>
+        <div class="botoes">
+          <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
+</ion-content>

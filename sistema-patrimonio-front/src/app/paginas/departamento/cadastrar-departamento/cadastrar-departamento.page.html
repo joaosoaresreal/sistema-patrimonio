@@ -1,76 +1,60 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Cadastrar Departamento</p>
-  </div>
+  <app-layout [pagina]="'Cadastrar Departamento'">
+    <app-forms>
+      <form #form="ngForm" [formGroup]="cadastrarDepartamentoForm" *ngIf="cadastrarDepartamentoForm"
+        (ngSubmit)="submit()" class="formulario">
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome"
+                  placeholder="Ex.: Administrativo"></ion-input>
+                <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('nome')?.errors && form.submitted">
+                  Informe o nome corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-  <form #form="ngForm" [formGroup]="cadastrarDepartamentoForm" *ngIf="cadastrarDepartamentoForm" (ngSubmit)="submit()">
-    <ion-list class="formulario">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome"
-              placeholder="Ex.: Administrativo"></ion-input>
-            <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('nome')?.errors && form.submitted">
-              Informe o nome corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone"
+                  placeholder="Ex.: (67) 0000-0000" type="tel" (focusout)="validaTelefone()"></ion-input>
+                <small class="error-message"
+                  *ngIf="cadastrarDepartamentoForm.get('telefone')?.errors && form.submitted">
+                  Informe o telefone corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone"
-              placeholder="Ex.: (67) 0000-0000" type="tel" (focusout)="validaTelefone()"></ion-input>
-            <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('telefone')?.errors && form.submitted">
-              Informe o telefone corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email"
+                  placeholder="Ex.: JSsoftware@JSsoftware.com.br" type="email"></ion-input>
+                <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('email')?.errors && form.submitted">
+                  Informe o email corretamente
+                </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email"
-              placeholder="Ex.: JSsoftware@JSsoftware.com.br" type="email"></ion-input>
-            <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('email')?.errors && form.submitted">
-              Informe o email corretamente
-            </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input fill="outline" label="Endereço" labelPlacement="floating" formControlName="endereco"
+                  placeholder="Ex.: Avenida Principal, 100 - Centro, Sala 02" type="text"></ion-input>
+                <small class="error-message"
+                  *ngIf="cadastrarDepartamentoForm.get('endereco')?.errors && form.submitted">
+                  Informe o endereço corretamente
+                </small>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
 
-        <ion-row>
-          <ion-col>
-            <ion-input fill="outline" label="Endereço" labelPlacement="floating" formControlName="endereco"
-              placeholder="Ex.: Avenida Principal, 100 - Centro, Sala 02" type="text"></ion-input>
-            <small class="error-message" *ngIf="cadastrarDepartamentoForm.get('endereco')?.errors && form.submitted">
-              Informe o endereço corretamente
-            </small>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-
-    <div class="botoes">
-      <ion-button expand="block" type="submit">SALVAR CADASTRO</ion-button>
-    </div>
-  </form>
+        <div class="botoes">
+          <ion-button expand="block" type="submit">SALVAR CADASTRO</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
 </ion-content>

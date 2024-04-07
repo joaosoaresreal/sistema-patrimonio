@@ -1,93 +1,84 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar" color="primary">
-
-    <ion-item color="primary" lines="none">
-      <ion-button slot="end" fill="clear">
-        <img alt="Foto do Usuário" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-button>
-
-      <ion-col>
-        <p><span>Nome Usuário</span></p>
-        <p>empresa</p>
-      </ion-col>
-    </ion-item>
-
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <div class="titulo">
-    <p>Editar Usuário</p>
-  </div>
+  <app-layout [pagina]="'Editar Usuário'">
+    <app-forms>
+      <form #form="ngForm" [formGroup]="editarUsuarioForm" *ngIf="editarUsuarioForm" (ngSubmit)="submit()" class="formulario">
+        <div>
+          <ion-grid>
+            <!-- <ion-row>
+              <ion-col class="foto-usuario">
+                <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto do Usuário">
+              </ion-col>
 
-  <form #form="ngForm" [formGroup]="editarUsuarioForm" *ngIf="editarUsuarioForm" (ngSubmit)="submit()">
-    <ion-list class="formulario">
-      <ion-grid>
-        <ion-row>
-          <ion-col class="foto-usuario">
-            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto do Usuário">
-          </ion-col>
+              <ion-col>
+                <ion-button expand="block">SELECIONAR FOTO</ion-button>
+                <ion-button expand="block">EXCLUIR FOTO</ion-button>
+              </ion-col>
+            </ion-row> -->
 
-          <ion-col>
-            <ion-button expand="block">SELECIONAR FOTO</ion-button>
-            <ion-button expand="block">EXCLUIR FOTO</ion-button>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                  <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome" type="text"></ion-input>
+                  <small class="error-message" *ngIf="editarUsuarioForm.get('nome')?.errors && form.submitted">
+                    Informe o nome corretamente
+                  </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-              <ion-input fill="outline" label="Nome" labelPlacement="floating" formControlName="nome" type="text"></ion-input>
-              <small class="error-message" *ngIf="editarUsuarioForm.get('nome')?.errors && form.submitted">
-                Informe o nome corretamente
-              </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item disabled="true">
+                  <ion-label position="floating">CPF</ion-label>
+                  <ion-input formControlName="cpf"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <ion-item disabled="true">
-              <ion-label position="floating">CPF</ion-label>
-              <ion-input formControlName="cpf"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                  <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" 
+                    (focusout)="validaTelefone()"></ion-input>
+                  <small class="error-message" *ngIf="editarUsuarioForm.get('telefone')?.errors && form.submitted">
+                    Informe o telefone corretamente
+                  </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-              <ion-input fill="outline" label="Telefone" labelPlacement="floating" formControlName="telefone" 
-                (focusout)="validaTelefone()"></ion-input>
-              <small class="error-message" *ngIf="editarUsuarioForm.get('telefone')?.errors && form.submitted">
-                Informe o telefone corretamente
-              </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                  <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email"></ion-input>
+                  <small class="error-message" *ngIf="editarUsuarioForm.get('email')?.errors && form.submitted">
+                    Informe o email corretamente
+                  </small>
+              </ion-col>
+            </ion-row>
 
-        <ion-row>
-          <ion-col>
-              <ion-input fill="outline" label="Email" labelPlacement="floating" formControlName="email"></ion-input>
-              <small class="error-message" *ngIf="editarUsuarioForm.get('email')?.errors && form.submitted">
-                Informe o email corretamente
-              </small>
-          </ion-col>
-        </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
+                  <ion-select-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-select-option>
+                </ion-select>            
+              </ion-col>
 
-        <ion-row>
-          <ion-col>
-            <ion-select fill="outline" label="Departamento" labelPlacement="floating" interface="popover" formControlName="departamento">
-              <ion-select-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-select-option>
-            </ion-select>            
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
+              <ion-col>
+                <ion-select fill="outline" label="Role" labelPlacement="floating" interface="popover" >
 
-    <div class="botoes">
-      <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
-      <ion-button expand="block" (click)="descartarAlteracao()">DESCARTAR ALTERAÇÕES</ion-button>
-    </div>
-  </form>
+                  <ion-select-option>Administrador</ion-select-option>
+                  <ion-select-option>Operador</ion-select-option>
+
+                </ion-select>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <div class="botoes">
+          <ion-button expand="block">REDEFINIR SENHA</ion-button>
+          <ion-button expand="block" (click)="descartarAlteracao()">DESCARTAR ALTERAÇÕES</ion-button>
+          <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
+        </div>
+      </form>
+    </app-forms>
+  </app-layout>
 </ion-content>

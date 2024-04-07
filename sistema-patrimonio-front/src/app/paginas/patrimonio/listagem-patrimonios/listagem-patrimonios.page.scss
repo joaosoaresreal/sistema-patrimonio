@@ -1,31 +1,35 @@
-.toolbar ion-button{
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
-
-.toolbar ion-col{
-    display: inline-block;
-    text-align: right;
-}
-
-.toolbar h3, p{
-    margin: -2px;
-}
-
-.titulo{
-    font-size: 1.3rem;
-    text-align: center;
-    padding: 4%;
-    font-weight: 600;
+.filtro{
+    padding: 1%;
+    ion-input{
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
 }
 
 .listagem{
-    padding: 1px;
+    border-bottom: 1px solid var(--ion-color-secondary);
 
-    ion-label{
-        padding-left: 1px;
+    .ion-padding, .listagem_descricao{
+        background: var(--ion-color-light);
+    }
+
+    p{
+        color: black;
+
+        span{
+            font-weight: 600;
+        }
+    }
+
+    .opcoes-alterar{
+        --background: transparent;
+        --background-activated: transparent;
+        --background-hover: transparent;
+        --border-radius: 15px;
+        --box-shadow: transparent;
+        --color: black !important;
     }
 
     ion-fab-button {
@@ -34,15 +38,29 @@
         --background-hover: var(--ion-color-secondary);
         --border-radius: 15px;
         --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-        --color: black;
+        --color: #FFF !important;
     }
 
-    span{
-        font-weight: 600;
+    .editar{
+        --background: var(--ion-color-warning-shade);
+    }
+
+    .transferir{
+        --background: var(--ion-color-tertiary-shade)
+    }
+
+    .baixar{
+        --background: var(--ion-color-danger-shade);
     }
 }
 
-.botoes ion-button{
-    border-radius: 80;
-    padding: 1%;
+.botoes {
+    display: flex;
+    justify-content: right;
+
+    ion-button {
+        border-radius: 80;
+        padding: 15px;
+        height: auto;
+    }
 }

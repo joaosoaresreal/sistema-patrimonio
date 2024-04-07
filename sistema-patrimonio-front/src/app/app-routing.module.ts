@@ -40,7 +40,7 @@ const routes: Routes = [
     loadChildren: () => import('./paginas/patrimonio/transferir-patrimonio/transferir-patrimonio.module').then( m => m.TransferirPatrimonioPageModule)
   },
   {
-    path: 'baixar-patrimonio',
+    path: 'baixar-patrimonio/:id',
     loadChildren: () => import('./paginas/patrimonio/baixar-patrimonio/baixar-patrimonio.module').then( m => m.BaixarPatrimonioPageModule)
   },
   {
@@ -67,6 +67,10 @@ const routes: Routes = [
     path: 'editar-usuario/:id',
     loadChildren: () => import('./paginas/usuarios/editar-usuario/editar-usuario.module').then( m => m.EditarUsuarioPageModule)
   },
+  {
+    path: 'meu-usuario',
+    loadChildren: () => import('./paginas/usuarios/meu-usuario/meu-usuario.module').then( m => m.MeuUsuarioPageModule)
+  },
 
   /********************************************************\
                             DEPARTAMENTO 
@@ -83,6 +87,15 @@ const routes: Routes = [
     path: 'editar-departamento/:id',
     loadChildren: () => import('./paginas/departamento/editar-departamento/editar-departamento.module').then( m => m.EditarDepartamentoPageModule)
   },
+
+  /********************************************************\
+                          Pagina 404 
+  \********************************************************/
+  {
+    path: '404',
+    loadChildren: () => import('./paginas/page404/page404.module').then( m => m.Page404PageModule)
+  },
+
 ];
 
 @NgModule({

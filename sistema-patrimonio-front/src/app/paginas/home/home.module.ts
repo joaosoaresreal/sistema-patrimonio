@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 // Registrando data como Português Brasileiro
 registerLocaleData(localeBr, 'pt')
@@ -20,7 +21,8 @@ registerLocaleData(localeBr, 'pt')
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    SharedModule
   ],
   declarations: [HomePage],
   providers:[
@@ -28,6 +30,6 @@ registerLocaleData(localeBr, 'pt')
       provide: LOCALE_ID,
       useValue: 'pt-br'
     }
-  ]
+  ],
 })
 export class HomePageModule {}

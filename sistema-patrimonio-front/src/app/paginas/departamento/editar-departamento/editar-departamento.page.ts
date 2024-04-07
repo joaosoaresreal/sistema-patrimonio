@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
-import { TelValidator } from 'src/app/services/validators/telValidator';
-import Swal from 'sweetalert2';
+import { TelValidator } from 'src/app/services/validators/TelValidator';
 
 @Component({
   selector: 'app-editar-departamento',
@@ -15,10 +15,16 @@ export class EditarDepartamentoPage implements OnInit {
 
   editarDepartamentoForm!: FormGroup
 
-  public telFormatado: any;
+  protected telFormatado: any;
 
-  constructor(public nav: NavController, private formBuilder: FormBuilder, private alertController: AlertController, private route: ActivatedRoute,
-    private departamentoService: DepartamentoService, private telValidator: TelValidator) { }
+  constructor(
+    public nav: NavController,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private departamentoService: DepartamentoService,
+    private telValidator: TelValidator,
+    private alerta: AlertsService
+  ) { }
 
   /********************************************************\
                   SALVAR EDIÇÃO
@@ -36,12 +42,12 @@ export class EditarDepartamentoPage implements OnInit {
       'endereco': this.editarDepartamentoForm.value.endereco
     }
 
-    console.log(departamentoEdit)
-
     this.departamentoService.update(departamentoEdit).subscribe({
       next: (response) =>
-        this.alerta(),
-      error: (error) => console.log(error)
+        this.alerta.alertaOk('SUCESSO', 'O cadastro do departamento foi alterado', 'success', 'OK', ()=>this.nav.navigateForward('listagem-departamentos')),
+      error: (error) => 
+      this.alerta.alertaAtencao('ERRO', 'Não foi possivel alterar os dados, tente novamente mais tarde ou contate o administrador do sistema',
+      'error', false, 'OK')
     })
   }
 
@@ -59,32 +65,10 @@ export class EditarDepartamentoPage implements OnInit {
   /********************************************************\
                   CANCELAR EDIÇÃO 
   \********************************************************/
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente descartar as alterações?',
-      buttons: [
-        {
-          text: 'SIM',
-          role: 'sim',
-          handler: () => {
-            this.nav.navigateForward('listagem-departamentos')
-          },
-        },
-        {
-          text: 'NÃO',
-          role: 'nao',
-          handler: () => {
-
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-    //this.roleMessage = `Dismissed with role: ${role}`;
+  cancelaEdicao(){
+    this.alerta.alertaPadrao('Deseja realmente descartar as alterações?', 'SIM', 'NÃO', ()=>this.nav.navigateForward('listagem-departamentos'), ()=>{})
   }
+
 
   ngOnInit() {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
@@ -97,28 +81,6 @@ export class EditarDepartamentoPage implements OnInit {
         endereco: [response.endereco, Validators.required],
         empresa: [response.empresa]
       })
-    })
-  }
-
-  /********************************************************\
-                    MENSAGEM PADRÃO 
-  \********************************************************/
-  alerta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'SUCESSO',
-      text: 'O cadastro do departamento foi alterado',
-      icon: 'success',
-      confirmButtonText: 'OK',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then(() => {
-      {
-        this.nav.navigateForward('listagem-departamentos')
-      }
     })
   }
 
