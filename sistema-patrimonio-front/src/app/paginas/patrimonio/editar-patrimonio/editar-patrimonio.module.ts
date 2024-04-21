@@ -8,6 +8,7 @@ import { EditarPatrimonioPageRoutingModule } from './editar-patrimonio-routing.m
 
 import { EditarPatrimonioPage } from './editar-patrimonio.page';
 import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { DepartamentoService } from 'src/app/services/domain/Departamento.servic
     FormsModule,
     IonicModule,
     EditarPatrimonioPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [DepartamentoService],
   declarations: [EditarPatrimonioPage]

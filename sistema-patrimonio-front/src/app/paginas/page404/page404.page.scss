@@ -1,60 +1,60 @@
-.toolbar ion-button {
-    width: 50px;
-    align-self: center;
-    margin: auto;
-    display: flex;
-}
-
-.toolbar ion-col {
-    display: inline-block;
-    text-align: right;
-}
-
 .toolbar h3,
 p {
     margin: -2px;
 }
 
+ion-content {
+    /* Define a posição relativa para o ion-content */
+    position: relative;
+    /* Define a altura do ion-content como 100% da altura da viewport */
+    height: 100vh;
+}
+
 .aviso404 {
-    background-color: var(--ion-color-secondary);
+    /* Define a posição absoluta para o conteúdo */
+    position: absolute;
+    /* Alinha o topo do conteúdo no meio vertical */
+    top: 50%;
+    /* Alinha o lado esquerdo do conteúdo no meio horizontal */
+    left: 50%;
+    /* Move o conteúdo para trás 50% da sua largura e altura, o que o centraliza */
+    transform: translate(-50%, -50%);
     font-family: Georgia, 'Times New Roman', Times, serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
     text-align: center;
-    //padding-top: 25%;
     color: #FFF;
     font-weight: 800;
     font-size: 140%;
-
-    .aviso_texto_404 {
-        font-size: 800%;
-    }
-
-    ion-icon{
-        color: var(--ion-color-primary);
-        font-size: 400%;
-    }
-
 }
 
+.aviso404 .aviso_texto_404 {
+    font-size: 800%;
+}
 
+.aviso404 ion-icon {
+    font-size: 400%;
+}
 
-/********************************************************\
-                        RODAPÉ
-\********************************************************/
 .rodape {
-    background: var(--ion-color-primary);
+    /* Define a posição absoluta para o rodapé */
+    position: absolute;
+    /* Alinha o rodapé na parte inferior */
+    bottom: 0;
+    /* Define a largura do rodapé como 100% */
+    width: 100%;
     color: #FFF;
     padding: 1%;
-    margin: 0;
+    text-align: center;
+}
 
-    p {
-        text-align: center;
-        font-size: 80%;
-    }
+.rodape p {
+    font-size: 80%;
+}
 
-    span {
-        font-weight: 800;
+.rodape span {
+    font-weight: 800;
+
+    a{
+        text-decoration: none;
+        color: inherit;
     }
 }
