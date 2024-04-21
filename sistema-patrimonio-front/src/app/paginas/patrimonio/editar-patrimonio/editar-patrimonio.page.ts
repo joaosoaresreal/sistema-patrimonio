@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { AlertController, NavController } from '@ionic/angular';
-import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
-import { DepartamentoService } from 'src/app/services/domain/Departamento.service';
+import { NavController } from '@ionic/angular';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
-import Swal from 'sweetalert2';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 
 @Component({
   selector: 'app-editar-patrimonio',
@@ -16,19 +14,15 @@ import Swal from 'sweetalert2';
 export class EditarPatrimonioPage implements OnInit {
 
   editarPatrimonioForm!: FormGroup
-  departamentos!: DepartamentoNomeDTO[]
 
-  public data = ''
-  public depto = ''
-
-  public checked = false
-  public disabled = true
+  data = ''
+  depto = ''
 
   constructor(private formBuilder: FormBuilder, private patrimonioService: PatrimonioService, private route: ActivatedRoute,
-    private alertController: AlertController, public nav: NavController) { }
+   public nav: NavController, private alerta: AlertsService) { }
 
   /********************************************************\
-                  SALVAR EDIÇÃO
+                      SALVAR EDIÇÃO
   \********************************************************/
   submit() {
     if (this.editarPatrimonioForm.invalid || this.editarPatrimonioForm.pending) {
@@ -52,47 +46,21 @@ export class EditarPatrimonioPage implements OnInit {
       }
     }
 
-    console.log(patrimonioEdit)
-
     this.patrimonioService.update(patrimonioEdit).subscribe({
-      next: (response)=> this.alerta(),
-      error: (error) => console.log(error)
+      next: (response) => 
+        this.alerta.alertaOk('SUCESSO', 'O cadastro do patrimônio foi alterado', 'success', 'OK', ()=>this.nav.navigateForward('listagem-patrimonios')),
+      error: (error) => 
+        this.alerta.alertaAtencao('ERRO', 'Não foi possivel alterar os dados, tente novamente mais tarde ou contate o administrador do sistema',
+      'error', false, 'OK')
     })
-  }
-
-  clicou(event: any) { // ATIVA O BOTÃO DE SALVAR A EDIÇÃO
-    if(event.detail.checked === true) {
-      this.disabled = false
-
-      console.log(this.depto)
-    }else if(event.detail.checked === false){
-      this.disabled = true
-    }
   }
 
   /********************************************************\
                   CANCELAR EDIÇÃO 
   \********************************************************/
-  async cancelar() {
-    const alert = await this.alertController.create({
-      header: 'Deseja realmente descartar as alterações?',
-      buttons: [
-        {
-          text: 'SIM',
-          handler: () => {
-            this.nav.navigateForward('listagem-patrimonios')
-          },
-        },
-        {
-          text: 'NÃO',
-          handler: () => {},
-        },
-      ],
-    });
-
-    await alert.present();
+  cancelar() {
+    this.alerta.alertaPadrao('Deseja realmente descartar as alterações?', 'SIM', 'NÃO', ()=>this.nav.navigateForward('listagem-patrimonios'), ()=>{})
   }
-
 
   ngOnInit() {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
@@ -112,27 +80,4 @@ export class EditarPatrimonioPage implements OnInit {
       this.depto = response.departamento.nome // PEGA O NOME DO DEPARTAMENTO PARA EXIBIR NA UI
     })
   }
-
-  /********************************************************\
-                    MENSAGEM PADRÃO 
-  \********************************************************/
-  alerta() {
-    Swal.fire({
-      heightAuto: false, // Remove o 'heigth' que estava definido nativamente, pois ele quebra o estilo da pagina
-      allowOutsideClick: false, // Ao clicar fora do alerta ele não vai fechar
-      title: 'SUCESSO',
-      text: 'O cadastro do patrimônio foi alterado',
-      icon: 'success',
-      confirmButtonText: 'OK',
-      // Customizção
-      confirmButtonColor: 'var(--ion-color-success-tint)',
-      cancelButtonColor: 'var(--ion-color-danger-tint)',
-      backdrop: `linear-gradient(#a24b7599 100%, transparent 555%)`
-    }).then(() => {
-      {
-        this.nav.navigateForward('listagem-patrimonios')
-      }
-    })
-  }
-
 }
