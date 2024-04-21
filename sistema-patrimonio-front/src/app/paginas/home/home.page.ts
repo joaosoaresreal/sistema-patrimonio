@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 
 
 
@@ -15,7 +16,7 @@ export class HomePage implements OnInit {
   // Gerando a data do dia, de forma automatizada
   today: number = Date.now();
   
-  constructor(public nav: NavController) { }
+  constructor(public nav: NavController, protected auth: AuthenticationService) { }
   
   abrirPagina(page: string){
     this.nav.navigateForward(page)

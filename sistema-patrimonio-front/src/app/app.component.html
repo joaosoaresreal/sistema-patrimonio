@@ -8,8 +8,8 @@
         <div class="header-content">
           <img src="../assets/user-icon-logado.png" alt="Foto do Usuário" />
           <ion-label>
-            <h2>João Soares</h2>
-            <p>falecom@joaosoares.dev.br</p>
+            <h2>{{usuario}}</h2>
+            <p>{{email}}</p>
           </ion-label>
         </div>
 
@@ -57,21 +57,21 @@
               <ion-icon name="copy"></ion-icon>
               <ion-label>Listagem</ion-label>
             </ion-item>
-            <ion-item routerLinkActive="active" routerLink="/cadastrar-departamento">
+            <ion-item routerLinkActive="active" routerLink="/cadastrar-departamento" *ngIf="auth.hasRole('admin')">
               <ion-icon name="create"></ion-icon>
               <ion-label>Cadastro</ion-label>
             </ion-item>
             <!--Usuários-->
-            <div class="sessao">
+            <div class="sessao" *ngIf="auth.hasRole('admin')">
               <p>
                 Gerenciamento
               </p>
             </div>
-            <ion-item routerLinkActive="active" routerLink="/listagem-usuarios">
+            <ion-item routerLinkActive="active" routerLink="/listagem-usuarios" *ngIf="auth.hasRole('admin')">
               <ion-icon name="people"></ion-icon>
               <ion-label>Usuários</ion-label>
             </ion-item>
-            <ion-item routerLinkActive="active" routerLink="/cadastrar-usuario">
+            <ion-item routerLinkActive="active" routerLink="/cadastrar-usuario" *ngIf="auth.hasRole('admin')">
               <ion-icon name="person-add"></ion-icon>
               <ion-label>Cadastrar Usuário</ion-label>
             </ion-item>

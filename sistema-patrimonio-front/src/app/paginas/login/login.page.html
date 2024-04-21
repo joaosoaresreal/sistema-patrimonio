@@ -25,14 +25,14 @@
       <ion-row>
         <ion-col>
           <ion-input class="custom" label="Senha" labelPlacement="floating" fill="outline"
-            type="password" [(ngModel)]="login.senha"></ion-input>
+            type={{typeSenha}} [(ngModel)]="login.senha"></ion-input>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col>
           <div class="exibe-senha">
-            Exibir senha <ion-checkbox (click)="verSenha()" ></ion-checkbox>
+            Exibir senha <ion-checkbox (ionChange)="verSenha()" ></ion-checkbox>
           </div>
         </ion-col>
       </ion-row>
@@ -47,6 +47,6 @@
   </div>
 
   <div class="rodape">
-    <p>Desenvolvido por © <span><a href="www.joaosoares.dev.br" target="_blank">SS Tech</a></span></p>
+    <p>Desenvolvido por © <span><a href="http://www.joaosoares.dev.br" target="_blank">SS Tech</a></span></p>
   </div>
 </ion-content>

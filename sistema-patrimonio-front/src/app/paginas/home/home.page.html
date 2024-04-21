@@ -30,21 +30,21 @@
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="create"></ion-icon>
         <ion-card-title>Cadastrar Departamento</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="people"></ion-icon>
         <ion-card-title>Gerenciar Usuários</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="person-add"></ion-icon>
         <ion-card-title>Cadastrar Usuário</ion-card-title>

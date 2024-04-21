@@ -9,6 +9,10 @@ export class NavbarComponent implements OnInit {
 
   constructor() { }
 
+  userDataString = JSON.parse(localStorage.getItem('userData')  || '{}');
+  usuario = this.userDataString.usuario
+  email = this.userDataString.email
+
   ngOnInit() {}
 
 }
