@@ -3,7 +3,9 @@ package br.dev.joaosoares.patrimonio.security;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -28,6 +30,10 @@ public class TokenService {
                     .withIssuedAt(creationDate()) // Define a data de emissão do token
                     .withExpiresAt(expirationDate()) // Define a data de expiração do token
                     .withSubject(user.getUsername()) // Define o assunto do token (neste caso, o nome de usuário)
+                    .withClaim("dados", user.getDados())
+                    .withClaim("roles", user.getAuthorities().stream()
+                    	    .map(GrantedAuthority::getAuthority)
+                    	    .collect(Collectors.toList()))
                     .sign(algorithm); // Assina o token usando o algoritmo especificado
         } catch (JWTCreationException exception){
             throw new JWTCreationException("Erro ao gerar token.", exception);
