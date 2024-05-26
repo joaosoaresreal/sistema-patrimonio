@@ -8,6 +8,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
+import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { AuthenticationService } from 'src/app/services/domain/Authentication.se
     LoginPageRoutingModule
   ],
   declarations: [LoginPage],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, UsuarioService]
 })
 export class LoginPageModule {}

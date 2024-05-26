@@ -13,4 +13,8 @@ export interface UsuarioDTO{
             nomeFantasia: string;
         }
     }
+    roles: {
+        id: number,
+        authority: string
+    }
 }

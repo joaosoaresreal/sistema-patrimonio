@@ -48,10 +48,10 @@ export class Guards {
 
   canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
     console.log("entrou no Guards")
-    console.log("esta autenticado? "+this.authService.isAuthenticated())
-    console.log("role " + this.authService.hasRole)
+    // console.log("esta autenticado? "+this.authService.isAuthenticated())
+    // console.log("role " + this.authService.hasRole)
     // Verifica se o usuário está autenticado
-    if (!this.authService.isAuthenticated()) {
+    if (false) {
       // Se não estiver, redireciona para a página de login
       console.log("Usuário não autenticado. Redirecionando para o login...");
       this.router.navigate(['/login']);
