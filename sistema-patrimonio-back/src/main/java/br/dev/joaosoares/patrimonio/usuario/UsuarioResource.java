@@ -65,4 +65,11 @@ public class UsuarioResource {
         UsuarioDTO dto = service.findByCpf(cpf);
         return ResponseEntity.ok().body(dto);
     }
+
+    // BUSCAR POR EMAIL
+    @GetMapping(value = "/email/{email}")
+    public ResponseEntity<UsuarioDTO> findByEmail(@PathVariable String email){
+        UsuarioDTO dto = service.findByEmail(email);
+        return ResponseEntity.ok().body(dto);
+    }
 }

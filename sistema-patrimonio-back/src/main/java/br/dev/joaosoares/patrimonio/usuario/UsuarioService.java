@@ -103,4 +103,9 @@ public class UsuarioService {
         return new UsuarioDTO(obj);
     }
 
+    public UsuarioDTO findByEmail(String email) {
+        Usuario obj = repository.findByEmail(email);
+        return new UsuarioDTO(obj);
+    }
+
 }
