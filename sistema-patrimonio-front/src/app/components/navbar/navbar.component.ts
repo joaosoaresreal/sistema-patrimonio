@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthenticationService) { }
 
-  userDataString = JSON.parse(localStorage.getItem('userData')  || '{}');
-  usuario = this.userDataString.usuario
-  email = this.userDataString.email
+  usuario = this.auth.dadosUsuario().nomeUsuario
+  departamento = this.auth.dadosUsuario().departamentoNome
+  foto = this.auth.dadosUsuario().fotoUsuario ? this.auth.dadosUsuario().fotoUsuario: "../../../assets/user-icon-logado.png"
 
   ngOnInit() {}
 

@@ -10,9 +10,9 @@ import { AuthenticationService } from './services/domain/Authentication.service'
 export class AppComponent {
   constructor(private alertController: AlertController, public nav: NavController, protected auth: AuthenticationService) {}
 
-  userDataString = JSON.parse(localStorage.getItem('userData')  || '{}');
-  usuario = this.userDataString.usuario
-  email = this.userDataString.email
+  usuario = this.auth.dadosUsuario().nomeUsuario
+  email = this.auth.dadosUsuario().emailUsuario
+  foto = this.auth.dadosUsuario().fotoUsuario ? this.auth.dadosUsuario().fotoUsuario: "../../../assets/user-icon-logado.png"
 
   /* (https://ionicframework.com/docs/v6/api/alert) Buttons */
   async sairSistema() {
@@ -30,8 +30,7 @@ export class AppComponent {
           text: 'SAIR',
           role: 'loggout',
           handler: () => {
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('userData');
+            localStorage.removeItem('token');
             this.nav.navigateForward('login')
           },
         },
