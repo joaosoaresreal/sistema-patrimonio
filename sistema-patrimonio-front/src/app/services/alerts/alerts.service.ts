@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -7,7 +7,10 @@ import Swal from 'sweetalert2';
 })
 export class AlertsService {
 
-  constructor(private alertController: AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private toast: ToastController
+  ) { }
 
   async alertaPadrao(texto: string, button1: string, button2: string, buttonFunc1?: any, buttonFunc2?: any){
     const alert = await this.alertController.create({
@@ -100,6 +103,18 @@ export class AlertsService {
         cancelarFuncao()
       }
     })
+  }
+
+  async alertaToast(titulo: string, color: string, icon?: string) {
+    const toast = await this.toast.create({
+      message: titulo,
+      duration: 5000,
+      color: color,
+      position: 'top',
+      icon: icon
+    });
+
+    await toast.present();
   }
 
 }
