@@ -57,6 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 			Map<String, String> dados = new HashMap<>();
 
 			dados.put("nomeUsuario", user.getNome());
+			dados.put("departamentoId", String.valueOf(user.getDepartamento().id)); // converte o ID para String
 			dados.put("departamentoNome", user.getDepartamento().nome);
 			dados.put("foto", user.getFoto());
 			
