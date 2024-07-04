@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class ListagemPatrimoniosPage implements OnInit {
   constructor(
     public nav: NavController,
     public patrimonioService: PatrimonioService,
+    private auth: AuthenticationService,
     private alerta: AlertsService
   ) { }
 
@@ -27,15 +29,28 @@ export class ListagemPatrimoniosPage implements OnInit {
               LISTAGEM E FILTRAGEM DOS PATRIMONIOS 
   \********************************************************/
   ionViewDidEnter() {
-    this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
-      next: (response) => {
-        this.patrimonios = response;
+    if(this.auth.hasRole("admin")){
+      this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
+        next: (response) => {
+          this.patrimonios = response;
+  
+          // Após receber os dados, inicializa os patrimônios filtrados
+          this.patrimoniosFiltrados = this.patrimonios.slice();
+        },
+        error: (error) => console.log(error)
+      });
+    } else if(this.auth.hasRole("user")) {
+      this.patrimonioService.findAtivosByDepartamento(this.auth.dadosUsuario().departamentoId).subscribe({ // Carrega somente os patrimônios do dpto do user
+        next: (response) => {
+          this.patrimonios = response;
+  
+          // Após receber os dados, inicializa os patrimônios filtrados
+          this.patrimoniosFiltrados = this.patrimonios.slice();
+        },
+        error: (error) => console.log(error)
+      });
+    }
 
-        // Após receber os dados, inicializa os patrimônios filtrados
-        this.patrimoniosFiltrados = this.patrimonios.slice();
-      },
-      error: (error) => console.log(error)
-    });
 
     // Observa mudanças no campo de pesquisa
     this.queryField.valueChanges.subscribe((query: string | null) => {

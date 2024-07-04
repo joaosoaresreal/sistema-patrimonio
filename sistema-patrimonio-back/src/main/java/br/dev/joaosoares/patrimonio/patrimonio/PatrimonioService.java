@@ -168,10 +168,10 @@ public class PatrimonioService {
         return new PatrimonioDTO(obj);
     }
 
-    // LISTAR POR DEPTO
+    // LISTAR ATIVOS POR DEPTO
     @Transactional(readOnly = true)
-    public List<PatrimonioDTO> findByDepartamento(Departamento departamento) {
-        List<Patrimonio> lista = repository.findByDepartamento(departamento);
+    public List<PatrimonioDTO> findAtivosByDepartamento(Departamento departamento) {
+        List<Patrimonio> lista = repository.findAtivosByDepartamento(departamento);
         return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
     }
 
