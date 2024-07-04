@@ -15,34 +15,37 @@
         <p>Login</p>
       </div>
 
-      <ion-row>
-        <ion-col>
-          <ion-input class="custom" label="Usuário" labelPlacement="floating" fill="outline"
-            placeholder="usuario@joaosoares.dev.br" [(ngModel)]="login.usuario"></ion-input>
-        </ion-col>
-      </ion-row>
+      <form #form="ngForm" [formGroup]="loginForm" *ngIf="loginForm"
+        (ngSubmit)="submit()">
+        <ion-row>
+          <ion-col>
+            <ion-input class="custom" label="Usuário" labelPlacement="floating" fill="outline"
+              placeholder="usuario@joaosoares.dev.br" formControlName="email"></ion-input>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-input class="custom" label="Senha" labelPlacement="floating" fill="outline"
-            type={{typeSenha}} [(ngModel)]="login.senha"></ion-input>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input [type]="typeSenha" class="custom" label="Senha" labelPlacement="floating" fill="outline"
+            placeholder="Sua senha" formControlName="senha"></ion-input>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <div class="exibe-senha">
-            Exibir senha <ion-checkbox (ionChange)="verSenha()" ></ion-checkbox>
-          </div>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="exibe-senha">
+              Exibir senha <ion-checkbox (ionChange)="verSenha()"></ion-checkbox>
+            </div>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" (click)="logar()">Acessar <ion-icon name="enter"></ion-icon></ion-button>
-          <a href="">Esqueceu a senha?</a>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" type="submit">Acessar <ion-icon name="enter"></ion-icon></ion-button>
+            <a href="">Esqueceu a senha?</a>
+          </ion-col>
+        </ion-row>
+      </form>
     </div>
   </div>
 

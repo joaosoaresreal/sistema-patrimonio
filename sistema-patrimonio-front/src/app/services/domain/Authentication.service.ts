@@ -1,9 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_CONFIG } from "src/app/config/api.config";
-// import { UsuarioService } from "./Usuario.service";
 import { jwtDecode } from "jwt-decode";
-// import { usuariosValidos } from "src/app/models/AuthDTO";
+import { tap } from "rxjs";
 
 @Injectable()
 export class AuthenticationService {
@@ -12,14 +11,38 @@ export class AuthenticationService {
         public http: HttpClient
     ) { }
 
-    // METODO QUE FARÁ O LOGIN E RETORNARÁ O TOKEN
+    /**
+     * Método de Login
+     */
     authenticateUser(user: any) {
         return this.http.post(`${API_CONFIG.baseUrl}/auth/login`, user, {
             observe: 'response', responseType: 'text'
-        })
+        }).pipe(
+            tap((response: any) => {
+                if (response) {
+                    const responseBody = JSON.parse(response.body); // Analisa o JSON do corpo da resposta
+                    const token = responseBody.token; // Obtém o token do corpo da resposta
+
+                    // const token = response.body;
+                    localStorage.setItem('token', token);
+                }
+            })
+        )
     }
 
-    dadosUsuario():any {
+    /**
+     * Método de LogOut
+     */
+    logout() {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+    }
+
+    /**
+     * Dados do usuário logado
+     * (decodificação do token)
+     */
+    dadosUsuario(): any {
         interface MyJwtPayload {
             sub: string; // email do usuario
             dados: string; // String JSON contendo os dados do usuário
@@ -28,61 +51,38 @@ export class AuthenticationService {
 
         const token = localStorage.getItem('token'); // Obtém o token armazenado localmente
 
-        if(token) {
+        if (token) {
             const decodedToken = jwtDecode<MyJwtPayload>(token); // Decodifica o token
-            // console.log("sub (email): " + decodedToken.sub); // Exibe o payload decodificado no console
-            // console.log("aud (indefinido): " + decodedToken.aud); // Exibe o payload decodificado no console
-            // console.log("exp: " + decodedToken.exp); // Exibe o payload decodificado no console
-            // console.log("iss: " + decodedToken.iss); // Exibe o payload decodificado no console
-            // console.log("nbf: " + decodedToken.nbf); // Exibe o payload decodificado no console
-            // console.log("iat: " + decodedToken.iat); // Exibe o payload decodificado no console
-            // console.log("nbf", decodedToken.dados)
-
-            // console.log("sub (email): " + decodedToken.sub);
-            // console.log("dados: " + decodedToken.dados)
-
             const dadosUsuario = JSON.parse(decodedToken.dados);
-            // const roleUsuario = JSON.parse(decodedToken.roles);
-            // console.log("dados: " + dadosUsuario);
-            // console.log("roles: " + roleUsuario);
-            // console.log("roles direto: " + decodedToken.roles);
-            // console.log("departamentoNome: " + dadosUsuario.departamentoNome);
-            return{
+
+            return { // Retorna os dados decodificados
                 'emailUsuario': decodedToken.sub,
                 'nomeUsuario': dadosUsuario.nomeUsuario,
+                'departamentoId': dadosUsuario.departamentoId,
                 'departamentoNome': dadosUsuario.departamentoNome,
                 'fotoUsuario': dadosUsuario.foto,
                 'roleUsuario': decodedToken.roles
             }
-
-            // Faça o que precisar com os dados do usuário
         }
-        // this.usuarioService.findByEmail(email).subscribe({
-        //     next: (response) => {
-        //         response
-        //     }, error: (error) => console.log(error)
-        // })
     }
 
-
+    /**
+     * Validação do ROLE do usuário para determinar as rotas
+     */
     hasRole(role: any) {
-        // console.log("entrou no hasRole");
-        // const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        // console.log(currentUser);
-        // return currentUser.role === role;
-
-        // Valida qual o ROLE do usuário
-        if (role == "admin"){
-            console.log("admin? ", this.dadosUsuario().roleUsuario.some((role:string) => role.includes("ADMIN")))
-            console.log("vendo o role: ", this.dadosUsuario().roleUsuario)
-            return this.dadosUsuario().roleUsuario.some((role:string) => role.includes("ADMIN"))
-        } else if(role == "user") {
-            console.log("User? ", this.dadosUsuario().roleUsuario.some((r:string) => r.includes("OPERADOR")))
-            return this.dadosUsuario().roleUsuario.some((r:string) => r.includes("OPERADOR"))
-        } 
-
+        if (role == "admin") {
+            return this.dadosUsuario().roleUsuario.some((role: string) => role.includes("ADMIN"))
+        } else if (role == "user") {
+            return this.dadosUsuario().roleUsuario.some((role: string) => role.includes("OPERADOR"))
+        }
         return false
     }
 
-
+    /**
+     * Verifica se o Usuário está ou não autenticado
+     */
+    isAuthenticated(): boolean {
+        const token = localStorage.getItem('token');
+        return !!token; // Verifica se o token está presente no localStorage
+    }
 }
