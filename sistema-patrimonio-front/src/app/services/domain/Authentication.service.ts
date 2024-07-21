@@ -57,6 +57,7 @@ export class AuthenticationService {
 
             return { // Retorna os dados decodificados
                 'emailUsuario': decodedToken.sub,
+                'idUsuario': dadosUsuario.idUsuario,
                 'nomeUsuario': dadosUsuario.nomeUsuario,
                 'departamentoId': dadosUsuario.departamentoId,
                 'departamentoNome': dadosUsuario.departamentoNome,

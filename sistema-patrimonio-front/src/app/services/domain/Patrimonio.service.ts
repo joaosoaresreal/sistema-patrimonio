@@ -28,8 +28,8 @@ export class PatrimonioService {
         })
     }
 
-    transferencia(patrimonio: any, departamento: any) {
-        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/transferencia/${patrimonio.id}/${departamento.id}`, {
+    transferencia(id: number, patrimonio: any) {
+        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/transferencia/${id}`, patrimonio, {
             observe: 'response', responseType: 'text'
         })
     }

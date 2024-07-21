@@ -8,6 +8,7 @@ import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
 import { DatePipe } from '@angular/common';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 
 @Component({
   selector: 'app-transferir-patrimonio',
@@ -33,6 +34,7 @@ export class TransferirPatrimonioPage implements OnInit {
   constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
     private patrimonioService: PatrimonioService,
     private departamentoService: DepartamentoService,
+    private authService: AuthenticationService,
     private relatorioService: RelatorioService,
     private alerta: AlertsService) { }
 
@@ -59,19 +61,13 @@ export class TransferirPatrimonioPage implements OnInit {
                  EFETIVAÇÃO DE TRANSFERENCIA 
   \********************************************************/
   submit() {
-    // TRATANDO A DATA PARA SER RECEBIDA NO JSON
-    let formattedDate = this.datepipe.transform(this.data, 'YYYY-MM-dd')
-
     let patrimonioEdit = {
       'id': this.transferenciaForm.value.id,
-      'plaqueta': this.transferenciaForm.value.plaqueta,
-      'descricao': this.transferenciaForm.value.descricao,
-      'estado': this.transferenciaForm.value.estado,
-      'localizacao': this.transferenciaForm.value.localizacao,
-      'dataEntrada': formattedDate, // TRAZ A DATA COMO O JSON PRECISA RECEBER
-      'observacao': this.transferenciaForm.value.observacao,
-      'departamento': {
+      'deptoTransferencia': {
         'id': this.transferenciaForm.value.departamento
+      },
+      'usuarioTransferencia': {
+        'id': this.authService.dadosUsuario().idUsuario
       }
     }
 
@@ -88,7 +84,7 @@ export class TransferirPatrimonioPage implements OnInit {
       this.alerta.alertaOk('', 'Para efetivar a transferência o departamento recebedor deve ser diferente do atual',
         'warning', 'OK')
     } else { // SE O DPTO FOR PREENCHIDO E FOR DIFERENTE DO ANTERIOR, PROSSIGA
-      this.patrimonioService.transferencia(patrimonioEdit, patrimonioEdit.departamento).subscribe({
+      this.patrimonioService.transferencia(patrimonioEdit.id, patrimonioEdit).subscribe({
         next: (response) => this.gerarRelatorio(), // Se a requisição for ok, gere o relatório
         error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível efetivar a transferencia do patrimônio, tente novamente mais tarde, ou contate o administrador do sistema',
           'error', 'ok', () => this.nav.navigateForward('listagem-patrimonios'))
@@ -109,8 +105,8 @@ export class TransferirPatrimonioPage implements OnInit {
     let dataAtual = dia + " de " + mes + " de " + ano // Formatando a data por extenso para fazer o relatório
 
     let dadosRelatorio = {
-      'user': 'Usuário Teste',
-      'deptoUser': this.deptoAnteriorNome,
+      'user': this.authService.dadosUsuario().nomeUsuario,
+      'deptoUser': this.authService.dadosUsuario().departamentoNome,
       'deptoRecebedor': this.depto,
       'plaqueta': this.transferenciaForm.value.plaqueta,
       'descricao': this.transferenciaForm.value.descricao,
