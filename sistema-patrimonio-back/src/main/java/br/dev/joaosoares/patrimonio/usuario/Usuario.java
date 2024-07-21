@@ -2,8 +2,8 @@ package br.dev.joaosoares.patrimonio.usuario;
 
 import br.dev.joaosoares.patrimonio.departamento.Departamento;
 import br.dev.joaosoares.patrimonio.role.Role;
-import jakarta.persistence.Column;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,12 +15,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,7 @@ public class Usuario implements Serializable {
     private String foto;
     @Column(unique = true)
     private String email;
+    @JsonIgnore // Evita que a senha seja serializada para JSON
     private String senha;
 
     // LAZY --> 'Carregamento preguiçoso' não tem necessidade de ir junto

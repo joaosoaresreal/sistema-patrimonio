@@ -35,10 +35,6 @@ public class UserDetailsImpl implements UserDetails {
 		 */
 		return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
 				.collect(Collectors.toList());
-//	        		user.getRoles()
-//	                .stream()
-//	                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-//	                .collect(Collectors.toList());
 	}
 
 	@Override
@@ -56,6 +52,7 @@ public class UserDetailsImpl implements UserDetails {
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, String> dados = new HashMap<>();
 
+			dados.put("idUsuario", String.valueOf(user.getId()));
 			dados.put("nomeUsuario", user.getNome());
 			dados.put("departamentoId", String.valueOf(user.getDepartamento().id)); // converte o ID para String
 			dados.put("departamentoNome", user.getDepartamento().nome);
