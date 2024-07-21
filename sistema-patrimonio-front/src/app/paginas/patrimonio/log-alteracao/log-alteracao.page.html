@@ -18,6 +18,7 @@
         </ion-row>
 
         <div class="botoes">
+          <ion-button expand="block" (click)="listagem()">LISTAGEM PATRIMONIAL</ion-button>
           <ion-button expand="block" type="submit">CONSULTAR TRANSFERENCIA</ion-button>
         </div>
       </form>
@@ -78,19 +79,21 @@
 
               <ion-row>
                 <ion-col>
-                  <p><span>Usuário alteração: </span></p>
+                  <p><span>Usuário alteração: </span>{{patrimonio.usuarioTransferencia.nome}}</p>
                 </ion-col>
               </ion-row>
             </ion-label>
-            <div>
-              <ion-button expand="block" (click)="emitir(patrimonio.id)">REEMITIR TERMO</ion-button>
+            <div class="termo_botao">
+              <div>
+                <ion-button expand="block" (click)="emitir(patrimonio.id)">REEMITIR TERMO</ion-button>
+              </div>
             </div>
           </div>
         </ion-content>
 
-        <div class="modal_botao">
+        <!-- <div class="modal_botao">
           <ion-button expand="block" (click)="listagem()">LISTAGEM PATRIMONIAL</ion-button>
-        </div>
+        </div> -->
 
 
     </ng-template>
