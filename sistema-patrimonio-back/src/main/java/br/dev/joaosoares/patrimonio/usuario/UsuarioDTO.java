@@ -25,6 +25,7 @@ public class UsuarioDTO implements Serializable {
 
     private Long id;
     private String nome;
+    private String nickName;
     private String cpf;
     private String telefone;
     private String foto;
@@ -36,6 +37,7 @@ public class UsuarioDTO implements Serializable {
     public UsuarioDTO(Usuario entity) {
         this.id = entity.getId();
         this.nome = entity.getNome();
+        this.nickName = entity.getNickName();
         this.cpf = entity.getCpf();
         this.telefone = entity.getTelefone();
         this.foto = entity.getFoto();

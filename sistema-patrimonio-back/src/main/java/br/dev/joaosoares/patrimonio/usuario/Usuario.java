@@ -45,6 +45,7 @@ public class Usuario implements Serializable {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String nome;
+    private String nickName;
     @Column(unique = true)
 	@NotBlank(message = "Campo obrigatório")
     private String cpf;
