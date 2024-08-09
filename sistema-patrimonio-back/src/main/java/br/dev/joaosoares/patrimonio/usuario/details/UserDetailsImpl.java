@@ -54,6 +54,7 @@ public class UserDetailsImpl implements UserDetails {
 
 			dados.put("idUsuario", String.valueOf(user.getId()));
 			dados.put("nomeUsuario", user.getNome());
+			dados.put("nickname", user.getNickName());
 			dados.put("departamentoId", String.valueOf(user.getDepartamento().id)); // converte o ID para String
 			dados.put("departamentoNome", user.getDepartamento().nome);
 			dados.put("foto", user.getFoto());

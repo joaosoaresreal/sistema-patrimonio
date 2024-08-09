@@ -24,11 +24,11 @@ INSERT INTO TB_departamento (nome, telefone, email, endereco, id_empresa_fk) VAL
 INSERT INTO TB_departamento (nome, telefone, email, endereco, id_empresa_fk) VALUES ('Atendimento ao Cliente', '(10) 0123-4567', 'atendimento@email.com', 'Avenida do Atendimento, 890', 1);
 
 --INSERINDO DADOS NA TABELA USUARIO
-INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('João Soares', '123.456.789-00', '(67) 98787-6565', '', 'joao@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 1)
-INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Sanda Sedano', '032.165.549-87', '(67) 98522-9175', '', 'sandra@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 2)
-INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Rosana Caldeiras', '147.852.000-00', '(67) 99809-6541', '', 'rosana@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 3)
-INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Usuario Teste', '345.678.901-23', '(11) 1234-5678', '', 'user@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 8)
-INSERT INTO TB_usuario (nome, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Admin Teste', '456.789.012-34', '(22) 2345-6789', '', 'admin@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 1)
+INSERT INTO TB_usuario (nome, nick_name, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('João Soares', 'Joao Soares', '123.456.789-00', '(67) 98787-6565', '', 'joao@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 1)
+INSERT INTO TB_usuario (nome, nick_name, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Sanda de Campo Sedano', 'Sanda Sedano', '032.165.549-87', '(67) 98522-9175', '', 'sandra@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 2)
+INSERT INTO TB_usuario (nome, nick_name, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Rosana dias das Caldeiras', 'Rosana Caldeiras', '147.852.000-00', '(67) 99809-6541', '', 'rosana@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 3)
+INSERT INTO TB_usuario (nome, nick_name, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Usuario da Silva Teste', 'Usuario Teste','345.678.901-23', '(11) 1234-5678', '', 'user@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 8)
+INSERT INTO TB_usuario (nome, nick_name, cpf, telefone, foto, email, senha, id_departamento_fk) VALUES ('Usuario da rocha teste admin', 'Admin Teste','456.789.012-34', '(22) 2345-6789', '', 'admin@email.com', '$2a$10$gjioWp70kHvK48.XARyckODVTer.V0tpNlPYikZr.y9f4Rs2jLBni', 1)
 
 --INSERINDO DADOS NA TABELA ROLE
 INSERT INTO TB_usuario_role (usuario_id, role_id) VALUES (1, 2); 

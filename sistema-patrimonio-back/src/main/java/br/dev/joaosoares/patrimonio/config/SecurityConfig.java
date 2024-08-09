@@ -15,15 +15,6 @@ import br.dev.joaosoares.patrimonio.security.AuthenticationFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-//	@Bean
-//	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//		http.csrf(Csrf -> Csrf.disable());
-//		http.authorizeHttpRequests(auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
-//				.permitAll().anyRequest().permitAll());
-//		http.headers(headers -> headers.frameOptions().disable());
-//		return http.build();
-//	}
-
     @Autowired
     private AuthenticationFilter authenticationFilter;
 
