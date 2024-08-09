@@ -1,45 +1,53 @@
 <app-navbar></app-navbar>
 
 <ion-content [fullscreen]="true">
-  <app-layout [pagina]="'Meu Usuário'">
+  <app-layout [pagina]="''">
     <app-forms>
       <form #form="ngForm" [formGroup]="meuUsuarioForm" *ngIf="meuUsuarioForm" (ngSubmit)="submit()" class="formulario">
         <div class="form-texto">
           <p>
-            Olá Usuário
-          </p>
-          <p>
-            O que vamos alterar hoje?
+            Olá {{nomeUsuario}}! O que deseja alterar em seu perfil?
           </p>
         </div>
         <div>
-          <ion-grid>
-            <ion-row>
-              <ion-col class="foto-usuario">
-                <img src="./../../../../assets/user-icon-logado.png" alt="Foto do Usuário">
-                <div class="foto-buttons">
-                  <ion-button expand="block">SELECIONAR FOTO</ion-button>
-                  <ion-button expand="block">EXCLUIR FOTO</ion-button>
-                </div>
-              </ion-col>
-
-              <!-- <ion-col>
-                <ion-button expand="block">SELECIONAR FOTO</ion-button>
-                <ion-button expand="block">EXCLUIR FOTO</ion-button>
-              </ion-col> -->
-            </ion-row>
-          </ion-grid>
 
           <ion-row>
+            <ion-col class="foto-usuario">
+              <img [src]="fotoAtual" alt="Foto do Usuário" (click)="abreModalFoto()">
+              <div class="foto-buttons">
+                <a (click)="abreModalFoto()">editar</a>
+              </div>
+            </ion-col>
+
+            <ion-col class="usuario_nomes">
+
+              <ion-input fill="outline" label="Nome de Usuario" labelPlacement="floating" type="text"
+                formControlName="nickName"></ion-input>
+              <ion-input fill="outline" label="Nome Completo" labelPlacement="floating" type="text"
+                formControlName="nome"></ion-input>
+              <ion-input fill="outline" label="Telefone" labelPlacement="floating" type="text"
+                formControlName="telefone"></ion-input>
+
+            </ion-col>
+          </ion-row>
+
+
+
+          <ion-row class="usuario_dados">
             <ion-col>
+              <p><span>CPF: </span> {{cpfUsuario}} | <span>Email: </span> {{emailUsuario}} | <span>Departamento: </span>
+                {{deptoUsuario}}</p>
+            </ion-col>
+
+            <!-- <ion-col>
               <ion-input fill="outline" label="Email" labelPlacement="floating" type="email" formControlName="email"></ion-input>
               <small class="error-message" *ngIf="meuUsuarioForm.get('email')?.errors && form.submitted">
                 Informe o email corretamente
               </small>
-            </ion-col>
+            </ion-col> -->
           </ion-row>
 
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <ion-item class="col-senha" fill="outline">
                 <ion-label position="floating">Senha Atual</ion-label>
@@ -80,17 +88,49 @@
                 Informe a nova senha novamente
               </small>
             </ion-col>
-          </ion-row>
-
-          <ion-row>
-          </ion-row>
+          </ion-row> -->
 
 
         </div>
         <div class="botoes">
+          <ion-button expand="block">ALTERAR EMAIL</ion-button>
+          <ion-button expand="block">ALTERAR SENHA</ion-button>
           <ion-button expand="block" type="submit">SALVAR ALTERAÇÕES</ion-button>
         </div>
       </form>
     </app-forms>
   </app-layout>
+
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="fechaModalFoto()">
+    <ng-template class="modal">
+
+      <ion-header>
+        <ion-toolbar>
+          <p><span>Editar foto</span></p>
+          <ion-buttons slot="end">
+            <ion-button (click)="fechaModalFoto()" [strong]="true">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="img_modal">
+          <img [src]="fotoAtual" alt="Foto do Usuário" onclick="">
+        </div>
+
+        <input type="file" style="display: none;" (change)="onFileSelected($event)" id="fotoUpdate" accept="image/*">
+
+        <div class="button_modal">
+          <ion-button color="warning" onclick="document.getElementById('fotoUpdate').click();">
+            <ion-icon name="cloud-upload"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" (click)="removeFoto()">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
