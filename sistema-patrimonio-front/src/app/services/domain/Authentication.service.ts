@@ -59,9 +59,10 @@ export class AuthenticationService {
                 'emailUsuario': decodedToken.sub,
                 'idUsuario': dadosUsuario.idUsuario,
                 'nomeUsuario': dadosUsuario.nomeUsuario,
+                'nickName': dadosUsuario.nickName,
                 'departamentoId': dadosUsuario.departamentoId,
                 'departamentoNome': dadosUsuario.departamentoNome,
-                'fotoUsuario': dadosUsuario.foto,
+                'fotoUsuario': `${API_CONFIG.baseUrl}/files/${dadosUsuario.foto}`,
                 'roleUsuario': decodedToken.roles
             }
         }
