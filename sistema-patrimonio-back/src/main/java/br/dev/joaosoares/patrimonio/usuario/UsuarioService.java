@@ -100,6 +100,7 @@ public class UsuarioService {
 
 	private void copiarDTOparaEntidade(UsuarioDTO dto, Usuario entity) {
 		entity.setNome(dto.getNome());
+		entity.setNickName(dto.getNickName());
 		entity.setCpf(dto.getCpf());
 		entity.setTelefone(dto.getTelefone());
 		entity.setFoto(dto.getFoto());
