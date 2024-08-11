@@ -5,6 +5,7 @@ import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
+import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
   selector: 'app-listagem-patrimonios',
@@ -18,11 +19,14 @@ export class ListagemPatrimoniosPage implements OnInit {
   patrimonios!: PatrimonioDTO[]
   patrimoniosFiltrados!: PatrimonioDTO[]
 
+  deptoId: any;
+
   constructor(
     public nav: NavController,
     public patrimonioService: PatrimonioService,
     private auth: AuthenticationService,
-    private alerta: AlertsService
+    private dados: DadosUser,
+    private alerta: AlertsService,
   ) { }
 
   /********************************************************\
@@ -37,17 +41,19 @@ export class ListagemPatrimoniosPage implements OnInit {
           // Após receber os dados, inicializa os patrimônios filtrados
           this.patrimoniosFiltrados = this.patrimonios.slice();
         },
-        error: (error) => console.log(error)
+        error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível carregar os patrimônios, tente novamente ou entre em contato com o adiministrador do sistema',
+          'warning', 'OK', () => this.nav.navigateForward('home'))
       });
     } else if(this.auth.hasRole("user")) {
-      this.patrimonioService.findAtivosByDepartamento(this.auth.dadosUsuario().departamentoId).subscribe({ // Carrega somente os patrimônios do dpto do user
+      this.patrimonioService.findAtivosByDepartamento(this.deptoId).subscribe({ // Carrega somente os patrimônios do dpto do user
         next: (response) => {
           this.patrimonios = response;
   
           // Após receber os dados, inicializa os patrimônios filtrados
           this.patrimoniosFiltrados = this.patrimonios.slice();
         },
-        error: (error) => console.log(error)
+        error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível carregar os patrimônios, tente novamente ou entre em contato com o adiministrador do sistema',
+          'warning', 'OK', () => this.nav.navigateForward('home'))
       });
     }
 
@@ -102,6 +108,9 @@ export class ListagemPatrimoniosPage implements OnInit {
 
 
   ngOnInit() {
+    this.dados.dadosUsuarioAPI().subscribe(data => {
+      this.deptoId = data.deptoId
+    });
   }
 
 }

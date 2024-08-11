@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DepartamentoNomeDTO } from 'src/app/models/DepartamentoNomeDTO';
 import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
+import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
   selector: 'app-transferir-patrimonio',
@@ -30,11 +31,14 @@ export class TransferirPatrimonioPage implements OnInit {
   estado = ''
   descricao = ''
   observacao = ''
+  nomeUsuario: any;
+  deptoUsuario: any;
 
   constructor(private formBuilder: FormBuilder, public nav: NavController, private route: ActivatedRoute,
     private patrimonioService: PatrimonioService,
     private departamentoService: DepartamentoService,
     private authService: AuthenticationService,
+    private dados: DadosUser,
     private relatorioService: RelatorioService,
     private alerta: AlertsService) { }
 
@@ -105,8 +109,8 @@ export class TransferirPatrimonioPage implements OnInit {
     let dataAtual = dia + " de " + mes + " de " + ano // Formatando a data por extenso para fazer o relatório
 
     let dadosRelatorio = {
-      'user': this.authService.dadosUsuario().nomeUsuario,
-      'deptoUser': this.authService.dadosUsuario().departamentoNome,
+      'user': this.nomeUsuario,
+      'deptoUser': this.deptoUsuario,
       'deptoRecebedor': this.depto,
       'plaqueta': this.transferenciaForm.value.plaqueta,
       'descricao': this.transferenciaForm.value.descricao,
@@ -154,6 +158,11 @@ export class TransferirPatrimonioPage implements OnInit {
       this.estado = response.estado
       this.descricao = response.descricao
       this.observacao = response.observacao
+    })
+
+    this.dados.dadosUsuarioAPI().subscribe(data=>{
+      this.nomeUsuario = data.nome,
+      this.deptoUsuario = data.deptoNome
     })
   }
 }

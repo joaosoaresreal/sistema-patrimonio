@@ -11,6 +11,7 @@ import { PatrimonioService } from './services/domain/Patrimonio.service';
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationService } from './services/domain/Authentication.service';
 import { AuthInterceptor } from './config/AuthInterceptor';
+import { UsuarioService } from './services/domain/Usuario.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,7 @@ import { AuthInterceptor } from './config/AuthInterceptor';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, 
-    PatrimonioService, AuthenticationService],
+    PatrimonioService, UsuarioService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

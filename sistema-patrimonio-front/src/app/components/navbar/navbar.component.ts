@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
+import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
   selector: 'app-navbar',
@@ -7,13 +7,20 @@ import { AuthenticationService } from 'src/app/services/domain/Authentication.se
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  foto: any;
+  departamento: any;
+  usuario: any;
 
-  constructor(private auth: AuthenticationService) { }
+  constructor(
+    private dados: DadosUser
+  ) { }
 
-  usuario = this.auth.dadosUsuario().nomeUsuario
-  departamento = this.auth.dadosUsuario().departamentoNome
-  foto = this.auth.dadosUsuario().fotoUsuario ? this.auth.dadosUsuario().fotoUsuario: "../../../assets/user-icon-logado.png"
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.dados.dadosUsuarioAPI().subscribe(data => {
+      this.usuario = data.nickName;
+      this.departamento = data.deptoNome;
+      this.foto = data.foto;
+    });
+  }
 
 }
