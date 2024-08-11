@@ -19,7 +19,7 @@ public class SecurityConfig {
     private AuthenticationFilter authenticationFilter;
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-    		"/auth/login", "/auth/forgot-password", "/auth/**"
+    		"/auth/login", "/auth/forgot-password", "/auth/**", "/files/**", "/files"
     };
 
     @Bean
@@ -31,7 +31,7 @@ public class SecurityConfig {
 			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
     	http.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/auth/login", "/auth/forgot-password", "/auth/**").permitAll()
+				.requestMatchers("/auth/login", "/auth/forgot-password", "/auth/**", "/files/**", "/files").permitAll()
 				.anyRequest().authenticated());
 
     	http.cors();
