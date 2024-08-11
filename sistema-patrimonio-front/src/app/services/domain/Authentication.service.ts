@@ -58,11 +58,11 @@ export class AuthenticationService {
             return { // Retorna os dados decodificados
                 'emailUsuario': decodedToken.sub,
                 'idUsuario': dadosUsuario.idUsuario,
-                'nomeUsuario': dadosUsuario.nomeUsuario,
-                'nickName': dadosUsuario.nickName,
-                'departamentoId': dadosUsuario.departamentoId,
-                'departamentoNome': dadosUsuario.departamentoNome,
-                'fotoUsuario': `${API_CONFIG.baseUrl}/files/${dadosUsuario.foto}`,
+                // 'nomeUsuario': dadosUsuario.nomeUsuario,
+                // 'nickname': dadosUsuario.nickName,
+                // 'departamentoId': dadosUsuario.departamentoId,
+                // 'departamentoNome': dadosUsuario.departamentoNome,
+                // 'fotoUsuario': `${API_CONFIG.baseUrl}/files/${dadosUsuario.foto}`,
                 'roleUsuario': decodedToken.roles
             }
         }
