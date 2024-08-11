@@ -1,6 +1,7 @@
 export interface UsuarioDTO{
     id: number;
     nome: string;
+    nickName: string;
     cpf: string;
     telefone: string;
     foto: string;
@@ -12,5 +13,9 @@ export interface UsuarioDTO{
         empresa:{
             nomeFantasia: string;
         }
+    }
+    roles: {
+        id: number,
+        authority: string
     }
 }

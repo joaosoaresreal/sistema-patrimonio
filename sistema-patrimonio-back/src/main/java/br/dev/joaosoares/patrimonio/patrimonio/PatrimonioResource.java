@@ -2,6 +2,7 @@ package br.dev.joaosoares.patrimonio.patrimonio;
 
 import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioDTO;
 import br.dev.joaosoares.patrimonio.departamento.Departamento;
+import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonioDTO;
 
 import java.net.URI;
 import java.util.List;
@@ -55,10 +56,10 @@ public class PatrimonioResource {
     }
 
     // TRANSFERENCIA PATRIMONIAL
-    @PutMapping(value = "/transferencia/{id}/{departamentoId}")
-    public ResponseEntity<PatrimonioDTO> transferencia(@PathVariable long id, @PathVariable long departamentoId){
-        var dto = service.transferencia(id, departamentoId);
-        return ResponseEntity.ok().body(dto);
+    @PutMapping(value = "/transferencia/{id}")
+    public ResponseEntity<PatrimonioDTO> transferencia(@PathVariable long id, @RequestBody TransferePatrimonioDTO dto){
+        var tranf = service.transferencia(id, dto);
+        return ResponseEntity.ok().body(tranf);
     }
 
     // BAIXA PATRIMONIAL
@@ -83,10 +84,10 @@ public class PatrimonioResource {
         return ResponseEntity.ok().body(dto);
     }
 
-    // LISTAR POR DEPTO
-    @GetMapping(value = "/departamento/{departamento}")
-    public ResponseEntity<List<PatrimonioDTO>> findByDepartamento(@PathVariable Departamento departamento){
-        List<PatrimonioDTO> lista = service.findByDepartamento(departamento);
+    // LISTAR ATIVOS POR DEPTO
+    @GetMapping(value = "/ativos/{departamento}")
+    public ResponseEntity<List<PatrimonioDTO>> findAtivosByDepartamento(@PathVariable Departamento departamento){
+        List<PatrimonioDTO> lista = service.findAtivosByDepartamento(departamento);
         return ResponseEntity.ok().body(lista);
     }
 

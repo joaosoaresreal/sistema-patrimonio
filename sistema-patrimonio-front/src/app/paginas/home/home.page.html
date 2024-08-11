@@ -2,7 +2,7 @@
 
 <ion-content [fullscreen]="true">
   <div class="boas-vindas">
-    <p>Seja bem-vindo, usuário</p>
+    <p>Olá, {{usuarioHome}}</p>
     <p class="data">{{today | date:"EEEE, dd 'de' MMMM 'de' yyyy"}}</p>
     <p>Tenha um excelente trabalho</p>
   </div>
@@ -30,21 +30,21 @@
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('cadastrar-departamento')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="create"></ion-icon>
         <ion-card-title>Cadastrar Departamento</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('listagem-usuarios')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="people"></ion-icon>
         <ion-card-title>Gerenciar Usuários</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary">
+    <ion-card button="true" (click)="abrirPagina('cadastrar-usuario')" color="primary" *ngIf="auth.hasRole('admin')">
       <ion-card-header>
         <ion-icon name="person-add"></ion-icon>
         <ion-card-title>Cadastrar Usuário</ion-card-title>
@@ -62,9 +62,3 @@
     <p>Desenvolvido por © <span>SS Tech</span></p>
   </div>
 </ion-content>
-
-<!-- <div class="rodape">
-  <ion-toolbar color="primary">
-    <ion-title size="">Desenvolvido por © <span>SS Tech</span></ion-title>
-  </ion-toolbar>
-</div> -->

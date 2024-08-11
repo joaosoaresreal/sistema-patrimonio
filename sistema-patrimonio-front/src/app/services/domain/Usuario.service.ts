@@ -21,11 +21,12 @@ export class UsuarioService{
     }
 
     // EDITAR USUÁRIO
-    update(usuario: any){
-        return this.http.put(`${API_CONFIG.baseUrl}/api_usuarios/${usuario.id}`, usuario, {
+    update(id: any, formData: FormData): Observable<any> {
+        return this.http.put(`${API_CONFIG.baseUrl}/api_usuarios/${id}`, formData, {
             observe: 'response', responseType: 'text'
-        })
+        });
     }
+    
 
     // BUSCAR POR ID
     findById(id: number):Observable<UsuarioDTO>{
@@ -40,5 +41,10 @@ export class UsuarioService{
     // BUSCAR POR CPF
     findByCpf(cpf: string):Observable<UsuarioDTO>{
         return this.http.get<UsuarioDTO>(`${API_CONFIG.baseUrl}/api_usuarios/cpf/${cpf}`)
+    }
+
+    // BUSCAR POR EMAIL
+    findByEmail(email: string):Observable<UsuarioDTO>{
+        return this.http.get<UsuarioDTO>(`${API_CONFIG.baseUrl}/api_usuarios/email/${email}`)
     }
 }

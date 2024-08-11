@@ -8,6 +8,7 @@ import br.dev.joaosoares.patrimonio.departamento.DepartamentoRepository;
 import br.dev.joaosoares.patrimonio.enums.Status;
 import br.dev.joaosoares.patrimonio.services.exceptions.ResourcesNotFoundException;
 import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonio;
+import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonioDTO;
 import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -83,26 +84,26 @@ public class PatrimonioService {
 
     // TRANSFERENCIA (SÓ ATUALIZA O DPTO)
     @Transactional
-    public PatrimonioDTO transferencia(Long id, Long departamentoId) {
+    public PatrimonioDTO transferencia(Long id, TransferePatrimonioDTO dto) {
         try {
             Patrimonio entity = repository.getReferenceById(id);
-            var departamento = departamentoRepository.findById(departamentoId);
+//            var departamento = departamentoRepository.findById(departamentoId);
 
             TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
 
             transferePatrimonio.setPatrimonio(entity);
             transferePatrimonio.setEstado(entity.getEstado());
             transferePatrimonio.setDeptoAnterior(entity.getDepartamento().nome);
-            transferePatrimonio.setDeptoTransferencia(departamento.get());
+            transferePatrimonio.setDeptoTransferencia(dto.getDeptoTransferencia());
             transferePatrimonio.setLocalAnterior(entity.getLocalizacao());
             transferePatrimonio.setObsAnterior(entity.getObservacao());
             transferePatrimonio.setPlaqueta(entity.getPlaqueta());
             transferePatrimonio.setDataHoraModificacao(LocalDateTime.now());
-            transferePatrimonio.setUsuarioTransferencia(null);
+            transferePatrimonio.setUsuarioTransferencia(dto.getUsuarioTransferencia());
 
             transferePatrimonioRepository.save(transferePatrimonio);
 
-            entity.setDepartamento(departamento.get());
+            entity.setDepartamento(dto.getDeptoTransferencia());
             entity = repository.save(entity);
 
             return new PatrimonioDTO(entity);
@@ -168,10 +169,10 @@ public class PatrimonioService {
         return new PatrimonioDTO(obj);
     }
 
-    // LISTAR POR DEPTO
+    // LISTAR ATIVOS POR DEPTO
     @Transactional(readOnly = true)
-    public List<PatrimonioDTO> findByDepartamento(Departamento departamento) {
-        List<Patrimonio> lista = repository.findByDepartamento(departamento);
+    public List<PatrimonioDTO> findAtivosByDepartamento(Departamento departamento) {
+        List<Patrimonio> lista = repository.findAtivosByDepartamento(departamento);
         return lista.stream().map(x -> new PatrimonioDTO(x)).collect(Collectors.toList());
     }
 

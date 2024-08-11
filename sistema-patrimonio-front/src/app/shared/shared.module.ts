@@ -5,12 +5,14 @@ import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FormsComponent } from 'src/app/components/forms/forms.component';
 import { ListsComponent } from '../components/lists/lists.component';
 import { LayoutComponent } from '../components/layout/layout.component';
+import { AuthenticationService } from '../services/domain/Authentication.service';
 
 
 @NgModule({
   declarations: [NavbarComponent, LayoutComponent, FormsComponent, ListsComponent],
   imports: [CommonModule, IonicModule],
   exports: [NavbarComponent, LayoutComponent, FormsComponent, ListsComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [AuthenticationService]
 })
 export class SharedModule {}

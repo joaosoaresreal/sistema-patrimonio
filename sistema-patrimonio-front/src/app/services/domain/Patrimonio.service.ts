@@ -28,8 +28,8 @@ export class PatrimonioService {
         })
     }
 
-    transferencia(patrimonio: any, departamento: any) {
-        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/transferencia/${patrimonio.id}/${departamento.id}`, {
+    transferencia(id: number, patrimonio: any) {
+        return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/transferencia/${id}`, patrimonio, {
             observe: 'response', responseType: 'text'
         })
     }
@@ -54,8 +54,13 @@ export class PatrimonioService {
         return this.http.get<PatrimonioDTO[]>(`${API_CONFIG.baseUrl}/api_patrimonio/ativos`)
     }
 
+    // LISTAGEM DOS PATRIMONIOS ATIVOS POR DEPARTAMENTO
+    findAtivosByDepartamento(id: number): Observable<PatrimonioDTO[]> {
+        return this.http.get<PatrimonioDTO[]>(`${API_CONFIG.baseUrl}/api_patrimonio/ativos/${id}`)
+    }
+
     // BAIXA PATRIMONIO
-    baixa(id: number, dados: any){
+    baixa(id: number, dados: any) {
         return this.http.put(`${API_CONFIG.baseUrl}/api_patrimonio/baixa/${id}`, dados, {
             observe: 'response', responseType: 'text'
         })

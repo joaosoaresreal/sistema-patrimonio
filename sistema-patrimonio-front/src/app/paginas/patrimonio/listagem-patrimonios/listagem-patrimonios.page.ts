@@ -3,7 +3,9 @@ import { FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
+import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
   selector: 'app-listagem-patrimonios',
@@ -17,25 +19,44 @@ export class ListagemPatrimoniosPage implements OnInit {
   patrimonios!: PatrimonioDTO[]
   patrimoniosFiltrados!: PatrimonioDTO[]
 
+  deptoId: any;
+
   constructor(
     public nav: NavController,
     public patrimonioService: PatrimonioService,
-    private alerta: AlertsService
+    private auth: AuthenticationService,
+    private dados: DadosUser,
+    private alerta: AlertsService,
   ) { }
 
   /********************************************************\
               LISTAGEM E FILTRAGEM DOS PATRIMONIOS 
   \********************************************************/
   ionViewDidEnter() {
-    this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
-      next: (response) => {
-        this.patrimonios = response;
+    if(this.auth.hasRole("admin")){
+      this.patrimonioService.findByAtivos().subscribe({ // Carrega todos os patrimônios
+        next: (response) => {
+          this.patrimonios = response;
+  
+          // Após receber os dados, inicializa os patrimônios filtrados
+          this.patrimoniosFiltrados = this.patrimonios.slice();
+        },
+        error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível carregar os patrimônios, tente novamente ou entre em contato com o adiministrador do sistema',
+          'warning', 'OK', () => this.nav.navigateForward('home'))
+      });
+    } else if(this.auth.hasRole("user")) {
+      this.patrimonioService.findAtivosByDepartamento(this.deptoId).subscribe({ // Carrega somente os patrimônios do dpto do user
+        next: (response) => {
+          this.patrimonios = response;
+  
+          // Após receber os dados, inicializa os patrimônios filtrados
+          this.patrimoniosFiltrados = this.patrimonios.slice();
+        },
+        error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível carregar os patrimônios, tente novamente ou entre em contato com o adiministrador do sistema',
+          'warning', 'OK', () => this.nav.navigateForward('home'))
+      });
+    }
 
-        // Após receber os dados, inicializa os patrimônios filtrados
-        this.patrimoniosFiltrados = this.patrimonios.slice();
-      },
-      error: (error) => console.log(error)
-    });
 
     // Observa mudanças no campo de pesquisa
     this.queryField.valueChanges.subscribe((query: string | null) => {
@@ -87,6 +108,9 @@ export class ListagemPatrimoniosPage implements OnInit {
 
 
   ngOnInit() {
+    this.dados.dadosUsuarioAPI().subscribe(data => {
+      this.deptoId = data.deptoId
+    });
   }
 
 }

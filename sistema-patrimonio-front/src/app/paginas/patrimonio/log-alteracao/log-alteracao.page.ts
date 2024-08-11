@@ -29,6 +29,10 @@ export class LogAlteracaoPage implements OnInit {
   dataRelatorio: any;
   dadosRelatorio: any = [];
 
+  dataModal: any;
+  hora: any;
+  minuto: any;
+
   dataInicialFormat: any;
   dataFinalFormat: any;
   toolbarTitulo: any;
@@ -40,17 +44,17 @@ export class LogAlteracaoPage implements OnInit {
                 FORMATA A PLAQUETA INSERIDA PARA UPPERCASE
   \*********************************************************************/
   plaquetaSelecionada() {
-    let plaquetaInserida = this.logForm.value.plaqueta.toUpperCase()
+    let plaquetaInserida = this.logForm.value.plaqueta.toUpperCase().trim()
     this.logForm.get('plaqueta')?.setValue(plaquetaInserida)
-    this.plaqueta = plaquetaInserida.trim()
+    this.plaqueta = plaquetaInserida
   }
 
   /*********************************************************************\
                     VALIDA O QUE FOI PREENCHIDO
   \*********************************************************************/
   submit() {
-    this.startDate = this.logForm.value.startDate
-    this.endDate = this.logForm.value.endDate
+    this.startDate = this.logForm.value.startDate.trim()
+    this.endDate = this.logForm.value.endDate.trim()
 
     this.dataInicialFormat = this.datepipe.transform(this.startDate, 'yyyy-MM-dd')
     this.dataFinalFormat = this.datepipe.transform(this.endDate, 'yyyy-MM-dd')
@@ -109,19 +113,34 @@ export class LogAlteracaoPage implements OnInit {
     if (response.length >= 1) { // Se tiver resultados vai abrir o modal
       this.patrimonios = response; // Resposta da API
 
+      console.log("this.patrimonios: ",this.patrimonios)
+
       // Formatando a data para exibir na UI
       this.patrimonios.forEach(patrimonio => {
         if (patrimonio.dataHoraModificacao) {
-          // console.log("BACK: " + patrimonio.dataHoraModificacao)
-          // console.log("TIPO: " + typeof patrimonio.dataHoraModificacao)
-          const dataArray = patrimonio.dataHoraModificacao
-          const data = new Date(dataArray[0], dataArray[1] - 1, dataArray[2], dataArray[3], dataArray[4], dataArray[5], dataArray[6]);
-          this.dataHora = this.datepipe.transform(data, 'dd/MM/yyyy hh:mm');
-          patrimonio.dataHoraModificacao = this.dataHora;
-          // console.log(data)
+          const dataArray = patrimonio.dataHoraModificacao // array enviado pelo back com a data + hora EX.: [2024, 7, 13, 18, 17, 20, 93385000]
+          const data = new Date(dataArray[0], dataArray[1] -1, dataArray[2]);
+          this.dataHora = this.datepipe.transform(data, 'dd/MM/yyyy'); // transforma a data para 00/00/0000
+
+          // valida hora para que fique com 0 se for menor ou igual a 9h
+          if(dataArray[3]<=9){
+            this.hora = "0"+dataArray[3]
+          } else{
+            this.hora = dataArray[3]
+          }
+
+          // valida os minutos para que fique com 0 se for menor ou igual a 9
+          if(dataArray[4]<=9){
+            this.minuto = "0"+dataArray[4]
+          } else{
+            this.minuto = dataArray[4]
+          }
+
+          // formata data + hora para exibir no modal
+          patrimonio.dataHoraModificacao = this.dataHora + " " + this.hora + ":" +this.minuto
         }
       });
-      // console.log("FRONT: " + this.dataHora)
+
       this.isModalOpen = true; // Abre o modal
     } else { // Senão abre o aviso personalizado para cada opção
       alertaModal()
@@ -155,7 +174,7 @@ export class LogAlteracaoPage implements OnInit {
 
       // Pegando os dados necessários para gerar o termo
       this.dadosRelatorio = {
-        'user': 'Usuário Teste',
+        'user': response.usuarioTransferencia.nome,
         'deptoUser': response.deptoAnterior,
         'deptoRecebedor': response.deptoTransferencia.nome,
         'plaqueta': response.plaqueta,

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
 import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
 import { CpfValidator } from 'src/app/services/validators/CpfValidator';
@@ -26,9 +27,15 @@ export class BaixarPatrimonioPage implements OnInit {
   cpfFormatado: any
   nomeFormatado: any
 
-  constructor(private formBuilder: FormBuilder, public nav: NavController,
-    private route: ActivatedRoute, private patrimonioService: PatrimonioService, private alerta: AlertsService,
-    private relatorioService: RelatorioService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    public nav: NavController,
+    private route: ActivatedRoute, 
+    private patrimonioService: PatrimonioService, 
+    private alerta: AlertsService,
+    private relatorioService: RelatorioService,
+    private authService: AuthenticationService
+  ) { }
 
   /********************************************************\
                   CANCELAMENTO DA BAIXA
@@ -63,7 +70,7 @@ export class BaixarPatrimonioPage implements OnInit {
       'nomeProfissionalBaixa': this.nomeFormatado,
       'cpfProfissionalBaixa': this.cpfFormatado,
       'usuarioBaixa': {
-        'id': 1
+        'id': this.authService.dadosUsuario().idUsuario
       },
     }
 

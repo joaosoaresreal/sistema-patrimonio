@@ -10,11 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class PatrimonioApplication implements WebMvcConfigurer {
 
-    	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(PatrimonioApplication.class, args);
 	}

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuController, NavController, ToastController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
+import { UsuarioService } from 'src/app/services/domain/Usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -8,22 +11,25 @@ import { MenuController, NavController, ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  // iconSenha = "eye"
-  typeSenha = 'password'
-  // checked:any
+  // public typeSenha = 'password'
+  // typeSenha: 'password' | 'text' = 'password'
+  typeSenha = 'password';
+  loginForm!: FormGroup
 
-  protected login = {
-    usuario: "",
-    senha: ""
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    public nav: NavController,
+    private toast: ToastController,
+    public menu: MenuController,
+    private auth: AuthenticationService,
+    public usuarioService: UsuarioService
+  ) { }
 
-  constructor(public nav: NavController, private toast: ToastController, public menu: MenuController) { }
-
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.menu.enable(false) // O MENU NÃO VAI ABRIR NA TELA DE LOGIN
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.menu.enable(true) // O MENU VAI APARECER NAS OUTRAS TELAS
   }
 
@@ -38,32 +44,41 @@ export class LoginPage implements OnInit {
     await toast.present();
   }
 
-  
-  logar(){
-
-    if(this.login.usuario==='sstech@sstech.com' && this.login.senha==='ifms12345678'){
-      this.nav.navigateForward('home')
-    }else{
-      this.presentToast()
+  /**
+   * Login
+   */
+  submit() {
+    let dados ={
+      'email': this.loginForm.value.email,
+      'senha': this.loginForm.value.senha
     }
-  }
-  
 
-  abrirPagina(page: string){
+    this.auth.authenticateUser(dados).subscribe({
+      next: response => {
+        // this.nav.navigateForward('home')
+        window.location.href = '/home'
+      },
+      error: (error) => this.presentToast()
+    })
+  }
+
+  abrirPagina(page: string) {
     this.nav.navigateForward(page)
   }
-
 
   /********************************************************\
                 EXIBIR/OCULTAR SENHA
   \********************************************************/
-  verSenha(){
-    console.log("clicou");
-    this.typeSenha = (this.typeSenha === 'password') ? 'text' : 'password';
+  verSenha() {
+    console.log("apertou: ")
+    this.typeSenha = (this.typeSenha === 'password') ? 'text' : 'password'
+    console.log(this.typeSenha)
   }
-  
 
   ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      senha: ['', Validators.required]
+    })
   }
-
 }

@@ -21,5 +21,9 @@ export interface TransferePatrimonioDTO{
             nome: string
         }
     },
-    dataHoraModificacao: any
+    dataHoraModificacao: any,
+    usuarioTransferencia:{
+        id: number,
+        nome: string
+    }
 }

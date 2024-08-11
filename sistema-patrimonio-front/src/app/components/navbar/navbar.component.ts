@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
   selector: 'app-navbar',
@@ -6,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  foto: any;
+  departamento: any;
+  usuario: any;
 
-  constructor() { }
+  constructor(
+    private dados: DadosUser
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dados.dadosUsuarioAPI().subscribe(data => {
+      this.usuario = data.nickName;
+      this.departamento = data.deptoNome;
+      this.foto = data.foto;
+    });
+  }
 
 }
