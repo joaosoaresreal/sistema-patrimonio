@@ -22,6 +22,12 @@
     }
 
     img{
-        border-radius: 50px;
+        display: block; /* Remove o espaço em branco abaixo da imagem */
+        width: 40px; /* Define a largura desejada */
+        height: 40px; /* Define a altura igual à largura para manter a forma circular */
+        border-radius: 50%; /* Torna as bordas arredondadas em um círculo */
+        object-fit: cover; /* Garante que a imagem preencha todo o contêiner sem distorção */
+        cursor: pointer; /* Mostra que a imagem é clicável */
+        margin: auto; /* Centraliza a imagem se o contêiner permitir */
     }
 }
