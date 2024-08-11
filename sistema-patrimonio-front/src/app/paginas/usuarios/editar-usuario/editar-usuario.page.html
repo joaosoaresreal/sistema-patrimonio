@@ -33,6 +33,13 @@
                   <ion-input formControlName="cpf"></ion-input>
                 </ion-item>
               </ion-col>
+
+              <ion-col>
+                <ion-item disabled="true">
+                  <ion-label position="floating">Nome de Usuário</ion-label>
+                  <ion-input formControlName="nickname"></ion-input>
+                </ion-item>
+              </ion-col>
             </ion-row>
 
             <ion-row>
@@ -62,10 +69,10 @@
               </ion-col>
 
               <ion-col>
-                <ion-select fill="outline" label="Role" labelPlacement="floating" interface="popover" >
+                <ion-select fill="outline" label="Role" labelPlacement="floating" interface="popover" formControlName="role">
 
-                  <ion-select-option>Administrador</ion-select-option>
-                  <ion-select-option>Operador</ion-select-option>
+                  <ion-select-option value="ROLE_ADMIN">Administrador</ion-select-option>
+                  <ion-select-option value="ROLE_OPERADOR">Operador</ion-select-option>
 
                 </ion-select>
               </ion-col>

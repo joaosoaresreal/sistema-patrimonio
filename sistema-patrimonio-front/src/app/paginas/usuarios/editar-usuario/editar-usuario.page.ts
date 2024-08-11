@@ -20,6 +20,8 @@ export class EditarUsuarioPage implements OnInit {
   departamentos!: DepartamentoNomeDTO[]
 
   protected telFormatado: any;
+  protected foto: any;
+  protected nickName: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,38 +37,45 @@ export class EditarUsuarioPage implements OnInit {
                     LISTAGEM DOS DEPARTAMENTOS
   \********************************************************/
   ionViewDidEnter() { /* Disparado quando o roteamento do componente está prestes a ser animado e exibido. */
-    this.departamentoService.findByNomeSQL().subscribe({next: (response) =>
+    this.departamentoService.findByNomeSQL().subscribe({
+      next: (response) =>
         this.departamentos = response,
-        error: (error) => console.log(error)
+      error: (error) => console.log(error)
     })
   }
 
   /********************************************************\
                   SALVAR EDIÇÃO
   \********************************************************/
-  submit(){
-    if(this.editarUsuarioForm.invalid || this.editarUsuarioForm.pending){
+  submit() {
+    if (this.editarUsuarioForm.invalid || this.editarUsuarioForm.pending) {
       return // CANCELA A SUBMISSAO E RETORNA OS ERROS PARA O USUÁRIO
     }
 
-    let usuarioEdicao = {
-      'id': this.editarUsuarioForm.value.id,
-      'nome': this.editarUsuarioForm.value.nome,
-      'cpf': this.editarUsuarioForm.value.cpf,
-      'telefone': this.telFormatado || this.editarUsuarioForm.value.telefone,
-      'foto': this.editarUsuarioForm.value.foto,
-      'email': this.editarUsuarioForm.value.email,
-      'departamento': {
-        'id': this.editarUsuarioForm.value.departamento
-      }
-    }
+    const formData = new FormData();
 
-    this.usuarioService.update(usuarioEdicao).subscribe({
-      next: (response)=>{
-        this.alerta.alertaOk('SUCESSO', 'O cadastro do usuário foi alterado', 'success', 'OK', ()=> this.nav.navigateForward('listagem-usuarios'))
+    const usuarioEdicao = new Blob([JSON.stringify({
+      id: this.editarUsuarioForm.value.id,
+      nome: this.editarUsuarioForm.value.nome,
+      nickName: this.nickName,
+      cpf: this.editarUsuarioForm.value.cpf,
+      telefone: this.telFormatado || this.editarUsuarioForm.value.telefone,
+      foto: this.foto,
+      email: this.editarUsuarioForm.value.email,
+      departamento: {
+        id: this.editarUsuarioForm.value.departamento
+      }
+    })], { type: 'application/json' });
+
+    // Adiciona o Blob ao FormData
+    formData.append('usuario', usuarioEdicao);
+
+    this.usuarioService.update(this.editarUsuarioForm.value.id, formData).subscribe({
+      next: (response) => {
+        this.alerta.alertaOk('SUCESSO', 'O cadastro do usuário foi alterado', 'success', 'OK', () => this.nav.navigateForward('listagem-usuarios'))
       },
-      error: (error)=> this.alerta.alertaOk('ERRO', 'Não foi possível alterar o cadastro, tente novamente mais tarde, ou contate o administrador do sistema',
-       'error', 'OK', ()=> this.nav.navigateForward('listagem-usuarios'))
+      error: (error) => this.alerta.alertaOk('ERRO', 'Não foi possível alterar o cadastro, tente novamente mais tarde, ou contate o administrador do sistema',
+        'error', 'OK', () => this.nav.navigateForward('listagem-usuarios'))
     })
   }
 
@@ -85,22 +94,27 @@ export class EditarUsuarioPage implements OnInit {
                     CANCELAR EDIÇÃO 
   \********************************************************/
   descartarAlteracao() {
-    this.alerta.alertaPadrao('Deseja realmente descartar as alterações?', 'SIM', 'NÃO', 
-    ()=>this.nav.navigateForward('listagem-usuarios'), ()=>{})
+    this.alerta.alertaPadrao('Deseja realmente descartar as alterações?', 'SIM', 'NÃO',
+      () => this.nav.navigateForward('listagem-usuarios'), () => { })
   }
 
   ngOnInit() {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
-    this.usuarioService.findById(id).subscribe(response=>{
+    this.usuarioService.findById(id).subscribe(response => {
       this.editarUsuarioForm = this.formBuilder.group({
         id: [response.id],
         nome: [response.nome, Validators.required],
+        nickname: [response.nickName],
         cpf: [response.cpf, Validators.required],
         telefone: [response.telefone, Validators.required],
         foto: [response.foto],
         email: [response.email, Validators.compose([Validators.required, Validators.email])],
+        role: [response.roles],
         departamento: [response.departamento.id, Validators.required],
       })
+
+      this.foto = response.foto
+      this.nickName = response.nickName
     })
   }
 }
