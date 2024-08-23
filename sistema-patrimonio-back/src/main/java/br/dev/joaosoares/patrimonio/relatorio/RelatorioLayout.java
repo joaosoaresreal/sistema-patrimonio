@@ -34,7 +34,9 @@ public class RelatorioLayout {
         Cell cellLogo = new Cell().add(logo).setBorder(Border.NO_BORDER);
 
         // TITULO DO HEADER
-        Cell cellTexto = new Cell().add(new Paragraph("SISTEMA DE TESTES")
+        Cell cellTexto = new Cell().add(new Paragraph("SCP - Sistema de Controle Patrimonial\n" + 
+        "____________________________________________________________________\n" + 
+        "Tecnologia em Análise e Desenvolvimento de Sistemas")
         		.setTextAlignment(TextAlignment.CENTER)).setBorder(Border.NO_BORDER);
 
         // Criar tabela com duas células para o cabeçalho do documento
@@ -44,7 +46,6 @@ public class RelatorioLayout {
 
         return header;
     }
-
 
     // TITULO DO RELATÓRIO
     public static Paragraph criarParagrafoTitulo(String titulo) throws IOException {
