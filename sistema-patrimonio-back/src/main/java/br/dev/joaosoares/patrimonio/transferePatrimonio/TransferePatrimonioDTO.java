@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Builder
 public class TransferePatrimonioDTO implements Serializable {
-    private static final Long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String plaqueta;

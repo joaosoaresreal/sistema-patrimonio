@@ -46,8 +46,8 @@ public class UsuarioService {
 	// BUSCAR POR ID
 	@Transactional(readOnly = true)
 	public UsuarioDTO findById(Long id) {
-		Optional<Usuario> objeto = repository.findById(id);
-		Usuario entity = objeto.get();
+		Usuario entity = repository.findById(id)
+				.orElseThrow(()-> new ResourcesNotFoundException("O ID informado não foi encontrado"));
 		return new UsuarioDTO(entity);
 	}
 

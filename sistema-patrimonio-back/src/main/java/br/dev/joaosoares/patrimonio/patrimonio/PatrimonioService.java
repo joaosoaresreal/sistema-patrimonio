@@ -4,7 +4,6 @@ import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonio;
 import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioDTO;
 import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioRepository;
 import br.dev.joaosoares.patrimonio.departamento.Departamento;
-import br.dev.joaosoares.patrimonio.departamento.DepartamentoRepository;
 import br.dev.joaosoares.patrimonio.enums.Status;
 import br.dev.joaosoares.patrimonio.services.exceptions.ResourcesNotFoundException;
 import br.dev.joaosoares.patrimonio.transferePatrimonio.TransferePatrimonio;
@@ -27,9 +26,6 @@ public class PatrimonioService {
 
     @Autowired
     private PatrimonioRepository repository;
-
-    @Autowired
-    private DepartamentoRepository departamentoRepository;
 
     @Autowired
     private TransferePatrimonioRepository transferePatrimonioRepository;
@@ -87,7 +83,6 @@ public class PatrimonioService {
     public PatrimonioDTO transferencia(Long id, TransferePatrimonioDTO dto) {
         try {
             Patrimonio entity = repository.getReferenceById(id);
-//            var departamento = departamentoRepository.findById(departamentoId);
 
             TransferePatrimonio transferePatrimonio = new TransferePatrimonio();
 
