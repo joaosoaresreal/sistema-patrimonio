@@ -13,5 +13,9 @@ public interface RelatorioService {
 
     byte[] gerarRelatorioPatrimonioDepto(Departamento departamento) throws IOException;
 
+    byte[] gerarRelatorioBaixaGeral() throws IOException;
+
+    byte[] gerarRelatorioBaixaDepto(int id) throws IOException;
+
     //byte[] gerarRelatorio2(RelatorioBaixaPatrimonioDTO dados) throws IOException;
 }

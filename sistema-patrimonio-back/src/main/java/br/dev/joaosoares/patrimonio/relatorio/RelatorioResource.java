@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,6 +94,44 @@ public class RelatorioResource {
             headers.setContentType(MediaType.APPLICATION_PDF);
             // indica que o arquivo deve ser exibido "inline" no navegador e tem o nome "transferencia.pdf".
             headers.setContentDispositionFormData("inline", "patrimonios-departamento.pdf");
+            // Retorna o PDF
+            return new ResponseEntity<>(relatorioPDF, headers, HttpStatus.OK);
+    	} catch (IOException e) {
+    		 e.printStackTrace();
+             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
+
+    // Requisição para gerar o relatório de patrimonios baixados - GERAL (TODOS)
+    @GetMapping("/gerar_rel_baixa")
+    public ResponseEntity<byte[]> gerarRelatorioBaixaGeral(){
+    	try {
+    		byte[] relatorioPDF = relatorioService.gerarRelatorioBaixaGeral();
+
+            HttpHeaders headers = new HttpHeaders();
+            // indica que o conteúdo da resposta é um arquivo PDF
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            // indica que o arquivo deve ser exibido "inline" no navegador e tem o nome "baixas-geral.pdf".
+            headers.setContentDispositionFormData("inline", "baixas-geral.pdf");
+            // Retorna o PDF
+            return new ResponseEntity<>(relatorioPDF, headers, HttpStatus.OK);
+    	} catch (IOException e) {
+    		 e.printStackTrace();
+             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    } 
+
+    // Requisição para gerar o relatório de baixa por dpto
+    @GetMapping("/gerar_rel_baixa/departamento/{id}")
+    public ResponseEntity<byte[]> gerarRelatorioBaixaDepto(@PathVariable int id){
+    	try {
+    		byte[] relatorioPDF = relatorioService.gerarRelatorioBaixaDepto(id);
+
+            HttpHeaders headers = new HttpHeaders();
+            // indica que o conteúdo da resposta é um arquivo PDF
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            // indica que o arquivo deve ser exibido "inline" no navegador e tem o nome "baixa-departamento.pdf".
+            headers.setContentDispositionFormData("inline", "baixa-departamento.pdf");
             // Retorna o PDF
             return new ResponseEntity<>(relatorioPDF, headers, HttpStatus.OK);
     	} catch (IOException e) {
