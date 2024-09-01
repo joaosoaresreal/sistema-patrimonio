@@ -19,4 +19,11 @@ public class BaixaPatrimonioService {
 		List<BaixaPatrimonio> lista = repository.findAll();
 		return lista.stream().map(x -> new BaixaPatrimonioDTO(x)).collect(Collectors.toList());
 	}
+
+    // BUSCAR POR DEPTO DE BAIXA
+    @Transactional(readOnly = true)
+    public List<BaixaPatrimonioDTO> findByDepartamento(int id) {
+        List<BaixaPatrimonio> lista = repository.findByDepartamento(id);
+        return lista.stream().map(x -> new BaixaPatrimonioDTO(x)).collect(Collectors.toList());
+    }
 }
