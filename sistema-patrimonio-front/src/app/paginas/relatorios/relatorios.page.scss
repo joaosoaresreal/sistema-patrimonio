@@ -1,0 +1,23 @@
+.form-rel{
+    border-radius: 10px;
+    background: var(--ion-color-light);
+
+    .botoes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: right;
+    
+        ion-button {
+            border-radius: 80;
+            padding-right: 15px;
+            height: auto;
+        }
+    }
+
+    ion-input, ion-select {
+        --border-color: #000;
+        --highlight-color-focused: #000;
+        --highlight-color-valid: #000;
+        --highlight-color-invalid: var(--ion-color-danger-shade);
+    }
+}
