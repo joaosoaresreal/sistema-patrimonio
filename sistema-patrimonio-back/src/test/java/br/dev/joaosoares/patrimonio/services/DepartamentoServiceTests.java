@@ -167,9 +167,6 @@ public class DepartamentoServiceTests {
      */
     @Test
     public void deleteDeveriaExcluirQuandoIdExistir() {
-        // Configura o comportamento do repositório
-        when(repository.existsById(idExistente)).thenReturn(true);
-
         // Chama o método a ser testado
         service.delete(idExistente);
 
