@@ -119,6 +119,16 @@ const routes: Routes = [
   },
 
   /********************************************************\
+                          Relatorios 
+  \********************************************************/
+  {
+    path: 'relatorios',
+    loadChildren: () => import('./paginas/relatorios/relatorios.module').then( m => m.RelatoriosPageModule),
+    canActivate: [Guards],
+    data: {roles: ['admin', 'user']}
+  },
+
+  /********************************************************\
                           Pagina 404 
   \********************************************************/
   {
@@ -127,6 +137,7 @@ const routes: Routes = [
     canActivate: [Guards],
     data: {roles: ['admin', 'user']}
   },
+
 
 ];
 
