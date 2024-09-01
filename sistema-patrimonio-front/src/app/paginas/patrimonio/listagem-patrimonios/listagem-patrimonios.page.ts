@@ -5,6 +5,7 @@ import { PatrimonioDTO } from 'src/app/models/PatrimonioDTO';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { AuthenticationService } from 'src/app/services/domain/Authentication.service';
 import { PatrimonioService } from 'src/app/services/domain/Patrimonio.service';
+import { RelatorioService } from 'src/app/services/domain/Relatorio.service';
 import { DadosUser } from 'src/app/services/domain/user/DadosUser';
 
 @Component({
@@ -24,6 +25,7 @@ export class ListagemPatrimoniosPage implements OnInit {
   constructor(
     public nav: NavController,
     public patrimonioService: PatrimonioService,
+    private relatorioService: RelatorioService,
     private auth: AuthenticationService,
     private dados: DadosUser,
     private alerta: AlertsService,
@@ -103,8 +105,39 @@ export class ListagemPatrimoniosPage implements OnInit {
   }
 
   /********************************************************\
-                      GERAR RELATÓRIO 
+                GERAR RELATÓRIO CONFORME ROLE
   \********************************************************/
+  geraRelat(){
+    if(this.auth.hasRole("admin")){
+      this.relatorioService.gerarRelatorioPatrimonioGeral().subscribe({
+        next: (response) => {
+          if (response.body) {
+            const file = new Blob([response.body], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL, '_blank');
+          }
+        },
+        error: (error) => {
+          this.alerta.alertaOk('ERRO', 'Não foi possível emitir o relatorio, tente novamente mais tarde, ou contate o administrador do sistema',
+            'error', 'OK')
+        }
+      });
+    } else if(this.auth.hasRole("user")) {
+      this.relatorioService.gerarRelatorioPatrimonioDepto(this.deptoId).subscribe({
+        next: (response) => {
+          if (response.body) {
+            const file = new Blob([response.body], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL, '_blank');
+          }
+        },
+        error: (error) => {
+          this.alerta.alertaOk('ERRO', 'Não foi possível emitir o relatorio, tente novamente mais tarde, ou contate o administrador do sistema',
+            'error', 'OK')
+        }
+      });
+    }
+  }
 
 
   ngOnInit() {
