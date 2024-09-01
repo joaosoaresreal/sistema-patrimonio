@@ -62,11 +62,15 @@
               <ion-label>Cadastro</ion-label>
             </ion-item>
             <!--Usuários-->
-            <div class="sessao" *ngIf="auth.hasRole('admin')">
+            <div class="sessao">
               <p>
                 Gerenciamento
               </p>
             </div>
+            <ion-item routerLinkActive="active" routerLink="/relatorios">
+              <ion-icon name="file-tray-full"></ion-icon>
+              <ion-label>Relatórios</ion-label>
+            </ion-item>
             <ion-item routerLinkActive="active" routerLink="/listagem-usuarios" *ngIf="auth.hasRole('admin')">
               <ion-icon name="people"></ion-icon>
               <ion-label>Usuários</ion-label>

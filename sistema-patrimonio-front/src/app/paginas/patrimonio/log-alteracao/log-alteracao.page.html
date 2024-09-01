@@ -27,7 +27,7 @@
   </app-layout>
 
 
-  <ion-modal [isOpen]="isModalOpen">
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="confirm()">
     <ng-template class="modal">
 
         <ion-header>

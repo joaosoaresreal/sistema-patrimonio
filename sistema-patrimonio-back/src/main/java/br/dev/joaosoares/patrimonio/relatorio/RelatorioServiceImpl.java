@@ -8,24 +8,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 
+import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonio;
+import br.dev.joaosoares.patrimonio.baixaPatrimonio.BaixaPatrimonioRepository;
+import br.dev.joaosoares.patrimonio.departamento.Departamento;
+import br.dev.joaosoares.patrimonio.departamento.DepartamentoDTO;
+import br.dev.joaosoares.patrimonio.departamento.DepartamentoService;
 import br.dev.joaosoares.patrimonio.patrimonio.Patrimonio;
 import br.dev.joaosoares.patrimonio.patrimonio.PatrimonioRepository;
 
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
 
 @Service
 public class RelatorioServiceImpl implements RelatorioService {
@@ -33,6 +35,11 @@ public class RelatorioServiceImpl implements RelatorioService {
 	@Autowired
 	private PatrimonioRepository patrimonioRepository;
 
+	@Autowired
+	private BaixaPatrimonioRepository baixaPatrimonioRepository;
+
+	@Autowired
+	private DepartamentoService departamentoService;
 
 	// RELATÓRIO DE TRANSFERENCIA
 	public byte[] gerarRelatorioTransferencia(RelatorioTransferePatrimonioDTO dados) throws IOException {
@@ -42,10 +49,6 @@ public class RelatorioServiceImpl implements RelatorioService {
 			Document document = new Document(pdf);
 			// Fonte em negrito
 			PdfFont fontNegrito = PdfFontFactory.createFont("Helvetica-Bold");
-			// Logo
-			Image logo = new Image(ImageDataFactory.create("docs/logo-ss-tech.png"));
-			logo.setWidth(50);
-			logo.setHeight(50);
 
 			// Tamanho da tabela
 			float tableWidth = 510f;
@@ -67,20 +70,11 @@ public class RelatorioServiceImpl implements RelatorioService {
 			patrimonio.addCell(
 					new Cell().add(new Paragraph(dados.getObservacao()).setTextAlignment(TextAlignment.CENTER)));
 
-			// criando a tabela que fará o header do documento
-			Table header = new Table(2);
-			header.addCell(new Cell().add(logo).setBorder(Border.NO_BORDER));
-			header.addCell(new Cell()
-					.add(new Paragraph(
-							"Desenvolvimento de Aplicativos " + "Móveis Multiplataforma, Desenvolvimento de Serviços "
-									+ "para Web II e Atividades de Extensão IV")
-							.setTextAlignment(TextAlignment.CENTER))
-					.setBorder(Border.NO_BORDER));
-
 			// Adicionar conteúdo ao documento usando dados do front
-			document.add(header);
-			document.add(new Paragraph("Termo de Transferência de Responsabilidade de Bens Patrimoniais\n")
-					.setFont(fontNegrito).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
+			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+			document.add(RelatorioLayout
+					.criarParagrafoTitulo("Termo de Transferência de Responsabilidade de Bens Patrimoniais")); // Nome
+																												// Relatório
 			document.add(new Paragraph("Eu " + dados.getUser() + ", lotado no departamento " + dados.getDeptoUser()
 					+ ", até esta data responsável pelos bens constantes do presente "
 					+ "relatório, em anexo, declaro estar transferida a responsabilidade sobre os "
@@ -94,17 +88,15 @@ public class RelatorioServiceImpl implements RelatorioService {
 					+ "responsável e pelo Setor de Patrimônio.\n").setTextAlignment(TextAlignment.JUSTIFIED));
 			document.add(
 					new Paragraph("Naviraí/MS, " + dados.getData() + "\n\n").setTextAlignment(TextAlignment.RIGHT));
+			document.add(new Paragraph(
+					"\n\n\n" + "__________________________________________\n" + "Departamento de Transferencia")
+					.setTextAlignment(TextAlignment.CENTER));
 			document.add(
-					new Paragraph("\n\n\n" + "_____________________________________________\n" + "DEPTO QUE TRANSFERE")
+					new Paragraph("\n\n\n" + "__________________________________________\n" + "Departamento Recebedor")
 							.setTextAlignment(TextAlignment.CENTER));
-			document.add(
-					new Paragraph("\n\n\n" + "_____________________________________________\n" + "DEPTO QUE RECEBE")
-							.setTextAlignment(TextAlignment.CENTER));
-			document.add(
-					new Paragraph("\n\n\n" + "_____________________________________________\n" + "DEPTO DE PATRIMONIO")
-							.setTextAlignment(TextAlignment.CENTER));
-			document.add(new Paragraph("\nEmitido por - www.joaosoares.dev.br")
-					.setTextAlignment(TextAlignment.CENTER).setFontSize(10));
+			document.add(new Paragraph("\n\n\n" + "__________________________________________\n" + "Setor Patrimonial")
+					.setTextAlignment(TextAlignment.CENTER));
+			document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
 
 			document.close();
 
@@ -112,9 +104,8 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}
 	}
 
-
 	// RELATÓRIO DE BAIXA
-	public byte[] gerarRelatorioBaixa(RelatorioBaixaPatrimonioDTO dados) throws IOException{
+	public byte[] gerarRelatorioBaixa(RelatorioBaixaPatrimonioDTO dados) throws IOException {
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 			PdfWriter writer = new PdfWriter(outputStream);
 			PdfDocument pdf = new PdfDocument(writer);
@@ -131,37 +122,39 @@ public class RelatorioServiceImpl implements RelatorioService {
 					.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 			// Adicionar cabeçalho à tabela
-			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Plaqueta")
-					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
-			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Descrição")
-					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
-			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Observações")
-					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Plaqueta").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Descrição").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioBaixa.addCell(new Cell().add(new Paragraph("Observações").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
 
 			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getPlaqueta())
-				.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
 			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getDescricao())
 					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
 			patrimonioBaixa.addCell(new Cell().add(new Paragraph(dados.getObservacao())
 					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
 
-			var texto = new Paragraph("Pelo presente termo, eu " + dados.getNomeProfissional() + 
-					", portador do CPF " + dados.getCpfProfissional() + ", "
+			var texto = new Paragraph("Pelo presente termo, eu " + dados.getNomeProfissional() + ", portador do CPF "
+					+ dados.getCpfProfissional() + ", "
 					+ "no uso das atribuições legais, declaro que o bem patrimonial aqui listado não "
 					+ "está em condições de uso, portanto o mesmo está sendo baixado pelo motivo "
 					+ "descrito a baixo:\n").setTextAlignment(TextAlignment.JUSTIFIED);
 
-			var motivo = new Paragraph(dados.getMotivo() + "\n").setFont(fontNegrito).setTextAlignment(TextAlignment.CENTER);
+			var motivo = new Paragraph(dados.getMotivo() + "\n").setFont(fontNegrito)
+					.setTextAlignment(TextAlignment.CENTER);
 
 			var texto2 = new Paragraph("Para os devidos fins lavramos em conjunto o presente termo em "
 					+ "3 (três) vias que serão assinadas pelo responsável atual do patrimônio, "
 					+ "pelo profissional que autoriza a baixa e pelo responsável do Setor de Patrimônio.")
 					.setTextAlignment(TextAlignment.JUSTIFIED);
 
-			var assinaturas = new Paragraph("\n\n\n_____________________________________________\n" + 
-			"DEPARTAMENTO RESPONSÁVEL" + "\n\n\n_____________________________________________\n" + 
-			dados.getNomeProfissional() + "\n\n\n_____________________________________________\n" + 
-			"DEPARTAMENTO DE PATRIMÔNIO").setTextAlignment(TextAlignment.CENTER);
+			var assinaturas = new Paragraph(
+					"\n\n\n_____________________________________________\n" + "DEPARTAMENTO RESPONSÁVEL"
+							+ "\n\n\n_____________________________________________\n" + dados.getNomeProfissional()
+							+ "\n\n\n_____________________________________________\n" + "DEPARTAMENTO DE PATRIMÔNIO")
+					.setTextAlignment(TextAlignment.CENTER);
 
 			// ADICIONANDO ELEMENTOS AO PDF
 			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
@@ -170,7 +163,8 @@ public class RelatorioServiceImpl implements RelatorioService {
 			document.add(motivo);
 			document.add(patrimonioBaixa); // Tabela de Patrimonio
 			document.add(texto2);
-			document.add(new Paragraph("Naviraí/MS, " + dados.getData() + "\n\n").setTextAlignment(TextAlignment.RIGHT));
+			document.add(
+					new Paragraph("Naviraí/MS, " + dados.getData() + "\n\n").setTextAlignment(TextAlignment.RIGHT));
 			document.add(assinaturas);
 			document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
 
@@ -179,12 +173,11 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}
 	}
 
-
-	// RELATÓRIO DE PATRIMONIO
+	// RELATÓRIO DE PATRIMONIOS ATIVOS
 	public byte[] gerarRelatorioPatrimonioGeral() throws IOException {
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 
-			List<Patrimonio> patrimonios = patrimonioRepository.findAll();
+			List<Patrimonio> patrimonios = patrimonioRepository.findByAtivos();
 
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -196,23 +189,23 @@ public class RelatorioServiceImpl implements RelatorioService {
 			float tableWidth = 510f;
 
 			// Criando a tabela de patrimonio
-			Table patrimonioGeral = new Table(4).setWidth(tableWidth)
+			Table patrimonioGeral = new Table(5).setWidth(tableWidth)
 					.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 			// Adicionar cabeçalho à tabela
-			patrimonioGeral.addCell(new Cell().add(new Paragraph("Plaqueta")
-					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
-			patrimonioGeral.addCell(new Cell().add(new Paragraph("Descrição")
-					.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
-			patrimonioGeral.addCell(
-					new Cell().add(new Paragraph("Data de Entrada").setTextAlignment(TextAlignment.CENTER)));
+			patrimonioGeral.addCell(new Cell().add(new Paragraph("Plaqueta").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioGeral.addCell(new Cell().add(new Paragraph("Descrição").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
 			patrimonioGeral
-					.addCell(new Cell().add(new Paragraph("Observações")
-							.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+					.addCell(new Cell().add(new Paragraph("Data de Entrada").setTextAlignment(TextAlignment.CENTER)));
+			patrimonioGeral.addCell(new Cell().add(new Paragraph("Observações").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioGeral.addCell(new Cell().add(new Paragraph("Depto").setTextAlignment(TextAlignment.CENTER)));
 
 			// Percorrendo os patrimonios para adicionar a tabela
 			for (Patrimonio patrimonio : patrimonios) {
-			    String dataFormatada = patrimonio.getDataEntrada().format(dateFormatter);
+				String dataFormatada = patrimonio.getDataEntrada().format(dateFormatter);
 
 				patrimonioGeral.addCell(new Cell().add(new Paragraph(patrimonio.getPlaqueta())
 						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
@@ -220,8 +213,8 @@ public class RelatorioServiceImpl implements RelatorioService {
 				patrimonioGeral.addCell(new Cell().add(new Paragraph(dataFormatada)
 						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
 				patrimonioGeral.addCell(new Cell().add(new Paragraph(patrimonio.getObservacao())));
+				patrimonioGeral.addCell(new Cell().add(new Paragraph(patrimonio.getDepartamento().nome)));
 			}
-
 
 			// ADICIONANDO ELEMENTOS AO PDF
 			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
@@ -232,6 +225,187 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 			document.close();
 			return outputStream.toByteArray();
+		}
+	}
+
+	// RELATÓRIO DE PATRIMONIOS ATIVOS POR DEPTO
+	public byte[] gerarRelatorioPatrimonioDepto(Departamento departamento) throws IOException {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+			List<Patrimonio> patrimonios = patrimonioRepository.findAtivosByDepartamento(departamento);
+			DepartamentoDTO dpto = departamentoService.findById(departamento.id);
+
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			PdfWriter writer = new PdfWriter(outputStream);
+			PdfDocument pdf = new PdfDocument(writer);
+			Document document = new Document(pdf);
+
+			// Tamanho da tabela
+			float tableWidth = 510f;
+
+			// Criando a tabela de patrimonio
+			Table patrimonioDepto = new Table(4).setWidth(tableWidth)
+					.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+			// Adicionar cabeçalho à tabela
+			patrimonioDepto.addCell(new Cell().add(new Paragraph("Plaqueta").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioDepto.addCell(new Cell().add(new Paragraph("Descrição").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			patrimonioDepto
+					.addCell(new Cell().add(new Paragraph("Data de Entrada").setTextAlignment(TextAlignment.CENTER)));
+			patrimonioDepto.addCell(new Cell().add(new Paragraph("Observações").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+
+			// Percorrendo os patrimonios para adicionar a tabela
+			for (Patrimonio patrimonio : patrimonios) {
+				String dataFormatada = patrimonio.getDataEntrada().format(dateFormatter);
+
+				patrimonioDepto.addCell(new Cell().add(new Paragraph(patrimonio.getPlaqueta())
+						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				patrimonioDepto.addCell(new Cell().add(new Paragraph(patrimonio.getDescricao())));
+				patrimonioDepto.addCell(new Cell().add(new Paragraph(dataFormatada)
+						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				patrimonioDepto.addCell(new Cell().add(new Paragraph(patrimonio.getObservacao())));
+			}
+
+			// ADICIONANDO ELEMENTOS AO PDF
+			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+			document.add(RelatorioLayout.criarParagrafoTitulo("Relatório de Patrimonios - " + dpto.nome)); // Nome
+																											// Relatório
+			document.add(patrimonioDepto); // Tabela de Patrimonio
+			document.add(RelatorioLayout.criarParagrafoData()); // Data atual
+			document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
+
+			document.close();
+			return outputStream.toByteArray();
+		}
+	}
+
+	// RELATORIO DE BAIXAS - GERAL
+	public byte[] gerarRelatorioBaixaGeral() throws IOException {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+			List<BaixaPatrimonio> baixa = baixaPatrimonioRepository.findAll();
+
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			PdfWriter writer = new PdfWriter(outputStream);
+			PdfDocument pdf = new PdfDocument(writer);
+			Document document = new Document(pdf);
+
+			// Tamanho da tabela
+			float tableWidth = 510f;
+
+			// Criando a tabela de patrimonio
+			Table baixaGeral = new Table(5).setWidth(tableWidth).setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+			// Adicionar cabeçalho à tabela
+			baixaGeral.addCell(new Cell().add(new Paragraph("Plaqueta").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			baixaGeral.addCell(new Cell().add(new Paragraph("Descrição").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			baixaGeral.addCell(new Cell().add(new Paragraph("Data de Baixa").setTextAlignment(TextAlignment.CENTER)));
+			baixaGeral.addCell(new Cell().add(new Paragraph("Motivo da Baixa").setTextAlignment(TextAlignment.CENTER)
+					.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			baixaGeral.addCell(new Cell().add(new Paragraph("Depto Baixa").setTextAlignment(TextAlignment.CENTER)));
+
+			// Percorrendo os patrimonios para adicionar a tabela
+			for (BaixaPatrimonio baixas : baixa) {
+				String dataFormatada = baixas.getDataBaixa().format(dateFormatter);
+
+				baixaGeral.addCell(new Cell().add(new Paragraph(baixas.getPlaqueta())
+						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				baixaGeral.addCell(new Cell().add(new Paragraph(baixas.getDescricao())));
+				baixaGeral.addCell(new Cell().add(new Paragraph(dataFormatada).setTextAlignment(TextAlignment.CENTER)
+						.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				baixaGeral.addCell(new Cell().add(new Paragraph(baixas.getMotivo())));
+				baixaGeral.addCell(new Cell().add(new Paragraph(baixas.getPatrimonio().getDepartamento().nome)
+						.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+			}
+
+			// ADICIONANDO ELEMENTOS AO PDF
+			document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+			document.add(RelatorioLayout.criarParagrafoTitulo("Relatório de Baixa Patrimonial - Geral")); // Nome
+																											// Relatório
+			document.add(baixaGeral); // Tabela de Patrimonio
+			document.add(RelatorioLayout.criarParagrafoData()); // Data atual
+			document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
+
+			document.close();
+			return outputStream.toByteArray();
+		}
+	}
+
+	// RELATORIO DE BAIXAS - POR DEPTO
+	public byte[] gerarRelatorioBaixaDepto(int id) throws IOException {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+			List<BaixaPatrimonio> baixa = baixaPatrimonioRepository.findByDepartamento(id);
+			DepartamentoDTO dpto = departamentoService.findById(id);
+
+			if (baixa == null || baixa.isEmpty()) { // Se não houver registros de baixas, retornar uma mensagem como PDF
+				PdfWriter writer = new PdfWriter(outputStream);
+				PdfDocument pdf = new PdfDocument(writer);
+				Document document = new Document(pdf);
+
+				Paragraph informacao = new Paragraph("Esclarecemos que não existe registro de baixas patrimoniais para este departamento" + 
+						"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+				document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+				document.add(RelatorioLayout.criarParagrafoTitulo("Baixas Patrimoniais - Departamento " + dpto.nome)); // Nome Relatório
+				document.add(informacao); // paragrafo de informação
+				document.add(RelatorioLayout.criarParagrafoData()); // Data atual
+				document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
+
+				document.close();
+				return outputStream.toByteArray();
+			} else { // Caso exista registros, vai pra gerar as tabelas
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+				PdfWriter writer = new PdfWriter(outputStream);
+				PdfDocument pdf = new PdfDocument(writer);
+				Document document = new Document(pdf);
+
+				// Tamanho da tabela
+				float tableWidth = 510f;
+
+				// Criando a tabela de patrimonio
+				Table baixaDepto = new Table(4).setWidth(tableWidth).setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+				// Adicionar cabeçalho à tabela
+				baixaDepto.addCell(new Cell().add(new Paragraph("Plaqueta").setTextAlignment(TextAlignment.CENTER)
+						.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				baixaDepto.addCell(new Cell().add(new Paragraph("Descrição").setTextAlignment(TextAlignment.CENTER)
+						.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+				baixaDepto
+						.addCell(new Cell().add(new Paragraph("Data de Baixa").setTextAlignment(TextAlignment.CENTER)));
+				baixaDepto.addCell(new Cell().add(new Paragraph("Motivo").setTextAlignment(TextAlignment.CENTER)
+						.setVerticalAlignment(VerticalAlignment.MIDDLE)));
+
+				// Percorrendo os patrimonios para adicionar a tabela
+				for (BaixaPatrimonio baixas : baixa) {
+					String dataFormatada = baixas.getDataBaixa().format(dateFormatter);
+
+					baixaDepto.addCell(new Cell().add(new Paragraph(baixas.getPlaqueta())
+							.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+					baixaDepto.addCell(new Cell().add(new Paragraph(baixas.getDescricao())));
+					baixaDepto.addCell(new Cell().add(new Paragraph(dataFormatada)
+							.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)));
+					baixaDepto.addCell(new Cell().add(new Paragraph(baixas.getMotivo())));
+				}
+
+				// ADICIONANDO ELEMENTOS AO PDF
+				document.add(RelatorioLayout.criarCabecalhoDocumento()); // Header
+				document.add(RelatorioLayout.criarParagrafoTitulo("Baixas Patrimoniais - Departamento " + dpto.nome)); // Nome Relatório
+				document.add(baixaDepto); // Tabela de Patrimonio
+				document.add(RelatorioLayout.criarParagrafoData()); // Data atual
+				document.add(RelatorioLayout.criarParagrafoEmissor()); // Rodapé
+
+				document.close();
+				return outputStream.toByteArray();
+			}
 		}
 	}
 

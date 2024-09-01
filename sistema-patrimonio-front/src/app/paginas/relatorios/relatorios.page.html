@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+
+<ion-content [fullscreen]="true">
+  <app-layout [pagina]="'Relatorios Gerenciais'">
+    <app-forms>
+      <div class="form-rel">
+        <ion-radio-group [(ngModel)]="selectedValue">
+
+          <ion-row *ngIf="auth.hasRole('admin')">
+            <ion-col>
+              <ion-item>
+                <ion-label>Patrimônios Ativos - Geral</ion-label>
+                <ion-radio slot="start" value="geral" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="auth.hasRole('admin')">
+            <ion-col>
+              <ion-item>
+                <ion-label>Patrimônios por Departamento</ion-label>
+                <ion-radio slot="start" value="porDepto" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-select fill="outline" label="Selecione" labelPlacement="floating" interface="popover" [(ngModel)]="deptoSelecionado">
+                <ion-select-option *ngFor="let departamento of departamentos"
+                  value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Patrimônios do Departamento {{deptoUser}}</ion-label>
+                <ion-radio slot="start" value="meuDepto" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="auth.hasRole('admin')">
+            <ion-col>
+              <ion-item>
+                <ion-label>Baixas Geradas - Geral</ion-label>
+                <ion-radio slot="start" value="baixaGeral" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="auth.hasRole('admin')">
+            <ion-col>
+              <ion-item>
+                <ion-label>Baixas por Departamento</ion-label>
+                <ion-radio slot="start" value="baixaDepto" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+  
+            <ion-col>
+              <ion-select fill="outline" label="Selecione" labelPlacement="floating" interface="popover" [(ngModel)]="deptoBaixa">
+                <ion-select-option *ngFor="let departamento of departamentos"
+                  value={{departamento.id}}>{{departamento.nome}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Baixas do Departamento {{deptoUser}}</ion-label>
+                <ion-radio slot="start" value="baixaMeuDepto" checked></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-radio-group>
+
+        <div class="botoes">
+          <ion-button expand="block" (click)="gerar()">GERAR</ion-button>
+        </div>
+      </div>
+    </app-forms>
+  </app-layout>
+</ion-content>

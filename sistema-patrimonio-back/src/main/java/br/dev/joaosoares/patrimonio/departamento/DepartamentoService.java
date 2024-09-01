@@ -29,8 +29,8 @@ public class DepartamentoService {
     // BUSCAR POR 'ID'
     @Transactional(readOnly = true)
     public DepartamentoDTO findById(long id) {
-        Optional<Departamento> objeto = repository.findById(id);
-        Departamento entity = objeto.get();
+        Departamento entity = repository.findById(id)
+        		.orElseThrow(() -> new ResourcesNotFoundException("O ID informado não foi encontrado"));
         return new DepartamentoDTO(entity);
     }
 

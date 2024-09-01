@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.dev.joaosoares.patrimonio.empresa.EmpresaDTO;
 import br.dev.joaosoares.patrimonio.services.exceptions.ResourcesNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,8 +28,8 @@ public class EmpresaService {
     // BUSCAR POR 'ID'
     @Transactional(readOnly = true)
     public EmpresaDTO findById(Long id) {
-        Optional<Empresa> objeto = repository.findById(id);
-        Empresa entity = objeto.get();
+    	Empresa entity = repository.findById(id)
+        		.orElseThrow(() -> new ResourcesNotFoundException("O dado informado não foi encontrado em nossos registros"));
         return new EmpresaDTO(entity);
     }
 
